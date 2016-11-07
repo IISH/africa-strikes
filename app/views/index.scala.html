@@ -1,0 +1,286 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+
+
+@*
+ * Call the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+@import helper._
+@main("Africa Strikes") {
+
+    @*
+     * Get an `Html` object by calling the built-in Play welcome
+     * template and passing a `String` message.
+     *@
+    @form(action = routes.HomeController.index, args = 'class -> "myForm") {
+        <div class="col-lg-8">
+            <h2>Fill in the description of the strike.</h2>
+            <div class="form-group">
+                <label>Source</label>
+                <div class="form-inline">
+                    <input class="text" id="sourceTextField"/>
+                    <select class="form-control" name="sources[]">
+                        <option value="Advertiser of East Africa" >Advertiser of East Africa</option>
+                        <option value="African Interpreter and Advocate" >African Interpreter and Advocate</option>
+                        <option value="Africano" >Africano</option>
+                        <option value="Beira News and East Coast Chronicle" >Beira News and East Coast Chronicle</option>
+                        <option value="Beira Post" >Beira Post</option>
+                        <option value="Brado Africano" >Brado Africano</option>
+                        <option value="Buluwayo Chronicle" >Buluwayo Chronicle</option>
+                        <option value="Cape Town Gazette and African Advertiser (includes: Kaapsche Courant)" >Cape Town Gazette and African Advertiser (includes: Kaapsche Courant)</option>
+                        <option value="Cloche" >Cloche</option>
+                        <option value="Colony and Provincial Reporter" >Colony and Provincial Reporter</option>
+                        <option value="Dar es Salaam Times" >Dar es Salaam Times</option>
+                        <option value="East African Chronicle" >East African Chronicle</option>
+                        <option value="East African Standard, Mombasa Times and Uganda Argus" >East African Standard, Mombasa Times and Uganda Argus</option>
+                        <option value="Folha de Annuncios" >Folha de Annuncios</option>
+                        <option value="Friend of the Free State and Bloemfontein Gazette" >Friend of the Free State and Bloemfontein Gazette</option>
+                        <option value="Gold Coast Aborigines" >Gold Coast Aborigines</option>
+                        <option value="Gold Coast Chronicle" >Gold Coast Chronicle</option>
+                        <option value="Gold Coast Independent" >Gold Coast Independent</option>
+                        <option value="Gold Coast Leader" >Gold Coast Leader</option>
+                        <option value="Gold Coast Nation" >Gold Coast Nation</option>
+                        <option value="Gold Coast Times" >Gold Coast Times</option>
+                        <option value="Ilanga Lase Natal" >Ilanga Lase Natal</option>
+                        <option value="Imvo Zabantsundu (includes: Imvo zabantsundu bomzanti Afrika, Imvo zonsundu, neliso lomzi)" >Imvo Zabantsundu (includes: Imvo zabantsundu bomzanti Afrika, Imvo zonsundu, neliso lomzi)</option>
+                        <option value="Indaba" >Indaba</option>
+                        <option value="Independent" >Independent</option>
+                        <option value="Indian Opinion" >Indian Opinion</option>
+                        <option value="Indian Voice of British East Africa" >Indian Voice of British East Africa</option>
+                        <option value="International" >International</option>
+                        <option value="Izindaba Zabantu" >Izindaba Zabantu</option>
+                        <option value="Izwi Labantu" >Izwi Labantu</option>
+                        <option value="Journal (includes: Graham's Town Journal, Cape of Good Hope Eastern Province Register)" >Journal (includes: Graham's Town Journal, Cape of Good Hope Eastern Province Register)</option>
+                        <option value="Kaffir Express/Isigidimi Sama-Xosa" >Kaffir Express/Isigidimi Sama-Xosa</option>
+                        <option value="Koranta Ea Becoana" >Koranta Ea Becoana</option>
+                        <option value="L'Opinion Publique" >L'Opinion Publique</option>
+                        <option value="Lagos Observer" >Lagos Observer</option>
+                        <option value="Lagos Standard" >Lagos Standard</option>
+                        <option value="Lagos Weekly Record" >Lagos Weekly Record</option>
+                        <option value="Leselinyana La Lesutho" >Leselinyana La Lesutho</option>
+                        <option value="Liberia Recorder" >Liberia Recorder</option>
+                        <option value="Livingstone Mail" >Livingstone Mail</option>
+                        <option value="Luderitzbuchter Zeitung" >Luderitzbuchter Zeitung</option>
+                        <option value="Madagascar Times" >Madagascar Times</option>
+                        <option value="Mafeking Mail and Protectorate Guardian (includes: Mafeking Mail/Special Siege Slip)" >Mafeking Mail and Protectorate Guardian (includes: Mafeking Mail/Special Siege Slip)</option>
+                        <option value="Natal Witness (includes: Natal Witness, and Agricultural and Commercial Advertiser)" >Natal Witness (includes: Natal Witness, and Agricultural and Commercial Advertiser)</option>
+                        <option value="Nigerian Chronicle" >Nigerian Chronicle</option>
+                        <option value="Nigerian Pioneer" >Nigerian Pioneer</option>
+                        <option value="Nyasaland Times (includes: Central African Times)" >Nyasaland Times (includes: Central African Times)</option>
+                        <option value="O Africano" >O Africano</option>
+                        <option value="Observer" >Observer</option>
+                        <option value="Rand Daily Mail" >Rand Daily Mail</option>
+                        <option value="Rhodesia Herald" >Rhodesia Herald</option>
+                        <option value="Sierra Leone Guardian and Foreign Mails" >Sierra Leone Guardian and Foreign Mails</option>
+                        <option value="Sierra Leone Times" >Sierra Leone Times</option>
+                        <option value="Sierra Leone Weekly News" selected>Sierra Leone Weekly News</option>
+                        <option value="South African Outlook (includes: Christian Express, Kaffir Express/Isigidimi Sami-Xosa)" >South African Outlook (includes: Christian Express, Kaffir Express/Isigidimi Sami-Xosa)</option>
+                        <option value="Swakopmunder Zeitung (includes: Deutch-Sudwestafrikanische Zeitung, Windhoeker Anzeiger)" >Swakopmunder Zeitung (includes: Deutch-Sudwestafrikanische Zeitung, Windhoeker Anzeiger)</option>
+                        <option value="Times of East Africa" selected>Times of East Africa</option>
+                        <option value="Times of Nigeria" >Times of Nigeria</option>
+                        <option value="Times of Swaziland" >Times of Swaziland</option>
+                        <option value="Tribuna de Benguela" >Tribuna de Benguela</option>
+                        <option value="Tsala Ea Batho (includes: Tsala ea Becoana)" >Tsala Ea Batho (includes: Tsala ea Becoana)</option>
+                        <option value="Uganda Herald" selected>Uganda Herald</option>
+                        <option value="Umteteli Wa Bantu" >Umteteli Wa Bantu</option>
+                        <option value="Verdade" >Verdade</option>
+                        <option value="Voz De Guine" >Voz De Guine</option>
+                        <option value="Voz de Angola" >Voz de Angola</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <div class="form-inline">
+                    <input type=text name="country" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>location</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Year the strike started</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Month the strike started</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Day the strike started</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            @*<div class="form-group">*@
+                @*<label>Year the strike ended</label>*@
+                @*<div class="form-inline">*@
+                    @*<input type=text name="location"/>*@
+                @*</div>*@
+            @*</div>*@
+            <div class="form-group">
+                <label>Month the strike ended</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Day the strike ended</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Duration</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Days lost</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Sectors</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Occupations HISCO first level</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                    <input type="checkbox"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Labour relations</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Company names</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Company ownership</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                    <input type="checkbox"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Companies involved in strike</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Number of participants involved</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Type of action</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Type of organisation</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Predominant gender</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Cause of dispute</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Identity elements</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Strike definitions</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nature of the strike</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Outcome</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Article upload</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Year of uploaded article</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Month of uploaded article</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Day of uploaded information</label>
+                <div class="form-inline">
+                    <input type=text name="location" size="100%"/>
+                </div>
+            </div>
+
+
+            @*Submit button to save the specific strike*@
+            <div class="form-group">
+                <button>Add Strike</button>
+            </div>
+        </div>
+    }
+}
