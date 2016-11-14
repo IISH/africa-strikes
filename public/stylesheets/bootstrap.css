@@ -2748,6 +2748,11 @@ select[multiple].input-sm {
   line-height: 1.3333333;
   border-radius: 6px;
 }
+.input-full-width{
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
 select.input-lg {
   height: 46px;
   line-height: 46px;
