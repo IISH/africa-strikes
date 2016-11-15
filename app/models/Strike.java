@@ -245,14 +245,6 @@ public class Strike extends Model{
         this.source = source;
     }
 
-    public List<Occupation> getOccupations() {
-        return occupations;
-    }
-
-    public void setOccupations(List<Occupation> occupations) {
-        this.occupations = occupations;
-    }
-
     public String getStrikeIdentities() {
         return strikeIdentities;
     }
@@ -276,6 +268,15 @@ public class Strike extends Model{
 
     public void setSectors(List<Sector> sectors) {
         this.sectors = sectors;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<Occupation> getOccupations() {
+        return occupations;
+    }
+
+    public void setOccupations(List<Occupation> occupations) {
+        this.occupations = occupations;
     }
 
     @Id
