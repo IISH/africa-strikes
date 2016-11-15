@@ -238,11 +238,11 @@ public class Strike extends Model{
     }
 
     public String getSources() {
-        return sources;
+        return source;
     }
 
     public void setSources(String sources) {
-        this.sources = sources;
+        this.source = sources;
     }
 
     public String getOccupations() {
@@ -319,7 +319,7 @@ public class Strike extends Model{
                     outcomeOfStrike,
                     description,
                     authorInformation,
-                    sources, occupations, strikeIdentities, strikeDefinitions;
+                    source, occupations, strikeIdentities, strikeDefinitions;
     private File articleUpload;
 
     public Strike()

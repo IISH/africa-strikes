@@ -4,6 +4,7 @@ import akka.dispatch.Foreach;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import models.Sector;
+import models.Source;
 import models.Strike;
 import play.data.FormFactory;
 import play.libs.Yaml;
@@ -12,10 +13,7 @@ import scala.Array;
 import views.html.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,32 +34,44 @@ public class HomeController extends Controller {
      */
 
     public Result index() {
+        // Fills the table sector with sectors
         if(Sector.find.findRowCount() == 0) {
             try {
                 List<Sector> load = (List<Sector>) Yaml.load("sector-data.yml");
                 for (int i = 0; i < load.size(); i++) {
                     Ebean.save(load.get(i));
                 }
-                System.out.println("YAML loaded!");
+                System.out.println("Sectors YAML loaded!");
             }
             catch(Exception e){
-                System.out.println("YAML didnt load!");
+                System.out.println("Sectors YAML didnt load!");
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println(toJson(new Model.Finder(Sector.class).all()));
 
+        if(Source.find.findRowCount() == 0){
+            try {
+                List<Source> load = (List<Source>) Yaml.load("source-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("Sources YAML loaded!");
+            }
+            catch(Exception e){
+                System.out.println("Sources YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        // Returns the sectors from the table sector
         List<Sector> sectors = Sector.find.all();
-//        Map<String, String> sectors = new HashMap<>();
-//        for(int i = 0; i < list.size(); i++) {
-//            sectors.put((String.valueOf( list.get(i).getId())), list.get(i).sectorName);}
-
-        return ok(index.render("", formFactory.form(Strike.class), sectors));
+        return ok(index.render("", formFactory.form(Strike.class), sectors, Source.find.all()));
     }
 
     public Result addStrike()
     {
         Http.MultipartFormData body = request().body().asMultipartFormData();
+        // Gets the uploaded file from the form and checks if it is empty
         Http.MultipartFormData.FilePart file = body.getFile("articleUpload");
         if(file.equals(null))
             System.out.println("LEEG");
@@ -70,38 +80,26 @@ public class HomeController extends Controller {
 
         Ebean.beginTransaction();
         try {
+            // Gets the data from the form
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
+            // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> map = Sector.find.findMap();
-
             String[] ids = (String[]) body.asFormUrlEncoded().get("sectors.id[]");
             List<Sector> sectorsFromForm = Stream.of(ids)
                     .map(id -> map.getOrDefault(new Long(id), null))
                     .collect(Collectors.toList());
             strike.setSectors(sectorsFromForm);
-
-            System.out.println(toJson(strike));
-            System.out.println(toJson(strike.getSectors()));
+            // Saves the strike
             strike.save();
             Ebean.commitTransaction();
-//            System.out.println(toJson(strike));
-//            System.out.println(toJson(strike.getSectors()));
         }
         finally {
             Ebean.endTransaction();
         }
-        try {
-            System.out.println(toJson(new Model.Finder(Strike.class).all()));
-        }
-        catch(Exception e){
-            System.out.println(e.getClass());
-            System.out.println(e.getMessage());
-        }
-
         return redirect(routes.HomeController.index());
     }
 
     public Result getStrikes(){
-//        List<Strike> strikes = new Model.Finder(Strike.class).all();
         return ok(toJson(Strike.getAllStrikes()));
     }
 }

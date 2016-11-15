@@ -10,6 +10,13 @@ create table sector (
 );
 create sequence sector_seq;
 
+create table source (
+  id                            bigint not null,
+  source_text                   varchar(255),
+  constraint pk_source primary key (id)
+);
+create sequence source_seq;
+
 create table strike (
   id                            bigint not null,
   year_start                    integer,
@@ -39,7 +46,7 @@ create table strike (
   outcome_of_strike             varchar(255),
   description                   varchar(255),
   author_information            varchar(255),
-  sources                       varchar(255),
+  source                        varchar(255),
   occupations                   varchar(255),
   strike_identities             varchar(255),
   strike_definitions            varchar(255),
@@ -71,6 +78,9 @@ drop index if exists ix_strike_sector_sector;
 
 drop table if exists sector;
 drop sequence if exists sector_seq;
+
+drop table if exists source;
+drop sequence if exists source_seq;
 
 drop table if exists strike;
 drop sequence if exists strike_seq;
