@@ -181,14 +181,6 @@ public class Strike extends Model{
         this.dominantGender = dominantGender;
     }
 
-    public String getCaseOfDispute() {
-        return caseOfDispute;
-    }
-
-    public void setCaseOfDispute(String caseOfDispute) {
-        this.caseOfDispute = caseOfDispute;
-    }
-
     public String getNatureOfStrike() {
         return natureOfStrike;
     }
@@ -211,14 +203,6 @@ public class Strike extends Model{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCompanyNames() {
-        return companyNames;
-    }
-
-    public void setCompanyNames(String companyNames) {
-        this.companyNames = companyNames;
     }
 
     public File getArticleUpload() {
@@ -245,22 +229,6 @@ public class Strike extends Model{
         this.source = source;
     }
 
-    public String getStrikeIdentities() {
-        return strikeIdentities;
-    }
-
-    public void setStrikeIdentities(String strikeIdentities) {
-        this.strikeIdentities = strikeIdentities;
-    }
-
-    public String getStrikeDefinitions() {
-        return strikeDefinitions;
-    }
-
-    public void setStrikeDefinitions(String strikeDefinitions) {
-        this.strikeDefinitions = strikeDefinitions;
-    }
-
     @ManyToMany(cascade = CascadeType.ALL)
     public List<Sector> getSectors() {
         return sectors;
@@ -279,6 +247,42 @@ public class Strike extends Model{
         this.occupations = occupations;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<CompanyName> getCompanyNames() {
+        return companyNames;
+    }
+
+    public void setCompanyNames(List<CompanyName> companyNames) {
+        this.companyNames = companyNames;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<IdentityElement> getIdentityElements() {
+        return identityElements;
+    }
+
+    public void setIdentityElements(List<IdentityElement> identityElements) {
+        this.identityElements = identityElements;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<StrikeDefinition> getStrikeDefinitions() {
+        return strikeDefinitions;
+    }
+
+    public void setStrikeDefinitions(List<StrikeDefinition> strikeDefinitions) {
+        this.strikeDefinitions = strikeDefinitions;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<CauseOfDispute> getCaseOfDispute() {
+        return causeOfDisputes;
+    }
+
+    public void setCaseOfDispute(List<CauseOfDispute> causeOfDisputes) {
+        this.causeOfDisputes = causeOfDisputes;
+    }
+
     @Id
     public Long id;
     private int yearStart,
@@ -292,28 +296,28 @@ public class Strike extends Model{
                 yearOfArticle,
                 monthOfArticle,
                 dayOfArticle;
-    private String   country,
+    private String  country,
                     location,
                     labourRelation,
                     workersSituation,
-                    companyNames,
                     companyOwnership,
                     companyOwnershipSituated,
                     companiesInvolved,
                     typeOfAction,
                     typeOfOrganisation,
                     dominantGender,
-                    caseOfDispute,
                     natureOfStrike,
                     outcomeOfStrike,
                     description,
                     authorInformation,
-                    source,
-                    strikeIdentities,
-                    strikeDefinitions;
+                    source;
     private File articleUpload;
     private List<Sector> sectors = new ArrayList<>();
     private List<Occupation> occupations = new ArrayList<>();
+    private List<CompanyName> companyNames = new ArrayList<>();
+    private List<CauseOfDispute> causeOfDisputes = new ArrayList<>();
+    private List<IdentityElement> identityElements = new ArrayList<>();
+    private List<StrikeDefinition> strikeDefinitions = new ArrayList<>();
 
     public Strike()
     {
