@@ -245,11 +245,11 @@ public class Strike extends Model{
         this.source = source;
     }
 
-    public String getOccupations() {
+    public List<Occupation> getOccupations() {
         return occupations;
     }
 
-    public void setOccupations(String occupations) {
+    public void setOccupations(List<Occupation> occupations) {
         this.occupations = occupations;
     }
 
@@ -320,9 +320,11 @@ public class Strike extends Model{
                     description,
                     authorInformation,
                     source,
-                    occupations, strikeIdentities, strikeDefinitions;
+                    strikeIdentities,
+                    strikeDefinitions;
     private File articleUpload;
     private List<Sector> sectors = new ArrayList<>();
+    private List<Occupation> occupations = new ArrayList<>();
 
 
     public Strike()
