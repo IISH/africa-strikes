@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import models.Occupation;
 import models.Sector;
 import models.Strike;
 import play.data.FormFactory;
@@ -45,9 +46,25 @@ public class HomeController extends Controller {
             }
         }
 
+        if(Occupation.find.findRowCount() == 0)
+        {
+            try{
+                List<Occupation> load = (List<Occupation>) Yaml.load("occupation-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("Sectors YAML loaded!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("Occupations YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
         List<String> sources = (List<String>) Yaml.load("source-data.yml");
 
-        return ok(index.render("", formFactory.form(Strike.class), Sector.find.all(), sources));
+        return ok(index.render("", formFactory.form(Strike.class), Sector.find.all(), sources, Occupation.find.all()));
     }
 
     public Result addStrike()
@@ -81,6 +98,26 @@ public class HomeController extends Controller {
                         .collect(Collectors.toList());
                 strike.setSectors(sectorsFromForm);
             }
+
+
+            // Maps the occupations given by the form and puts them in te occupations list of the Strike
+            Map<?, Occupation> occupationMap = Occupation.find.findMap();
+            try{
+                String[] ids = (String[]) body.asFormUrlEncoded().get("occupations.id[]");
+                List<Occupation> occupationsFromForm = Stream.of(ids)
+                        .map(id -> occupationMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setOccupations(occupationsFromForm);
+            }
+            catch (NullPointerException e){
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<Occupation> occupationsFromForm = Stream.of(ids)
+                        .map(id -> occupationMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setOccupations(occupationsFromForm);
+            }
+
             // Saves the strike
             strike.save();
             Ebean.commitTransaction();
