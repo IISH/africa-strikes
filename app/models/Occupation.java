@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
@@ -19,11 +18,6 @@ public class Occupation {
 
     public Occupation()
     {}
-
-    public long getId()
-    {
-        return id;
-    }
 
     public static Model.Finder<Integer, Occupation> find = new Model.Finder<>(Occupation.class);
 
