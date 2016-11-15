@@ -48,12 +48,32 @@ create table strike (
 );
 create sequence strike_seq;
 
+create table strike_sector (
+  strike_id                     bigint not null,
+  sector_id                     bigint not null,
+  constraint pk_strike_sector primary key (strike_id,sector_id)
+);
+
+alter table strike_sector add constraint fk_strike_sector_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_sector_strike on strike_sector (strike_id);
+
+alter table strike_sector add constraint fk_strike_sector_sector foreign key (sector_id) references sector (id) on delete restrict on update restrict;
+create index ix_strike_sector_sector on strike_sector (sector_id);
+
 
 # --- !Downs
+
+alter table strike_sector drop constraint if exists fk_strike_sector_strike;
+drop index if exists ix_strike_sector_strike;
+
+alter table strike_sector drop constraint if exists fk_strike_sector_sector;
+drop index if exists ix_strike_sector_sector;
 
 drop table if exists sector;
 drop sequence if exists sector_seq;
 
 drop table if exists strike;
 drop sequence if exists strike_seq;
+
+drop table if exists strike_sector;
 

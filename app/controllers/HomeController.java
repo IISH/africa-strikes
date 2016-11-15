@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static play.libs.Json.toJson;
 
@@ -69,6 +71,14 @@ public class HomeController extends Controller {
         Ebean.beginTransaction();
         try {
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
+            Map<?, Sector> map = Sector.find.findMap();
+
+            String[] ids = (String[]) body.asFormUrlEncoded().get("sectors.id[]");
+            List<Sector> sectorsFromForm = Stream.of(ids)
+                    .map(id -> map.getOrDefault(new Long(id), null))
+                    .collect(Collectors.toList());
+            strike.setSectors(sectorsFromForm);
+
             System.out.println(toJson(strike));
             System.out.println(toJson(strike.getSectors()));
             strike.save();

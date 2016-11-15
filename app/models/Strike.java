@@ -281,6 +281,7 @@ public class Strike extends Model{
 //        this.sectors = sectors;
 //    }
 
+    @ManyToMany(cascade = CascadeType.ALL)
     public List<Sector> getSectors() {
         return sectors;
     }
@@ -332,6 +333,7 @@ public class Strike extends Model{
     public static List<Strike> getAllStrikes()
     {
         List<Strike> strikes = Ebean.find(Strike.class).findList();
+        List<Sector> sectors = Ebean.find(Sector.class).findList();
         return strikes;
     }
 }
