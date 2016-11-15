@@ -269,18 +269,6 @@ public class Strike extends Model{
         this.strikeDefinitions = strikeDefinitions;
     }
 
-//    public List<Sector> getSectors() {
-//        List<Sector> temps = new ArrayList<>();
-//        temps.add(new Sector("Bleh"));
-//        temps.add(new Sector("Blah"));
-//        temps.add(new Sector("Bloh"));
-//        return sectors;
-//    }
-//
-//    public void setSectors(List<Sector> sectors) {
-//        this.sectors = sectors;
-//    }
-
     @ManyToMany(cascade = CascadeType.ALL)
     public List<Sector> getSectors() {
         return sectors;
@@ -325,7 +313,6 @@ public class Strike extends Model{
     private File articleUpload;
     private List<Sector> sectors = new ArrayList<>();
     private List<Occupation> occupations = new ArrayList<>();
-
 
     public Strike()
     {
