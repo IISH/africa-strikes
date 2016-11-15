@@ -237,12 +237,12 @@ public class Strike extends Model{
         this.authorInformation = authorInformation;
     }
 
-    public String getSources() {
+    public String getSource() {
         return source;
     }
 
-    public void setSources(String sources) {
-        this.source = sources;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getOccupations() {
@@ -319,14 +319,15 @@ public class Strike extends Model{
                     outcomeOfStrike,
                     description,
                     authorInformation,
-                    source, occupations, strikeIdentities, strikeDefinitions;
+                    source,
+                    occupations, strikeIdentities, strikeDefinitions;
     private File articleUpload;
+    private List<Sector> sectors = new ArrayList<>();
+
 
     public Strike()
     {
     }
-
-    public List<Sector> sectors = new ArrayList<>();
 
     public static Finder<Integer, Strike> find = new Finder<>(Strike.class);
 

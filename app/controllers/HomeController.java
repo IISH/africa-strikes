@@ -1,15 +1,11 @@
 package controllers;
 
-import akka.dispatch.Foreach;
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Model;
 import models.Sector;
-import models.Source;
 import models.Strike;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
-import scala.Array;
 import views.html.*;
 
 import javax.inject.Inject;
@@ -49,23 +45,9 @@ public class HomeController extends Controller {
             }
         }
 
-        if(Source.find.findRowCount() == 0){
-            try {
-                List<Source> load = (List<Source>) Yaml.load("source-data.yml");
-                for (int i = 0; i < load.size(); i++) {
-                    Ebean.save(load.get(i));
-                }
-                System.out.println("Sources YAML loaded!");
-            }
-            catch(Exception e){
-                System.out.println("Sources YAML didnt load!");
-                System.out.println(e.getMessage());
-            }
-        }
+        List<String> sources = (List<String>) Yaml.load("source-data.yml");
 
-        // Returns the sectors from the table sector
-        List<Sector> sectors = Sector.find.all();
-        return ok(index.render("", formFactory.form(Strike.class), sectors, Source.find.all()));
+        return ok(index.render("", formFactory.form(Strike.class), Sector.find.all(), sources));
     }
 
     public Result addStrike()
@@ -84,14 +66,29 @@ public class HomeController extends Controller {
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> map = Sector.find.findMap();
-            String[] ids = (String[]) body.asFormUrlEncoded().get("sectors.id[]");
-            List<Sector> sectorsFromForm = Stream.of(ids)
-                    .map(id -> map.getOrDefault(new Long(id), null))
-                    .collect(Collectors.toList());
-            strike.setSectors(sectorsFromForm);
+            try {
+                String[] ids = (String[]) body.asFormUrlEncoded().get("sectors.id[]");
+                List<Sector> sectorsFromForm = Stream.of(ids)
+                        .map(id -> map.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setSectors(sectorsFromForm);
+            }
+            catch (NullPointerException e) {
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<Sector> sectorsFromForm = Stream.of(ids)
+                        .map(id -> map.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setSectors(sectorsFromForm);
+            }
             // Saves the strike
             strike.save();
             Ebean.commitTransaction();
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("Iets in strike is leeg!");
+            System.out.println(e.getMessage());
         }
         finally {
             Ebean.endTransaction();

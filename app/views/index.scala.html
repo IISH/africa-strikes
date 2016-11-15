@@ -3,7 +3,7 @@
  * message to display.
  *@
 
-@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[Source])
+@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])
 
 @*
  * Call the `main` template with two arguments. The first
@@ -28,8 +28,8 @@
         <div class="container">
             <h2>Fill in the description of the strike.</h2>
             <div class="form-group">
-                <div class="selectize-control form-inline">
-                @select(strikeForm("sources"), sources.map(s => s.id.toString() -> s.sourceText), '_label -> "Sources", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                <div class="form-inline">
+                @select(strikeForm("source"), sources.map(s => s -> s), '_label -> "Sources", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             <div class="form-group">

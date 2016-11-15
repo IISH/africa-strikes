@@ -3,19 +3,19 @@
 
 # --- !Ups
 
+create table occupation (
+  id                            bigint not null,
+  source_text                   varchar(255),
+  constraint pk_occupation primary key (id)
+);
+create sequence occupation_seq;
+
 create table sector (
   id                            bigint not null,
   sector_name                   varchar(255),
   constraint pk_sector primary key (id)
 );
 create sequence sector_seq;
-
-create table source (
-  id                            bigint not null,
-  source_text                   varchar(255),
-  constraint pk_source primary key (id)
-);
-create sequence source_seq;
 
 create table strike (
   id                            bigint not null,
@@ -76,11 +76,11 @@ drop index if exists ix_strike_sector_strike;
 alter table strike_sector drop constraint if exists fk_strike_sector_sector;
 drop index if exists ix_strike_sector_sector;
 
+drop table if exists occupation;
+drop sequence if exists occupation_seq;
+
 drop table if exists sector;
 drop sequence if exists sector_seq;
-
-drop table if exists source;
-drop sequence if exists source_seq;
 
 drop table if exists strike;
 drop sequence if exists strike_seq;

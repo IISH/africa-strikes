@@ -1,133 +1,132 @@
 # Sources
-- &0 !!models.Source
-  sourceText: Advertiser of East Africa
-- &0 !!models.Source
-  sourceText: African Interpreter and Advocate
-- &0 !!models.Source
-  sourceText: Africano
-- &0 !!models.Source
-  sourceText: Beira News and East Coast Chronicle
-- &0 !!models.Source
-  sourceText: Beira Post
-- &0 !!models.Source
-  sourceText: Brado Africano
-- &0 !!models.Source
-  sourceText: Buluwayo Chronicle
-- &0 !!models.Source
-  sourceText: Cape Town Gazette and African Advertiser (includes Kaapsche Courant)
-- &0 !!models.Source
-  sourceText: Cloche
-- &0 !!models.Source
-  sourceText: Colony and Provincial Reporter
-- &0 !!models.Source
-  sourceText: Dar es Salaam Times
-- &0 !!models.Source
-  sourceText: East African Chronicle
-- &0 !!models.Source
-  sourceText: East African Standard, Mombasa Times and Uganda Argus
-- &0 !!models.Source
-  sourceText: Folha de Annuncios
-- &0 !!models.Source
-  sourceText: Friend of the Free State and Bloemfontein Gazette
-- &0 !!models.Source
-  sourceText: Gold Coast Aborigines
-- &0 !!models.Source
-  sourceText: Gold Coast Chronicle
-- &0 !!models.Source
-  sourceText: Gold Coast Independent
-- &0 !!models.Source
-  sourceText: Gold Coast Leader
-- &0 !!models.Source
-  sourceText: Gold Coast Nation
-- &0 !!models.Source
-  sourceText: Gold Coast Times
-- &0 !!models.Source
-  sourceText: Ilanga Lase Natal
-- &0 !!models.Source
-  sourceText: Imvo Zabantsundu (includes Imvo zabantsundu bomzanti Afrika, Imvo zonsundu, neliso lomzi)
-- &0 !!models.Source
-  sourceText: Indaba
-- &0 !!models.Source
-  sourceText: Independent
-- &0 !!models.Source
-  sourceText: Indian Opinion
-- &0 !!models.Source
-  sourceText: Indian Voice of British East Africa
-- &0 !!models.Source
-  sourceText: International
-- &0 !!models.Source
-  sourceText: Izindaba Zabantu
-- &0 !!models.Source
-  sourceText: Izwi Labantu
-- &0 !!models.Source
-  sourceText: Journal (includes Graham's Town Journal, Cape of Good Hope Eastern Province Register)
-- &0 !!models.Source
-  sourceText: Kaffir Express/Isigidimi Sama-Xosa
-- &0 !!models.Source
-  sourceText: Koranta Ea Becoana
-- &0 !!models.Source
-  sourceText: L'Opinion Publique
-- &0 !!models.Source
-  sourceText: Lagos Observer
-- &0 !!models.Source
-  sourceText: Lagos Standard
-- &0 !!models.Source
-  sourceText: Lagos Weekly Record
-- &0 !!models.Source
-  sourceText: Leselinyana La Lesutho
-- &0 !!models.Source
-  sourceText: Liberia Recorder
-- &0 !!models.Source
-  sourceText: Livingstone Mail
-- &0 !!models.Source
-  sourceText: Luderitzbuchter Zeitung
-- &0 !!models.Source
-  sourceText: Madagascar Times
-- &0 !!models.Source
-  sourceText: Mafeking Mail and Protectorate Guardian (includes Mafeking Mail/Special Siege Slip)
-- &0 !!models.Source
-  sourceText: Natal Witness (includes Natal Witness, and Agricultural and Commercial Advertiser)
-- &0 !!models.Source
-  sourceText: Nigerian Chronicle
-- &0 !!models.Source
-  sourceText: Nigerian Pioneer
-- &0 !!models.Source
-  sourceText: Nyasaland Times (includes Central African Times)
-- &0 !!models.Source
-  sourceText: O Africano
-- &0 !!models.Source
-  sourceText: Observer
-- &0 !!models.Source
-  sourceText: Rand Daily Mail
-- &0 !!models.Source
-  sourceText: Rhodesia Herald
-- &0 !!models.Source
-  sourceText: Sierra Leone Guardian and Foreign Mails
-- &0 !!models.Source
-  sourceText: Sierra Leone Times
-- &0 !!models.Source
-  sourceText: Sierra Leone Weekly News
-- &0 !!models.Source
-  sourceText: South African Outlook (includes Christian Express, Kaffir Express/Isigidimi Sami-Xosa)
-- &0 !!models.Source
-  sourceText: Swakopmunder Zeitung (includes Deutch-Sudwestafrikanische Zeitung, Windhoeker Anzeiger)
-- &0 !!models.Source
-  sourceText: Times of East Africa
-- &0 !!models.Source
-  sourceText: Times of Nigeria
-- &0 !!models.Source
-  sourceText: Times of Swaziland
-- &0 !!models.Source
-  sourceText: Tribuna de Benguela
-- &0 !!models.Source
-  sourceText: Tsala Ea Batho (includes Tsala ea Becoana)
-- &0 !!models.Source
-  sourceText: Uganda Herald
-- &0 !!models.Source
-  sourceText: Umteteli Wa Bantu
-- &0 !!models.Source
-  sourceText: Verdade
-- &0 !!models.Source
-  sourceText: Voz De Guine
-- &0 !!models.Source
-  sourceText: Voz de Angola
+- Advertiser of East Africa
+
+- African Interpreter and Advocate
+
+- Africano
+
+- Beira News and East Coast Chronicle
+
+- Beira Post
+
+- Brado Africano
+
+- Buluwayo Chronicle
+
+- Cape Town Gazette and African Advertiser (includes Kaapsche Courant)
+
+- Cloche
+
+- Colony and Provincial Reporter
+
+- Dar es Salaam Times
+
+- East African Chronicle
+
+- East African Standard, Mombasa Times and Uganda Argus
+
+- Folha de Annuncios
+
+- Friend of the Free State and Bloemfontein Gazette
+
+- Gold Coast Aborigines
+
+- Gold Coast Chronicle
+
+- Gold Coast Independent
+
+- Gold Coast Leader
+
+- Gold Coast Nation
+
+- Gold Coast Times
+
+- Ilanga Lase Natal
+
+- Imvo Zabantsundu (includes Imvo zabantsundu bomzanti Afrika, Imvo zonsundu, neliso lomzi)
+
+- Indaba
+
+- Independent
+
+- Indian Opinion
+
+- Indian Voice of British East Africa
+
+- International
+
+- Izindaba Zabantu
+
+- Izwi Labantu
+
+- Journal (includes Graham's Town Journal, Cape of Good Hope Eastern Province Register)
+
+- Kaffir Express/Isigidimi Sama-Xosa
+
+- Koranta Ea Becoana
+
+- L'Opinion Publique
+
+- Lagos Observer
+
+- Lagos Standard
+
+- Lagos Weekly Record
+
+- Leselinyana La Lesutho
+
+- Liberia Recorder
+
+- Livingstone Mail
+
+- Luderitzbuchter Zeitung
+
+- Madagascar Times
+
+- Mafeking Mail and Protectorate Guardian (includes Mafeking Mail/Special Siege Slip)
+
+- Natal Witness (includes Natal Witness, and Agricultural and Commercial Advertiser)
+
+- Nigerian Chronicle
+
+- Nigerian Pioneer
+
+- Nyasaland Times (includes Central African Times)
+
+- O Africano
+
+- Observer
+
+- Rand Daily Mail
+
+- Rhodesia Herald
+
+- Sierra Leone Guardian and Foreign Mails
+
+- Sierra Leone Times
+
+- Sierra Leone Weekly News
+
+- South African Outlook (includes Christian Express, Kaffir Express/Isigidimi Sami-Xosa)
+
+- Swakopmunder Zeitung (includes Deutch-Sudwestafrikanische Zeitung, Windhoeker Anzeiger)
+
+- Times of East Africa
+
+- Times of Nigeria
+
+- Times of Swaziland
+
+- Tribuna de Benguela
+
+- Tsala Ea Batho (includes Tsala ea Becoana)
+
+- Uganda Herald
+
+- Umteteli Wa Bantu
+
+- Verdade
+
+- Voz De Guine
+
+- Voz de Angola
