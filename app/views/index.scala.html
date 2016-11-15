@@ -3,7 +3,7 @@
  * message to display.
  *@
 
-@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])
+@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(occupations: List[Occupation])
 
 @*
  * Call the `main` template with two arguments. The first
@@ -90,14 +90,13 @@
                     @select(strikeForm("sectors.id"), sectors.map(s => s.getId().toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
-                <label title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">Occupations HISCO first level</label>
-                <div class="form-inline">
-                    <select class="form-control input-full-width" name="occupations" id="occupationSelect">
-                        <option value=0 disabled selected>Please choose...</option>
-                    </select>
+                <div class="selectize-control form-inline">
+                @select(strikeForm("occupations.id"), occupations.map(s => s.getId().toString() -> s.occupationText), '_label -> "Occupations", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
                 <label title="Select from the list box.
                 Below please find a short definition of the four categories included in the list: non-working, reciprocal labour, tributary labour and commodified labour.
@@ -330,13 +329,13 @@
 //                                    "Transport, storage, communication",
 //                                    "Business serivice, financing, insurance, real estate",
 //                                    "Community, social services, personal services"];
-        var occupations = [         "Labourers in production, transport, operators",
-                                    "Professional, technical",
-                                    "Administrative, managerial",
-                                    "Clerical",
-                                    "Sales",
-                                    "Services",
-                                    "Agricultural, animal husbandry, forestry, fisherman, hunters"];
+//        var occupations = [         "Labourers in production, transport, operators",
+//                                    "Professional, technical",
+//                                    "Administrative, managerial",
+//                                    "Clerical",
+//                                    "Sales",
+//                                    "Services",
+//                                    "Agricultural, animal husbandry, forestry, fisherman, hunters"];
         var labourRelations = [     "Non-Working", "Reciprocal Labour", "Tributary Labour", "Commodified Labour"];
         var numberParticipants = [  "0-10", "11-100", "101-500", "501-1000", "1001-5000", "5001-10000", "10001 or more"];
         var causesOfDispute = [     "Exclusively wage demands",
@@ -472,22 +471,16 @@
                }
             });
 
-            // Adds the options to the occupation select element
-            $(function () {
-                for(var i = 0; i < occupations.length; i++) {
-                    appendToSelect(occupations[i], (i+1), document.getElementById("occupationSelect"));
-                }
-            });
+//            // Adds the options to the occupation select element
+//            $(function () {
+//                for(var i = 0; i < occupations.length; i++) {
+//                    appendToSelect(occupations[i], (i+1), document.getElementById("occupationSelect"));
+//                }
+//            });
 
             $(function(){
-                $('#sectors_id').selectize({
-//                    delimiter: ',',
-//                    create: function(input) {
-//                        return {
-//                            value: input
-//                        }
-//                    }
-                });
+                $('#sectors_id').selectize();
+                $('#occupations_id').selectize();
             });
 
             $(function () {
