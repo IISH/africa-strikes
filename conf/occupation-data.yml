@@ -1,0 +1,21 @@
+#Occupations
+- &0 !!models.Occupation
+      occupationText: Labourers in production, transport, operators
+
+- &0 !!models.Occupation
+      occupationText: Professional, technical
+
+- &0 !!models.Occupation
+      occupationText: Administrative, managerial
+
+- &0 !!models.Occupation
+      occupationText: Clerical
+
+- &0 !!models.Occupation
+      occupationText: Sales
+
+- &0 !!models.Occupation
+      occupationText: Services
+
+- &0 !!models.Occupation
+      occupationText: Agricultural, animal husbandry, forestry, fisherman, hunters
