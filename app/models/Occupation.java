@@ -15,7 +15,7 @@ public class Occupation {
 
     @Id
     public long id;
-    public String sourceText;
+    public String occupationText;
 
     public Occupation()
     {}
@@ -27,9 +27,9 @@ public class Occupation {
 
     public static Model.Finder<Integer, Occupation> find = new Model.Finder<>(Occupation.class);
 
-    public static List<Occupation> getAllSources()
+    public static List<Occupation> getAllOccupations()
     {
-        List<Occupation> sources = Ebean.find(Occupation.class).findList();
-        return sources;
+        List<Occupation> occupations = Ebean.find(Occupation.class).findList();
+        return occupations;
     }
 }
