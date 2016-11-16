@@ -21,7 +21,7 @@ public class CompanyName {
 
     public static Model.Finder<Integer, CompanyName> find = new Model.Finder<>(CompanyName.class);
 
-    public static List<CompanyName> getAllOccupations()
+    public static List<CompanyName> getAllCompanyNames()
     {
         List<CompanyName> companyNames = Ebean.find(CompanyName.class).findList();
         return companyNames;

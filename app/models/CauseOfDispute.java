@@ -21,7 +21,7 @@ public class CauseOfDispute {
 
     public static Model.Finder<Integer, CauseOfDispute> find = new Model.Finder<>(CauseOfDispute.class);
 
-    public static List<CauseOfDispute> getAllOccupations()
+    public static List<CauseOfDispute> getAllCausesOfDisputes()
     {
         List<CauseOfDispute> causeOfDisputes = Ebean.find(CauseOfDispute.class).findList();
         return causeOfDisputes;

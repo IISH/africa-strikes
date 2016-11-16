@@ -21,7 +21,7 @@ public class StrikeDefinition {
 
     public static Model.Finder<Integer, StrikeDefinition> find = new Model.Finder<>(StrikeDefinition.class);
 
-    public static List<StrikeDefinition> getAllOccupations()
+    public static List<StrikeDefinition> getAllStrikeDefinitions()
     {
         List<StrikeDefinition> strikeDefinitions = Ebean.find(StrikeDefinition.class).findList();
         return strikeDefinitions;

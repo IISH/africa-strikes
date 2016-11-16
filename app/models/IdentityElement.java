@@ -21,7 +21,7 @@ public class IdentityElement {
 
     public static Model.Finder<Integer, IdentityElement> find = new Model.Finder<>(IdentityElement.class);
 
-    public static List<IdentityElement> getAllOccupations()
+    public static List<IdentityElement> getAllIdentityElements()
     {
         List<IdentityElement> identityElements = Ebean.find(IdentityElement.class).findList();
         return identityElements;
