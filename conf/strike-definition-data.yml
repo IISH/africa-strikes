@@ -1,0 +1,48 @@
+#StrikeDefinitions
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: No strike definition provided...
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Constitutional or official strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Unofficial strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Sympathetic strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Boycott(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Political or protest strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: General strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Lockout(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Working to rule / 'work in'
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Go-slow(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Sabotage
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Overtime bans
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Sit-in; sleep-in
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Intermittent or partial strike(s)
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Picketing
+
+- &0 !!models.StrikeDefinition
+      strikeDefinitionText: Collective exit; desertion
