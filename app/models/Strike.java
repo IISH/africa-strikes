@@ -275,11 +275,11 @@ public class Strike extends Model{
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    public List<CauseOfDispute> getCaseOfDispute() {
+    public List<CauseOfDispute> getCauseOfDisputes() {
         return causeOfDisputes;
     }
 
-    public void setCaseOfDispute(List<CauseOfDispute> causeOfDisputes) {
+    public void setCauseOfDisputes(List<CauseOfDispute> causeOfDisputes) {
         this.causeOfDisputes = causeOfDisputes;
     }
 
