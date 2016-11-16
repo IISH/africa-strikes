@@ -3,7 +3,7 @@
  * message to display.
  *@
 
-@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(occupations: List[Occupation])
+@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(occupations: List[Occupation])(causeOfDisputes: List[CauseOfDispute])(identityElements: List[IdentityElement])(strikeDefinitions: List[StrikeDefinition])(countries: List[String])
 
 @*
  * Call the `main` template with two arguments. The first
@@ -29,17 +29,16 @@
             <h2>Fill in the description of the strike.</h2>
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("source"), sources.map(s => s -> s), '_label -> "Sources", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("source"), sources.map(s => s -> s), '_label -> "Source", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
-                <label title="The list also includes former names of colonies and regions">Country</label>
-                <div class="form-inline">
-                    <select class="form-control input-full-width" name="country", id="country">
-                        <option value="0" selected disabled>Select name of the country or colony...</option>
-                    </select>
+                <div class="selectize-control form-inline">
+                @select(strikeForm("country"), countries.map(s => s -> s), '_label -> "Country", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
                 <label title="Write the exact location of the strike as listed in the source. It can be the name of city or town and/or of a factory. In case the source provides both (place and factory/mine, etc.), please insert both separate by (,).">Location</label>
                 <div class="form-inline input-full-width">
@@ -93,7 +92,7 @@
 
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("occupations.id"), occupations.map(s => s.getId().toString() -> s.occupationText), '_label -> "Occupations", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("occupations.id"), occupations.map(s => s.id.toString() -> s.occupationText), '_label -> "Occupations", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
 
@@ -126,9 +125,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Company names</label>
+                @*<label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Company names</label>*@
                 <div class="selectize-control form-inline multi">
-                    <input class="input-full-width selectized" type=text name="companyNames" id="companyNames" placeholder="Enter company names..."/>
+                    @inputText(strikeForm("companyNames.id"),'_label -> "Company names", 'class -> "selectized", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @*<input class="input-full-width selectized" type=text name="companyNames" id="companyNames" placeholder="Enter company names..."/>*@
                 </div>
             </div>
             <div class="form-group">
@@ -223,30 +223,25 @@
                     </label>
                 </div>
             </div>
+
             <div class="form-group">
-                <label title="Select one of the options from the list box. In case this information is not provided leave the field blank.">Cause of dispute</label>
-                <div class="form-inline">
-                    <select class="form-control input-full-width" name="caseOfDispute" id="causeOfDisputeSelect">
-                        <option value=0 disabled selected>Please choose...</option>
-                    </select>
+                <div class="selectize-control form-inline">
+                @select(strikeForm("causeOfDisputes.id"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
-                <label title="Select one of the options from the list box. In case this information is not provided leave the field blank">Identity elements</label>
-                <div class="selectize-control form-inline multi">
-                    <select multiple class="form-control input-full-width selectized" name="strikeIdentities" id="strikeIdentities">
-                        <option value="Please choose..." selected>Please choose...</option>
-                    </select>
+                <div class="selectize-control form-inline">
+                @select(strikeForm("identityElements.id"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
-                <label title="Select one of the options from the list box. In case this information is not provided leave the field blank.">Strike definitions</label>
-                <div class="selectize-control form-inline multi">
-                    <select multiple class="form-control input-full-width selectized" name="strikeDefinitions" id="strikeDefinitions">
-                        <option value="Please choose..." selected>Please choose...</option>
-                    </select>
+                <div class="selectize-control form-inline">
+                @select(strikeForm("strikeDefinitions.id"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
+
             <div class="form-group">
                 <label title="Select one of the option available. In case this information is not provided select unknown.">Nature of the strike</label>
                 <div class="form-inline">
@@ -440,23 +435,23 @@
                 return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthNumber];
             }
 
-            $(function () {
-                for(var i = 0; i < strikeDefinitions.length; i++){
-                    appendToSelect(strikeDefinitions[i], (i+1), document.getElementById("strikeDefinitions"));
-                }
-            });
+//            $(function () {
+//                for(var i = 0; i < strikeDefinitions.length; i++){
+//                    appendToSelect(strikeDefinitions[i], (i+1), document.getElementById("strikeDefinitions"));
+//                }
+//            });
 
-            $(function () {
-                for(var i = 0; i < identityElements.length; i++) {
-                    appendToSelect(identityElements[i], (i+1), document.getElementById("strikeIdentities"));
-                }
-            });
+//            $(function () {
+//                for(var i = 0; i < identityElements.length; i++) {
+//                    appendToSelect(identityElements[i], (i+1), document.getElementById("strikeIdentities"));
+//                }
+//            });
 
-            $(function () {
-                for(var i = 0; i < causesOfDispute.length; i++) {
-                    appendToSelect(causesOfDispute[i], (i+1), document.getElementById("causeOfDisputeSelect"));
-                }
-            });
+//            $(function () {
+//                for(var i = 0; i < causesOfDispute.length; i++) {
+//                    appendToSelect(causesOfDispute[i], (i+1), document.getElementById("causeOfDisputeSelect"));
+//                }
+//            });
 
             $(function () {
                 for(var i = 0; i < numberParticipants.length; i++) {
@@ -481,13 +476,17 @@
             $(function(){
                 $('#sectors_id').selectize();
                 $('#occupations_id').selectize();
+                $('#causeOfDisputes_id').selectize();
+                $('#identityElements_id').selectize();
+                $('#strikeDefinitions_id').selectize();
+                $('#companyNames_id').selectize();
             });
 
-            $(function () {
-                for(var i = 0; i < countries.length; i++) {
-                    appendToSelect(countries[i], countries[i], document.getElementById("country"));
-                }
-            });
+//            $(function () {
+//                for(var i = 0; i < countries.length; i++) {
+//                    appendToSelect(countries[i], countries[i], document.getElementById("country"));
+//                }
+//            });
 
             // Needs to be edited to fit with the correct month. Like with february only having 28 or 29 days
             $(function () {
@@ -561,49 +560,49 @@
                 $("#uploadedArticleOutput").append(document.getElementById("articleUploadButton").value);
             });
 
-            $('#companyNames').selectize({
-                delimiter: ',',
-                persist: false,
-                create: function(input) {
-                    return {
-                        value: input,
-                        text: input
-                    }
-                }
-            });
+//            $('#companyNames').selectize({
+//                delimiter: ',',
+//                persist: false,
+//                create: function(input) {
+//                    return {
+//                        value: input,
+//                        text: input
+//                    }
+//                }
+//            });
 
-            $('#sources').selectize({
-                delimiter: ',',
-                persist: false,
-                create: function(input) {
-                    return {
-                        value: input,
-                        text: input
-                    }
-                }
-            });
+//            $('#sources').selectize({
+//                delimiter: ',',
+//                persist: false,
+//                create: function(input) {
+//                    return {
+//                        value: input,
+//                        text: input
+//                    }
+//                }
+//            });
 
-            $('#strikeDefinitions').selectize({
-                delimiter: ',',
-                persist: false,
-                create: function(input) {
-                    return {
-                        value: input,
-                        text: input
-                    }
-                }
-            });
+//            $('#strikeDefinitions').selectize({
+//                delimiter: ',',
+//                persist: false,
+//                create: function(input) {
+//                    return {
+//                        value: input,
+//                        text: input
+//                    }
+//                }
+//            });
 
-            $('#strikeIdentities').selectize({
-                delimiter: ',',
-                persist: false,
-                create: function(input) {
-                    return {
-                        value: input,
-                        text: input
-                    }
-                }
-            });
+//            $('#strikeIdentities').selectize({
+//                delimiter: ',',
+//                persist: false,
+//                create: function(input) {
+//                    return {
+//                        value: input,
+//                        text: input
+//                    }
+//                }
+//            });
 
         });
     </script>
