@@ -3,9 +3,30 @@
 
 # --- !Ups
 
+create table cause_of_dispute (
+  id                            bigint not null,
+  cause_of_dispute_text         varchar(255),
+  constraint pk_cause_of_dispute primary key (id)
+);
+create sequence cause_of_dispute_seq;
+
+create table company_name (
+  id                            bigint not null,
+  company_name_text             varchar(255),
+  constraint pk_company_name primary key (id)
+);
+create sequence company_name_seq;
+
+create table identity_element (
+  id                            bigint not null,
+  identity_element_text         varchar(255),
+  constraint pk_identity_element primary key (id)
+);
+create sequence identity_element_seq;
+
 create table occupation (
   id                            bigint not null,
-  source_text                   varchar(255),
+  occupation_text               varchar(255),
   constraint pk_occupation primary key (id)
 );
 create sequence occupation_seq;
@@ -34,22 +55,17 @@ create table strike (
   location                      varchar(255),
   labour_relation               varchar(255),
   workers_situation             varchar(255),
-  company_names                 varchar(255),
   company_ownership             varchar(255),
   company_ownership_situated    varchar(255),
   companies_involved            varchar(255),
   type_of_action                varchar(255),
   type_of_organisation          varchar(255),
   dominant_gender               varchar(255),
-  case_of_dispute               varchar(255),
   nature_of_strike              varchar(255),
   outcome_of_strike             varchar(255),
   description                   varchar(255),
   author_information            varchar(255),
   source                        varchar(255),
-  occupations                   varchar(255),
-  strike_identities             varchar(255),
-  strike_definitions            varchar(255),
   article_upload                longvarbinary,
   constraint pk_strike primary key (id)
 );
@@ -61,11 +77,78 @@ create table strike_sector (
   constraint pk_strike_sector primary key (strike_id,sector_id)
 );
 
+create table strike_occupation (
+  strike_id                     bigint not null,
+  occupation_id                 bigint not null,
+  constraint pk_strike_occupation primary key (strike_id,occupation_id)
+);
+
+create table strike_company_name (
+  strike_id                     bigint not null,
+  company_name_id               bigint not null,
+  constraint pk_strike_company_name primary key (strike_id,company_name_id)
+);
+
+create table strike_cause_of_dispute (
+  strike_id                     bigint not null,
+  cause_of_dispute_id           bigint not null,
+  constraint pk_strike_cause_of_dispute primary key (strike_id,cause_of_dispute_id)
+);
+
+create table strike_identity_element (
+  strike_id                     bigint not null,
+  identity_element_id           bigint not null,
+  constraint pk_strike_identity_element primary key (strike_id,identity_element_id)
+);
+
+create table strike_strike_definition (
+  strike_id                     bigint not null,
+  strike_definition_id          bigint not null,
+  constraint pk_strike_strike_definition primary key (strike_id,strike_definition_id)
+);
+
+create table strike_definition (
+  id                            bigint not null,
+  strike_definition_text        varchar(255),
+  constraint pk_strike_definition primary key (id)
+);
+create sequence strike_definition_seq;
+
 alter table strike_sector add constraint fk_strike_sector_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_strike_sector_strike on strike_sector (strike_id);
 
 alter table strike_sector add constraint fk_strike_sector_sector foreign key (sector_id) references sector (id) on delete restrict on update restrict;
 create index ix_strike_sector_sector on strike_sector (sector_id);
+
+alter table strike_occupation add constraint fk_strike_occupation_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_occupation_strike on strike_occupation (strike_id);
+
+alter table strike_occupation add constraint fk_strike_occupation_occupation foreign key (occupation_id) references occupation (id) on delete restrict on update restrict;
+create index ix_strike_occupation_occupation on strike_occupation (occupation_id);
+
+alter table strike_company_name add constraint fk_strike_company_name_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_company_name_strike on strike_company_name (strike_id);
+
+alter table strike_company_name add constraint fk_strike_company_name_company_name foreign key (company_name_id) references company_name (id) on delete restrict on update restrict;
+create index ix_strike_company_name_company_name on strike_company_name (company_name_id);
+
+alter table strike_cause_of_dispute add constraint fk_strike_cause_of_dispute_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_cause_of_dispute_strike on strike_cause_of_dispute (strike_id);
+
+alter table strike_cause_of_dispute add constraint fk_strike_cause_of_dispute_cause_of_dispute foreign key (cause_of_dispute_id) references cause_of_dispute (id) on delete restrict on update restrict;
+create index ix_strike_cause_of_dispute_cause_of_dispute on strike_cause_of_dispute (cause_of_dispute_id);
+
+alter table strike_identity_element add constraint fk_strike_identity_element_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_identity_element_strike on strike_identity_element (strike_id);
+
+alter table strike_identity_element add constraint fk_strike_identity_element_identity_element foreign key (identity_element_id) references identity_element (id) on delete restrict on update restrict;
+create index ix_strike_identity_element_identity_element on strike_identity_element (identity_element_id);
+
+alter table strike_strike_definition add constraint fk_strike_strike_definition_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_strike_definition_strike on strike_strike_definition (strike_id);
+
+alter table strike_strike_definition add constraint fk_strike_strike_definition_strike_definition foreign key (strike_definition_id) references strike_definition (id) on delete restrict on update restrict;
+create index ix_strike_strike_definition_strike_definition on strike_strike_definition (strike_definition_id);
 
 
 # --- !Downs
@@ -75,6 +158,45 @@ drop index if exists ix_strike_sector_strike;
 
 alter table strike_sector drop constraint if exists fk_strike_sector_sector;
 drop index if exists ix_strike_sector_sector;
+
+alter table strike_occupation drop constraint if exists fk_strike_occupation_strike;
+drop index if exists ix_strike_occupation_strike;
+
+alter table strike_occupation drop constraint if exists fk_strike_occupation_occupation;
+drop index if exists ix_strike_occupation_occupation;
+
+alter table strike_company_name drop constraint if exists fk_strike_company_name_strike;
+drop index if exists ix_strike_company_name_strike;
+
+alter table strike_company_name drop constraint if exists fk_strike_company_name_company_name;
+drop index if exists ix_strike_company_name_company_name;
+
+alter table strike_cause_of_dispute drop constraint if exists fk_strike_cause_of_dispute_strike;
+drop index if exists ix_strike_cause_of_dispute_strike;
+
+alter table strike_cause_of_dispute drop constraint if exists fk_strike_cause_of_dispute_cause_of_dispute;
+drop index if exists ix_strike_cause_of_dispute_cause_of_dispute;
+
+alter table strike_identity_element drop constraint if exists fk_strike_identity_element_strike;
+drop index if exists ix_strike_identity_element_strike;
+
+alter table strike_identity_element drop constraint if exists fk_strike_identity_element_identity_element;
+drop index if exists ix_strike_identity_element_identity_element;
+
+alter table strike_strike_definition drop constraint if exists fk_strike_strike_definition_strike;
+drop index if exists ix_strike_strike_definition_strike;
+
+alter table strike_strike_definition drop constraint if exists fk_strike_strike_definition_strike_definition;
+drop index if exists ix_strike_strike_definition_strike_definition;
+
+drop table if exists cause_of_dispute;
+drop sequence if exists cause_of_dispute_seq;
+
+drop table if exists company_name;
+drop sequence if exists company_name_seq;
+
+drop table if exists identity_element;
+drop sequence if exists identity_element_seq;
 
 drop table if exists occupation;
 drop sequence if exists occupation_seq;
@@ -86,4 +208,17 @@ drop table if exists strike;
 drop sequence if exists strike_seq;
 
 drop table if exists strike_sector;
+
+drop table if exists strike_occupation;
+
+drop table if exists strike_company_name;
+
+drop table if exists strike_cause_of_dispute;
+
+drop table if exists strike_identity_element;
+
+drop table if exists strike_strike_definition;
+
+drop table if exists strike_definition;
+drop sequence if exists strike_definition_seq;
 
