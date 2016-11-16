@@ -1,0 +1,36 @@
+#CauseOfDisputes
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: No cause of dispute provided...
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Exclusively wage demands
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Wage demands along with other demands
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Trade union matters
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Disciplinary measures applied by the employer
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Problems at the workplace
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Demands related to conditions of employment, e.g. transport, transport allowances, accommodation, pensions, etc.
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Retrenchments
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Release of detainees
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Political plus work-related subjects
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Expressions of sympathy
+
+- &0 !!models.CauseOfDispute
+      causeOfDisputeText: Other (including unknown)
