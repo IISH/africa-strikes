@@ -1,6 +1,7 @@
 #Occupations
 - &0 !!models.Occupation
       occupationText: No occupation provided...
+
 - &0 !!models.Occupation
       occupationText: Labourers in production, transport, operators
 
