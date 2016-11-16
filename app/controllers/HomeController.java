@@ -1,19 +1,15 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import models.Occupation;
-import models.Sector;
-import models.Strike;
+import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
 import views.html.*;
-
 import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import static play.libs.Json.toJson;
 
 /**
@@ -38,10 +34,10 @@ public class HomeController extends Controller {
                 for (int i = 0; i < load.size(); i++) {
                     Ebean.save(load.get(i));
                 }
-                System.out.println("Sectors YAML loaded!");
+                System.out.println("Sector YAML loaded!");
             }
             catch(Exception e){
-                System.out.println("Sectors YAML didnt load!");
+                System.out.println("Sector YAML didnt load!");
                 System.out.println(e.getMessage());
             }
         }
@@ -53,18 +49,86 @@ public class HomeController extends Controller {
                 for (int i = 0; i < load.size(); i++) {
                     Ebean.save(load.get(i));
                 }
-                System.out.println("Sectors YAML loaded!");
+                System.out.println("Occupation YAML loaded!");
             }
             catch (Exception e)
             {
-                System.out.println("Occupations YAML didnt load!");
+                System.out.println("Occupation YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if(CauseOfDispute.find.findRowCount() == 0)
+        {
+            try{
+                List<CauseOfDispute> load = (List<CauseOfDispute>) Yaml.load("cause-of-dispute-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("CauseOfDispute YAML loaded!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("CauseOfDispute YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if(IdentityElement.find.findRowCount() == 0)
+        {
+            try{
+                List<IdentityElement> load = (List<IdentityElement>) Yaml.load("identity-element-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("IdentityElement YAML loaded!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("IdentityElement YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if(StrikeDefinition.find.findRowCount() == 0)
+        {
+            try{
+                List<StrikeDefinition> load = (List<StrikeDefinition>) Yaml.load("strike-definition-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("StrikeDefinition YAML loaded!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("StrikeDefinition YAML didnt load!");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if(CompanyName.find.findRowCount() == 0)
+        {
+            try{
+                List<CompanyName> load = (List<CompanyName>) Yaml.load("company-name-data.yml");
+                for (int i = 0; i < load.size(); i++) {
+                    Ebean.save(load.get(i));
+                }
+                System.out.println("CompanyName YAML loaded!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("CompanyName YAML didnt load!");
                 System.out.println(e.getMessage());
             }
         }
 
         List<String> sources = (List<String>) Yaml.load("source-data.yml");
+        List<String> countries = (List<String>) Yaml.load("country-data.yml");
 
-        return ok(index.render("", formFactory.form(Strike.class), Sector.find.all(), sources, Occupation.find.all()));
+        return ok(index.render("", formFactory.form(Strike.class),
+                Sector.find.all(), sources, Occupation.find.all(),
+                CauseOfDispute.find.all(), IdentityElement.find.all(),
+                StrikeDefinition.find.all(), countries));
     }
 
     public Result addStrike()
@@ -81,6 +145,8 @@ public class HomeController extends Controller {
         try {
             // Gets the data from the form
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
+
+            // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> map = Sector.find.findMap();
             try {
@@ -99,8 +165,8 @@ public class HomeController extends Controller {
                 strike.setSectors(sectorsFromForm);
             }
 
-
-            // Maps the occupations given by the form and puts them in te occupations list of the Strike
+            // --------------------------------------------------------------------------------- \\
+            // Maps the occupations given by the form and puts them in the occupations list of the Strike
             Map<?, Occupation> occupationMap = Occupation.find.findMap();
             try{
                 String[] ids = (String[]) body.asFormUrlEncoded().get("occupations.id[]");
@@ -116,6 +182,85 @@ public class HomeController extends Controller {
                         .map(id -> occupationMap.getOrDefault(new Long(id), null))
                         .collect(Collectors.toList());
                 strike.setOccupations(occupationsFromForm);
+            }
+
+            // --------------------------------------------------------------------------------- \\
+            // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike
+            Map<?, CauseOfDispute> causeOfDisputeMap = CauseOfDispute.find.findMap();
+            try{
+                System.out.println("Try van causeofdispute.");
+                String[] ids = (String[]) body.asFormUrlEncoded().get("causeOfDisputes.id[]");
+                List<CauseOfDispute> causeOfDisputesFromForm = Stream.of(ids)
+                        .map(id -> causeOfDisputeMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setCauseOfDisputes(causeOfDisputesFromForm);
+            }
+            catch (NullPointerException e){
+                System.out.println("Catch van causeofdispute.");
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<CauseOfDispute> causeOfDisputesFromForm = Stream.of(ids)
+                        .map(id -> causeOfDisputeMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setCauseOfDisputes(causeOfDisputesFromForm);
+            }
+
+            // --------------------------------------------------------------------------------- \\
+            // Maps the identityElements given by the form and puts them in the identityElements list of the Strike
+            Map<?, IdentityElement> identityElementMap = IdentityElement.find.findMap();
+            try{
+                String[] ids = (String[]) body.asFormUrlEncoded().get("identityElements.id[]");
+                List<IdentityElement> occupationsFromForm = Stream.of(ids)
+                        .map(id -> identityElementMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setIdentityElements(occupationsFromForm);
+            }
+            catch (NullPointerException e){
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<IdentityElement> occupationsFromForm = Stream.of(ids)
+                        .map(id -> identityElementMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setIdentityElements(occupationsFromForm);
+            }
+
+            // --------------------------------------------------------------------------------- \\
+            // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
+            Map<?, StrikeDefinition> strikeDefinitionMap = StrikeDefinition.find.findMap();
+            try{
+                String[] ids = (String[]) body.asFormUrlEncoded().get("strikeDefinitions.id[]");
+                List<StrikeDefinition> occupationsFromForm = Stream.of(ids)
+                        .map(id -> strikeDefinitionMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setStrikeDefinitions(occupationsFromForm);
+            }
+            catch (NullPointerException e){
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<StrikeDefinition> occupationsFromForm = Stream.of(ids)
+                        .map(id -> strikeDefinitionMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setStrikeDefinitions(occupationsFromForm);
+            }
+
+            // --------------------------------------------------------------------------------- \\
+            // Maps the companyNames given by the form and puts them in the companyNames list of the Strike
+            // Quick and dirty fix, doesn't work if company names are given.
+            Map<?, CompanyName> companyNameMap = CompanyName.find.findMap();
+            try{
+                String[] ids = (String[]) body.asFormUrlEncoded().get("companyNames.id[]");
+                List<CompanyName> occupationsFromForm = Stream.of(ids)
+                        .map(id -> companyNameMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setCompanyNames(occupationsFromForm);
+            }
+            catch (Exception e){
+                // Create default sector to be given when no sector selected
+                String[] ids = {"1"};
+                List<CompanyName> occupationsFromForm = Stream.of(ids)
+                        .map(id -> companyNameMap.getOrDefault(new Long(id), null))
+                        .collect(Collectors.toList());
+                strike.setCompanyNames(occupationsFromForm);
             }
 
             // Saves the strike
