@@ -1,0 +1,18 @@
+#IdentityElements
+- &0 !!models.IdentityElement
+      identityElementText: No identity element provided...
+
+- &0 !!models.IdentityElement
+      identityElementText: Race
+
+- &0 !!models.IdentityElement
+      identityElementText: Religion
+
+- &0 !!models.IdentityElement
+      identityElementText: Kinship
+
+- &0 !!models.IdentityElement
+      identityElementText: Ethnicity
+
+- &0 !!models.IdentityElement
+      identityElementText: Class
