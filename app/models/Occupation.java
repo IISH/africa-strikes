@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Igor on 11/15/2016.
  */
 @Entity
-public class Occupation {
+public class Occupation extends Model{
 
     @Id
     public long id;

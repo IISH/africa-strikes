@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Igor on 11/15/2016.
  */
 @Entity
-public class IdentityElement {
+public class IdentityElement extends Model {
 
     @Id
     public long id;
