@@ -124,11 +124,12 @@ public class HomeController extends Controller {
 
         List<String> sources = (List<String>) Yaml.load("source-data.yml");
         List<String> countries = (List<String>) Yaml.load("country-data.yml");
+        List<CompanyName> companies = (List<CompanyName>) Yaml.load("company-name-data.yml");
 
         return ok(index.render("", formFactory.form(Strike.class),
                 Sector.find.all(), sources, Occupation.find.all(),
                 CauseOfDispute.find.all(), IdentityElement.find.all(),
-                StrikeDefinition.find.all(), countries));
+                StrikeDefinition.find.all(), countries, CompanyName.getAllCompanyNames()));
     }
 
     public Result addStrike()
@@ -143,8 +144,18 @@ public class HomeController extends Controller {
 
         Ebean.beginTransaction();
         try {
-            // Gets the data from the form
+
+            // Gets the companyNames from the form and adds them to a list to save in the collected strike form.
+            String[] cmops = (String[]) body.asFormUrlEncoded().get("companyNames[]");
+            List<String> companyNames = Arrays.asList(cmops[0].split(","));
+            List<CompanyName> companyNamesToSave = new ArrayList<>();
+            for (String s : companyNames) {
+                companyNamesToSave.add(new CompanyName(s));
+            }
+
+            // Collects the strike form and sets the company names
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
+            strike.setCompanyNames(companyNamesToSave);
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
@@ -188,7 +199,6 @@ public class HomeController extends Controller {
             // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike
             Map<?, CauseOfDispute> causeOfDisputeMap = CauseOfDispute.find.findMap();
             try{
-                System.out.println("Try van causeofdispute.");
                 String[] ids = (String[]) body.asFormUrlEncoded().get("causeOfDisputes.id[]");
                 List<CauseOfDispute> causeOfDisputesFromForm = Stream.of(ids)
                         .map(id -> causeOfDisputeMap.getOrDefault(new Long(id), null))
@@ -196,7 +206,6 @@ public class HomeController extends Controller {
                 strike.setCauseOfDisputes(causeOfDisputesFromForm);
             }
             catch (NullPointerException e){
-                System.out.println("Catch van causeofdispute.");
                 // Create default sector to be given when no sector selected
                 String[] ids = {"1"};
                 List<CauseOfDispute> causeOfDisputesFromForm = Stream.of(ids)
@@ -241,26 +250,6 @@ public class HomeController extends Controller {
                         .map(id -> strikeDefinitionMap.getOrDefault(new Long(id), null))
                         .collect(Collectors.toList());
                 strike.setStrikeDefinitions(occupationsFromForm);
-            }
-
-            // --------------------------------------------------------------------------------- \\
-            // Maps the companyNames given by the form and puts them in the companyNames list of the Strike
-            // Quick and dirty fix, doesn't work if company names are given.
-            Map<?, CompanyName> companyNameMap = CompanyName.find.findMap();
-            try{
-                String[] ids = (String[]) body.asFormUrlEncoded().get("companyNames.id[]");
-                List<CompanyName> occupationsFromForm = Stream.of(ids)
-                        .map(id -> companyNameMap.getOrDefault(new Long(id), null))
-                        .collect(Collectors.toList());
-                strike.setCompanyNames(occupationsFromForm);
-            }
-            catch (Exception e){
-                // Create default sector to be given when no sector selected
-                String[] ids = {"1"};
-                List<CompanyName> occupationsFromForm = Stream.of(ids)
-                        .map(id -> companyNameMap.getOrDefault(new Long(id), null))
-                        .collect(Collectors.toList());
-                strike.setCompanyNames(occupationsFromForm);
             }
 
             // Saves the strike
