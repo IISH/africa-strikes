@@ -1,0 +1,24 @@
+#Occupations
+- &0 !!models.OccupationHisco
+      occupationHiscoText: No occupation provided...
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Labourers in production, transport, operators
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Professional, technical
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Administrative, managerial
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Clerical
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Sales
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Services
+
+- &0 !!models.OccupationHisco
+      occupationHiscoText: Agricultural, animal husbandry, forestry, fisherman, hunters
