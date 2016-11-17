@@ -247,7 +247,7 @@ public class Strike extends Model{
         this.occupations = occupations;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<CompanyName> getCompanyNames() {
         return companyNames;
     }
