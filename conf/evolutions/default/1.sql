@@ -27,10 +27,18 @@ create sequence identity_element_seq;
 
 create table occupation (
   id                            bigint not null,
+  strike_id                     bigint not null,
   occupation_text               varchar(255),
   constraint pk_occupation primary key (id)
 );
 create sequence occupation_seq;
+
+create table occupation_hisco (
+  id                            bigint not null,
+  occupation_hisco_text         varchar(255),
+  constraint pk_occupation_hisco primary key (id)
+);
+create sequence occupation_hisco_seq;
 
 create table sector (
   id                            bigint not null,
@@ -78,16 +86,16 @@ create table strike_sector (
   constraint pk_strike_sector primary key (strike_id,sector_id)
 );
 
-create table strike_occupation (
-  strike_id                     bigint not null,
-  occupation_id                 bigint not null,
-  constraint pk_strike_occupation primary key (strike_id,occupation_id)
-);
-
 create table strike_cause_of_dispute (
   strike_id                     bigint not null,
   cause_of_dispute_id           bigint not null,
   constraint pk_strike_cause_of_dispute primary key (strike_id,cause_of_dispute_id)
+);
+
+create table strike_occupation_hisco (
+  strike_id                     bigint not null,
+  occupation_hisco_id           bigint not null,
+  constraint pk_strike_occupation_hisco primary key (strike_id,occupation_hisco_id)
 );
 
 create table strike_identity_element (
@@ -112,23 +120,26 @@ create sequence strike_definition_seq;
 alter table company_name add constraint fk_company_name_strike_id foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_company_name_strike_id on company_name (strike_id);
 
+alter table occupation add constraint fk_occupation_strike_id foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_occupation_strike_id on occupation (strike_id);
+
 alter table strike_sector add constraint fk_strike_sector_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_strike_sector_strike on strike_sector (strike_id);
 
 alter table strike_sector add constraint fk_strike_sector_sector foreign key (sector_id) references sector (id) on delete restrict on update restrict;
 create index ix_strike_sector_sector on strike_sector (sector_id);
 
-alter table strike_occupation add constraint fk_strike_occupation_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
-create index ix_strike_occupation_strike on strike_occupation (strike_id);
-
-alter table strike_occupation add constraint fk_strike_occupation_occupation foreign key (occupation_id) references occupation (id) on delete restrict on update restrict;
-create index ix_strike_occupation_occupation on strike_occupation (occupation_id);
-
 alter table strike_cause_of_dispute add constraint fk_strike_cause_of_dispute_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_strike_cause_of_dispute_strike on strike_cause_of_dispute (strike_id);
 
 alter table strike_cause_of_dispute add constraint fk_strike_cause_of_dispute_cause_of_dispute foreign key (cause_of_dispute_id) references cause_of_dispute (id) on delete restrict on update restrict;
 create index ix_strike_cause_of_dispute_cause_of_dispute on strike_cause_of_dispute (cause_of_dispute_id);
+
+alter table strike_occupation_hisco add constraint fk_strike_occupation_hisco_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_occupation_hisco_strike on strike_occupation_hisco (strike_id);
+
+alter table strike_occupation_hisco add constraint fk_strike_occupation_hisco_occupation_hisco foreign key (occupation_hisco_id) references occupation_hisco (id) on delete restrict on update restrict;
+create index ix_strike_occupation_hisco_occupation_hisco on strike_occupation_hisco (occupation_hisco_id);
 
 alter table strike_identity_element add constraint fk_strike_identity_element_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_strike_identity_element_strike on strike_identity_element (strike_id);
@@ -148,23 +159,26 @@ create index ix_strike_strike_definition_strike_definition on strike_strike_defi
 alter table company_name drop constraint if exists fk_company_name_strike_id;
 drop index if exists ix_company_name_strike_id;
 
+alter table occupation drop constraint if exists fk_occupation_strike_id;
+drop index if exists ix_occupation_strike_id;
+
 alter table strike_sector drop constraint if exists fk_strike_sector_strike;
 drop index if exists ix_strike_sector_strike;
 
 alter table strike_sector drop constraint if exists fk_strike_sector_sector;
 drop index if exists ix_strike_sector_sector;
 
-alter table strike_occupation drop constraint if exists fk_strike_occupation_strike;
-drop index if exists ix_strike_occupation_strike;
-
-alter table strike_occupation drop constraint if exists fk_strike_occupation_occupation;
-drop index if exists ix_strike_occupation_occupation;
-
 alter table strike_cause_of_dispute drop constraint if exists fk_strike_cause_of_dispute_strike;
 drop index if exists ix_strike_cause_of_dispute_strike;
 
 alter table strike_cause_of_dispute drop constraint if exists fk_strike_cause_of_dispute_cause_of_dispute;
 drop index if exists ix_strike_cause_of_dispute_cause_of_dispute;
+
+alter table strike_occupation_hisco drop constraint if exists fk_strike_occupation_hisco_strike;
+drop index if exists ix_strike_occupation_hisco_strike;
+
+alter table strike_occupation_hisco drop constraint if exists fk_strike_occupation_hisco_occupation_hisco;
+drop index if exists ix_strike_occupation_hisco_occupation_hisco;
 
 alter table strike_identity_element drop constraint if exists fk_strike_identity_element_strike;
 drop index if exists ix_strike_identity_element_strike;
@@ -190,6 +204,9 @@ drop sequence if exists identity_element_seq;
 drop table if exists occupation;
 drop sequence if exists occupation_seq;
 
+drop table if exists occupation_hisco;
+drop sequence if exists occupation_hisco_seq;
+
 drop table if exists sector;
 drop sequence if exists sector_seq;
 
@@ -198,9 +215,9 @@ drop sequence if exists strike_seq;
 
 drop table if exists strike_sector;
 
-drop table if exists strike_occupation;
-
 drop table if exists strike_cause_of_dispute;
+
+drop table if exists strike_occupation_hisco;
 
 drop table if exists strike_identity_element;
 
