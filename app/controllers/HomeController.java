@@ -32,8 +32,8 @@ public class HomeController extends Controller {
             saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
         }
 
-        if(Occupation.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<Occupation>) Yaml.load("occupation-data.yml"));
+        if(OccupationHisco.find.findRowCount() == 0) {
+            saveYamlFileToDatabase((List<OccupationHisco>) Yaml.load("occupation-hisco-data.yml"));
         }
 
         if(CauseOfDispute.find.findRowCount() == 0) {
@@ -56,7 +56,7 @@ public class HomeController extends Controller {
         List<String> countries = (List<String>) Yaml.load("country-data.yml");
 
         return ok(index.render("", formFactory.form(Strike.class),
-                Sector.find.all(), sources, Occupation.find.all(),
+                Sector.find.all(), sources, OccupationHisco.find.all(),
                 CauseOfDispute.find.all(), IdentityElement.find.all(),
                 StrikeDefinition.find.all(), countries));
     }
@@ -87,16 +87,25 @@ public class HomeController extends Controller {
         try {
 
             // Gets the companyNames from the form and adds them to a list to save in the collected strike form.
-            String[] cmops = (String[]) body.asFormUrlEncoded().get("companyNames[]");
-            List<String> companyNames = Arrays.asList(cmops[0].split(","));
+            String[] companies = (String[]) body.asFormUrlEncoded().get("companyNames[]");
+            List<String> companyNames = Arrays.asList(companies[0].split(","));
             List<CompanyName> companyNamesToSave = new ArrayList<>();
             for (String s : companyNames) {
                 companyNamesToSave.add(new CompanyName(s));
             }
 
+            // Gets the occupations from the form and adds them to a list to save in the collected strike form.
+            String[] occupations = (String[]) body.asFormUrlEncoded().get("occupations[]");
+            List<String> occupationNames = Arrays.asList(occupations[0].split(","));
+            List<Occupation> occupationsToSave = new ArrayList<>();
+            for(String s : occupationNames){
+                occupationsToSave.add(new Occupation(s));
+            }
+
             // Collects the strike form and sets the company names
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
             strike.setCompanyNames(companyNamesToSave);
+            strike.setOccupations(occupationsToSave);
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
@@ -105,8 +114,8 @@ public class HomeController extends Controller {
 
             // --------------------------------------------------------------------------------- \\
             // Maps the occupations given by the form and puts them in the occupations list of the Strike
-            Map<?, Occupation> occupationMap = Occupation.find.findMap();
-            strike.setOccupations(mapSelectedOptionsToTheStrike(body, strike, "occupations.id[]", occupationMap));
+            Map<?, OccupationHisco> occupationHiscoMap = OccupationHisco.find.findMap();
+            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations.id[]", occupationHiscoMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike
