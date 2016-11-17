@@ -3,7 +3,7 @@
  * message to display.
  *@
 
-@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(occupations: List[Occupation])(causeOfDisputes: List[CauseOfDispute])(identityElements: List[IdentityElement])(strikeDefinitions: List[StrikeDefinition])(countries: List[String])
+@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(occupations: List[Occupation])(causeOfDisputes: List[CauseOfDispute])(identityElements: List[IdentityElement])(strikeDefinitions: List[StrikeDefinition])(countries: List[String])(companyNames: List[CompanyName])
 
 @*
  * Call the `main` template with two arguments. The first
@@ -92,7 +92,7 @@
 
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("occupations.id"), occupations.map(s => s.id.toString() -> s.occupationText), '_label -> "Occupations", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @select(strikeForm("occupations.id"), occupations.map(s => s.id.toString() -> s.occupationText), '_label -> "Occupations", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
 
@@ -124,13 +124,14 @@
                     </label>
                 </div>
             </div>
+
             <div class="form-group">
-                @*<label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Company names</label>*@
+                <label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Company names</label>
                 <div class="selectize-control form-inline multi">
-                    @inputText(strikeForm("companyNames.id"),'_label -> "Company names", 'class -> "selectized", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
-                    @*<input class="input-full-width selectized" type=text name="companyNames" id="companyNames" placeholder="Enter company names..."/>*@
+                    <input class="input-full-width selectized" type=text name="companyNames[]" id="companyNames" placeholder="Enter company names..."/>
                 </div>
             </div>
+
             <div class="form-group">
                 <label title="Select one of the option available. In case this information is not provide select unknown.">Company ownership</label>
                 <div class="form-inline">
@@ -479,14 +480,16 @@
                 $('#causeOfDisputes_id').selectize();
                 $('#identityElements_id').selectize();
                 $('#strikeDefinitions_id').selectize();
-                $('#companyNames_id').selectize();
+                $('#companyNames').selectize({
+                    plugins: ['remove_button'],
+                    create: function(input) {
+                        return {
+                            value: input,
+                            text: input
+                        }
+                    }
+                });
             });
-
-//            $(function () {
-//                for(var i = 0; i < countries.length; i++) {
-//                    appendToSelect(countries[i], countries[i], document.getElementById("country"));
-//                }
-//            });
 
             // Needs to be edited to fit with the correct month. Like with february only having 28 or 29 days
             $(function () {
@@ -559,50 +562,6 @@
             $("#articleUploadButton").change(function () {
                 $("#uploadedArticleOutput").append(document.getElementById("articleUploadButton").value);
             });
-
-//            $('#companyNames').selectize({
-//                delimiter: ',',
-//                persist: false,
-//                create: function(input) {
-//                    return {
-//                        value: input,
-//                        text: input
-//                    }
-//                }
-//            });
-
-//            $('#sources').selectize({
-//                delimiter: ',',
-//                persist: false,
-//                create: function(input) {
-//                    return {
-//                        value: input,
-//                        text: input
-//                    }
-//                }
-//            });
-
-//            $('#strikeDefinitions').selectize({
-//                delimiter: ',',
-//                persist: false,
-//                create: function(input) {
-//                    return {
-//                        value: input,
-//                        text: input
-//                    }
-//                }
-//            });
-
-//            $('#strikeIdentities').selectize({
-//                delimiter: ',',
-//                persist: false,
-//                create: function(input) {
-//                    return {
-//                        value: input,
-//                        text: input
-//                    }
-//                }
-//            });
 
         });
     </script>
