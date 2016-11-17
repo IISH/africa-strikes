@@ -13,11 +13,13 @@ import java.util.List;
 public class CompanyName {
 
     @Id
-    public long id;
+    public Long id;
     public String companyNameText;
 
-    public CompanyName()
-    {}
+    public CompanyName(String companyName)
+    {
+        this.companyNameText = companyName;
+    }
 
     public static Model.Finder<Integer, CompanyName> find = new Model.Finder<>(CompanyName.class);
 
