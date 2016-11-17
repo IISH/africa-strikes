@@ -239,12 +239,12 @@ public class Strike extends Model{
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    public List<Occupation> getOccupations() {
-        return occupations;
+    public List<OccupationHisco> getHiscoOccupations() {
+        return hiscoOccupations;
     }
 
-    public void setOccupations(List<Occupation> occupations) {
-        this.occupations = occupations;
+    public void setHiscoOccupations(List<OccupationHisco> hiscoOccupations) {
+        this.hiscoOccupations = hiscoOccupations;
     }
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -283,6 +283,15 @@ public class Strike extends Model{
         this.causeOfDisputes = causeOfDisputes;
     }
 
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Occupation> getOccupations() {
+        return occupations;
+    }
+
+    public void setOccupations(List<Occupation> occupations) {
+        this.occupations = occupations;
+    }
+
     @Id
     public Long id;
     private int yearStart,
@@ -316,6 +325,7 @@ public class Strike extends Model{
     private List<Occupation> occupations = new ArrayList<>();
     private List<CompanyName> companyNames = new ArrayList<>();
     private List<CauseOfDispute> causeOfDisputes = new ArrayList<>();
+    private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
     private List<IdentityElement> identityElements = new ArrayList<>();
     private List<StrikeDefinition> strikeDefinitions = new ArrayList<>();
 
