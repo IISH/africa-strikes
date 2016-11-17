@@ -221,6 +221,14 @@ public class Strike extends Model{
         this.authorInformation = authorInformation;
     }
 
+    public String getGeographicalContext() {
+        return geographicalContext;
+    }
+
+    public void setGeographicalContext(String geographicalContext) {
+        this.geographicalContext = geographicalContext;
+    }
+
     public String getSource() {
         return source;
     }
@@ -245,15 +253,6 @@ public class Strike extends Model{
 
     public void setHiscoOccupations(List<OccupationHisco> hiscoOccupations) {
         this.hiscoOccupations = hiscoOccupations;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<CompanyName> getCompanyNames() {
-        return companyNames;
-    }
-
-    public void setCompanyNames(List<CompanyName> companyNames) {
-        this.companyNames = companyNames;
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -284,12 +283,30 @@ public class Strike extends Model{
     }
 
     @OneToMany(cascade = CascadeType.ALL)
+    public List<CompanyName> getCompanyNames() {
+        return companyNames;
+    }
+
+    public void setCompanyNames(List<CompanyName> companyNames) {
+        this.companyNames = companyNames;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Occupation> getOccupations() {
         return occupations;
     }
 
     public void setOccupations(List<Occupation> occupations) {
         this.occupations = occupations;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<IdentityDetail> getIdentityDetails() {
+        return identityDetails;
+    }
+
+    public void setIdentityDetails(List<IdentityDetail> identityDetails) {
+        this.identityDetails = identityDetails;
     }
 
     @Id
@@ -319,11 +336,13 @@ public class Strike extends Model{
                     outcomeOfStrike,
                     description,
                     authorInformation,
-                    source;
+                    source,
+                    geographicalContext;
     private File articleUpload;
     private List<Sector> sectors = new ArrayList<>();
     private List<Occupation> occupations = new ArrayList<>();
     private List<CompanyName> companyNames = new ArrayList<>();
+    private List<IdentityDetail> identityDetails = new ArrayList<>();
     private List<CauseOfDispute> causeOfDisputes = new ArrayList<>();
     private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
     private List<IdentityElement> identityElements = new ArrayList<>();
