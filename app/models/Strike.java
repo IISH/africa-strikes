@@ -205,14 +205,6 @@ public class Strike extends Model{
         this.description = description;
     }
 
-    public File getArticleUpload() {
-        return articleUpload;
-    }
-
-    public void setArticleUpload(File article) {
-        this.articleUpload = article;
-    }
-
     public String getAuthorInformation() {
         return authorInformation;
     }
@@ -309,6 +301,15 @@ public class Strike extends Model{
         this.identityDetails = identityDetails;
     }
 
+    @OneToOne(cascade = CascadeType.ALL)
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
     @Id
     public Long id;
     private int yearStart,
@@ -338,7 +339,7 @@ public class Strike extends Model{
                     authorInformation,
                     source,
                     geographicalContext;
-    private File articleUpload;
+    private Article article;
     private List<Sector> sectors = new ArrayList<>();
     private List<Occupation> occupations = new ArrayList<>();
     private List<CompanyName> companyNames = new ArrayList<>();
