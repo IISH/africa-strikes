@@ -16,8 +16,10 @@ public class Occupation extends Model{
     public long id;
     public String occupationText;
 
-    public Occupation()
-    {}
+    public Occupation(String occupation)
+    {
+        this.occupationText = occupation;
+    }
 
     public static Model.Finder<Integer, Occupation> find = new Model.Finder<>(Occupation.class);
 

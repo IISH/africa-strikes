@@ -5,10 +5,10 @@ import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
-import security.Authorized;
-import security.Secured;
+import play.twirl.api.Html;
 import views.html.*;
 import javax.inject.Inject;
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,8 +18,6 @@ import static play.libs.Json.toJson;
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
-@Security.Authenticated(Secured.class)
-@Authorized.AdminAuthorized
 public class HomeController extends Controller {
 
     @Inject FormFactory formFactory;
@@ -36,8 +34,8 @@ public class HomeController extends Controller {
             saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
         }
 
-        if(Occupation.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<Occupation>) Yaml.load("occupation-data.yml"));
+        if(OccupationHisco.find.findRowCount() == 0) {
+            saveYamlFileToDatabase((List<OccupationHisco>) Yaml.load("occupation-hisco-data.yml"));
         }
 
         if(CauseOfDispute.find.findRowCount() == 0) {
@@ -56,13 +54,10 @@ public class HomeController extends Controller {
             saveYamlFileToDatabase((List<CompanyName>) Yaml.load("company-name-data.yml"));
         }
 
-        List<String> sources = (List<String>) Yaml.load("source-data.yml");
-        List<String> countries = (List<String>) Yaml.load("country-data.yml");
-
         return ok(index.render("", formFactory.form(Strike.class),
-                Sector.find.all(), sources, Occupation.find.all(),
+                Sector.find.all(), (List<String>) Yaml.load("source-data.yml"), OccupationHisco.find.all(),
                 CauseOfDispute.find.all(), IdentityElement.find.all(),
-                StrikeDefinition.find.all(), countries));
+                StrikeDefinition.find.all(), (List<String>) Yaml.load("country-data.yml")));
     }
 
     private <T> void saveYamlFileToDatabase(List<T> yamlList)
@@ -77,30 +72,113 @@ public class HomeController extends Controller {
         }
     }
 
+    //// Method to convert the input text to a List to save in the strike
+//    private <T> List<T> convertSelectizeInputToList(Http.MultipartFormData body, String name)
+//    {
+//        String[] elements = (String[]) body.asFormUrlEncoded().get(name);
+//        List<String> elementList = Arrays.asList(elements[0].split(","));
+//        List<CompanyName> elementsToSave = new ArrayList<>();
+//        for (String s : elementList) {
+//            elementsToSave.add(new CompanyName(s));
+//        }
+//        return elementsToSave;
+//    }
+
+    private Html handleBadForm(String message)
+    {
+        return (index.render(message, formFactory.form(Strike.class),
+                Sector.find.all(), (List<String>) Yaml.load("source-data.yml"), OccupationHisco.find.all(),
+                CauseOfDispute.find.all(), IdentityElement.find.all(),
+                StrikeDefinition.find.all(), (List<String>) Yaml.load("country-data.yml")));
+    }
+
     public Result addStrike()
     {
         Http.MultipartFormData body = request().body().asMultipartFormData();
         // Gets the uploaded file from the form and checks if it is empty
-        Http.MultipartFormData.FilePart file = body.getFile("articleUpload");
+        Http.MultipartFormData.FilePart<File> file = body.getFile("articleUpload");
         if(file.equals(null))
             System.out.println("LEEG");
         else
             System.out.println(file.getFilename());
 
+
+        Http.MultipartFormData<File> articleBody = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = articleBody.getFile("articleUpload");
+        if (picture != null) {
+            String fileName = picture.getFilename();
+            String contentType = picture.getContentType();
+            File pictureFile = picture.getFile();
+            System.out.println("article exists!");
+        }
+        else {
+            flash("error", "Missing file");
+            System.out.println("article doesnt exist!");
+        }
+
         Ebean.beginTransaction();
         try {
+//            if(body.asFormUrlEncoded().get("source") == null)
+//                System.out.println("Source is null");
+//            else if(body.asFormUrlEncoded().get("source") == "")
+//                System.out.println("Source is empty");
+//            else
+//                System.out.println(toJson(body.asFormUrlEncoded().get("source")));
+
+//            if(body.asFormUrlEncoded().get("source") == "") {
+//                System.out.println("Source is: "+toJson(body.asFormUrlEncoded().get("source")));
+//                return badRequest(handleBadForm("SourceStrike"));
+//            }
+//            else if(body.asFormUrlEncoded().get("country") == ""){
+//                return badRequest(handleBadForm("Country"));
+//            }
+//            else if(body.asFormUrlEncoded().get("yearStrikeStarted") == ""){
+//                return badRequest(handleBadForm("YearStrikeStarted"));
+//            }
+//            else if(body.asFormUrlEncoded().get("occupations") == ""){
+//                return badRequest(handleBadForm("Occupation"));
+//            }
+//            else if(body.asFormUrlEncoded().get("workersSituation") == ""){
+//                return badRequest(handleBadForm("WorkersSituation"));
+//            }
+//            else if(body.asFormUrlEncoded().get("dominantGender") == ""){
+//                return badRequest(handleBadForm("DominantGender"));
+//            }
+//            else if(body.asFormUrlEncoded().get("authorInformation") == ""){
+//                return badRequest(handleBadForm("Author"));
+//            }
+
+
 
             // Gets the companyNames from the form and adds them to a list to save in the collected strike form.
-            String[] cmops = (String[]) body.asFormUrlEncoded().get("companyNames[]");
-            List<String> companyNames = Arrays.asList(cmops[0].split(","));
+            String[] companies = (String[]) body.asFormUrlEncoded().get("companyNames[]");
+            List<String> companyNames = Arrays.asList(companies[0].split(","));
             List<CompanyName> companyNamesToSave = new ArrayList<>();
             for (String s : companyNames) {
                 companyNamesToSave.add(new CompanyName(s));
             }
 
+            // Gets the occupations from the form and adds them to a list to save in the collected strike form.
+            String[] occupations = (String[]) body.asFormUrlEncoded().get("occupations[]");
+            List<String> occupationNames = Arrays.asList(occupations[0].split(","));
+            List<Occupation> occupationsToSave = new ArrayList<>();
+            for(String s : occupationNames){
+                occupationsToSave.add(new Occupation(s));
+            }
+
+            String[] identityDetails = (String[]) body.asFormUrlEncoded().get("identityDetails[]");
+            List<String> identityDetailNames = Arrays.asList(identityDetails[0].split(","));
+            List<IdentityDetail> identityDetailsToSave = new ArrayList<>();
+            for(String s : identityDetailNames){
+                identityDetailsToSave.add(new IdentityDetail(s));
+            }
+
             // Collects the strike form and sets the company names
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
             strike.setCompanyNames(companyNamesToSave);
+            strike.setOccupations(occupationsToSave);
+            strike.setIdentityDetails(identityDetailsToSave);
+            strike.setArticle(new Article(file.getFile()));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
@@ -109,8 +187,8 @@ public class HomeController extends Controller {
 
             // --------------------------------------------------------------------------------- \\
             // Maps the occupations given by the form and puts them in the occupations list of the Strike
-            Map<?, Occupation> occupationMap = Occupation.find.findMap();
-            strike.setOccupations(mapSelectedOptionsToTheStrike(body, strike, "occupations.id[]", occupationMap));
+            Map<?, OccupationHisco> occupationHiscoMap = OccupationHisco.find.findMap();
+            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations.id[]", occupationHiscoMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike

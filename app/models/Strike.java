@@ -205,20 +205,20 @@ public class Strike extends Model{
         this.description = description;
     }
 
-    public File getArticleUpload() {
-        return articleUpload;
-    }
-
-    public void setArticleUpload(File article) {
-        this.articleUpload = article;
-    }
-
     public String getAuthorInformation() {
         return authorInformation;
     }
 
     public void setAuthorInformation(String authorInformation) {
         this.authorInformation = authorInformation;
+    }
+
+    public String getGeographicalContext() {
+        return geographicalContext;
+    }
+
+    public void setGeographicalContext(String geographicalContext) {
+        this.geographicalContext = geographicalContext;
     }
 
     public String getSource() {
@@ -239,21 +239,12 @@ public class Strike extends Model{
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
-    public List<Occupation> getOccupations() {
-        return occupations;
+    public List<OccupationHisco> getHiscoOccupations() {
+        return hiscoOccupations;
     }
 
-    public void setOccupations(List<Occupation> occupations) {
-        this.occupations = occupations;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<CompanyName> getCompanyNames() {
-        return companyNames;
-    }
-
-    public void setCompanyNames(List<CompanyName> companyNames) {
-        this.companyNames = companyNames;
+    public void setHiscoOccupations(List<OccupationHisco> hiscoOccupations) {
+        this.hiscoOccupations = hiscoOccupations;
     }
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -283,6 +274,42 @@ public class Strike extends Model{
         this.causeOfDisputes = causeOfDisputes;
     }
 
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<CompanyName> getCompanyNames() {
+        return companyNames;
+    }
+
+    public void setCompanyNames(List<CompanyName> companyNames) {
+        this.companyNames = companyNames;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Occupation> getOccupations() {
+        return occupations;
+    }
+
+    public void setOccupations(List<Occupation> occupations) {
+        this.occupations = occupations;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<IdentityDetail> getIdentityDetails() {
+        return identityDetails;
+    }
+
+    public void setIdentityDetails(List<IdentityDetail> identityDetails) {
+        this.identityDetails = identityDetails;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
     @Id
     public Long id;
     private int yearStart,
@@ -310,12 +337,15 @@ public class Strike extends Model{
                     outcomeOfStrike,
                     description,
                     authorInformation,
-                    source;
-    private File articleUpload;
+                    source,
+                    geographicalContext;
+    private Article article;
     private List<Sector> sectors = new ArrayList<>();
     private List<Occupation> occupations = new ArrayList<>();
     private List<CompanyName> companyNames = new ArrayList<>();
+    private List<IdentityDetail> identityDetails = new ArrayList<>();
     private List<CauseOfDispute> causeOfDisputes = new ArrayList<>();
+    private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
     private List<IdentityElement> identityElements = new ArrayList<>();
     private List<StrikeDefinition> strikeDefinitions = new ArrayList<>();
 
