@@ -5,6 +5,8 @@ import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
+import security.Authorized;
+import security.Secured;
 import views.html.*;
 import javax.inject.Inject;
 import java.util.*;
@@ -16,6 +18,8 @@ import static play.libs.Json.toJson;
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
+@Security.Authenticated(Secured.class)
+@Authorized.AdminAuthorized
 public class HomeController extends Controller {
 
     @Inject FormFactory formFactory;

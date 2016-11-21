@@ -1,0 +1,34 @@
+@(loginForm: Form[SecurityController.Login])
+
+@import helper._
+@main("Login | Africa Strikes") {
+    @form(action = routes.SecurityController.authenticate()) {
+        <div class="container">
+            @if(loginForm.hasGlobalErrors) {
+                <div class="alert alert-danger" role="alert">
+                    @loginForm.globalError.message
+                </div>
+            }
+
+            <fieldset>
+                @inputText(
+                    loginForm("username"),
+                    'placeholder -> "Username",
+                    '_label -> "Username",
+                    'class -> "form-control"
+                )
+
+                @inputPassword(
+                    loginForm("password"),
+                    'placeholder -> "Password",
+                    '_label -> "Password",
+                    'class -> "form-control"
+                )
+            </fieldset>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login">
+            </div>
+        </div>
+    }
+}
