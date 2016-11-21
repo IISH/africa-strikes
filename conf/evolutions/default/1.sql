@@ -134,6 +134,14 @@ create table strike_definition (
 );
 create sequence strike_definition_seq;
 
+create table user (
+  id                            integer not null,
+  username                      varchar(255),
+  full_name                     varchar(255),
+  constraint pk_user primary key (id)
+);
+create sequence user_seq;
+
 alter table company_name add constraint fk_company_name_strike_id foreign key (strike_id) references strike (id) on delete restrict on update restrict;
 create index ix_company_name_strike_id on company_name (strike_id);
 
@@ -258,4 +266,7 @@ drop table if exists strike_strike_definition;
 
 drop table if exists strike_definition;
 drop sequence if exists strike_definition_seq;
+
+drop table if exists user;
+drop sequence if exists user_seq;
 
