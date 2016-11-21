@@ -1,0 +1,226 @@
+@import scala.Predef.augmentString
+@import javax.swing.plaf.basic.BasicHTML
+@(message: String)(strikes: Array[Strike])(adminForm: Form[Strike])
+
+@import helper._
+@main("Africa Strikes"){
+    <script src="@routes.Assets.versioned("javascripts/jquery-3.1.1.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/bootstrap.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/selectize.js")" type="text/javascript"></script>
+
+    @form(action = routes.AdminController.index()){
+        @*Select form*@
+        <div class="container col-lg-3">
+            <h2></h2>
+            <div class="form-group">
+                <label>Select a strike or search in the field</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="searchStrikeAdmin"/>
+                </div>
+                <br>
+                <div class="form-inline">
+                    @select(adminForm("strikeSelectAdmin"), strikes.map(s => s.id.toString -> s.id.toString), 'class -> "input-full-width")
+                    @*<select class="input-full-width" id="strikeSelectAdmin" size="100"></select>*@
+                </div>
+            </div>
+        </div>
+        @*Display form for strike*@
+        <div class="container col-lg-9">
+            <h2></h2>
+            <div class="form-group">
+                <label>Source</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="sourceAdmin" />
+                </div>
+                <label>Country</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="countryAdmin" />
+                </div>
+                <label>Geographical context</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="geographicalAdmin" />
+                </div>
+                <label>Location</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="locationAdmin" />
+                </div>
+                <label>Year the strike started</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="yearStrikeStartedAdmin" />
+                </div>
+                <label>Month the strike started</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="monthStrikeStartedAdmin" />
+                </div>
+                <label>Day the strike started</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="dayStrikeStartedAdmin" />
+                </div>
+                <label>Year the strike ended</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="yearStrikeEndedAdmin" />
+                </div>
+                <label>Month the strike ended</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="monthStrikeEndedAdmin" />
+                </div>
+                <label>Day the strike ended</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="dayStrikeEndedAdmin" />
+                </div>
+                <label>Duration</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="durationAdmin" />
+                </div>
+                <label>Sectors</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="sectorsAdmin" />
+                </div>
+                <label>Occupations HISCO first level</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="occupationsHiscoAdmin" />
+                </div>
+                <label>Occupations</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="occupationsAdmin" />
+                </div>
+                <label>Labour relations</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="labourRelationsAdmin" />
+                </div>
+                <label>Workers on strike are</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="workersOnStrikeSituationAdmin" />
+                </div>
+                <label>Company names</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="companyNamesAdmin" />
+                </div>
+                <label>Company ownership</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="companyOwnershipFirstAdmin" />
+                    <input class="input-full-width" id="companyOwnershipSecondAdmin" />
+                </div>
+                <label>Companies involved in strike</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="companiesInvolvedAdmin" />
+                </div>
+                <label>Number of participants involved</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="numberOfParticipantsAdmin" />
+                </div>
+                <label>Type of action</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="typeOfActionAdmin" />
+                </div>
+                <label>Type of organisation</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="typeOfOrganisationAdmin" />
+                </div>
+                <label>Predominant gender</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="predominantGenderAdmin" />
+                </div>
+                <label>Cause of disputes</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="causeOfDisputesAdmin" />
+                </div>
+                <label>Identity elements</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="identityElementsAdmin" />
+                </div>
+                <label>Identity details</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="identityDetailsAdmin" />
+                </div>
+                <label>Strike definitions</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="strikeDefinitionsAdmin" />
+                </div>
+                <label>Nature of the strike</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="natureOfStrikeAdmin" />
+                </div>
+                <label>Outcome</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="outcomeAdmin" />
+                </div>
+                <label>Description</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="descriptionAdmin" />
+                </div>
+                <label>Article uploaded</label>
+                <div class="form-inline">
+                    @*Moet wat anders komen te staan*@
+                    <input class="input-full-width" id="sectorsAdmin" />
+                </div>
+                <label>Year of uploaded article</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="yearOfUploadedArticleAdmin" />
+                </div>
+                <label>Month of uploaded article</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="monthOfUploadedArticleAdmin" />
+                </div>
+                <label>Day of uploaded article</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="dayOfUploadedArticleAdmin" />
+                </div>
+                <label>Author information</label>
+                <div class="form-inline">
+                    <input class="input-full-width" id="authorInformationAdmin" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            function appendToSelect(inner, value, selector) {
+                var el = document.createElement('option');
+                el.innerHTML = inner;
+                el.value = value;
+                selector.appendChild(el);
+            }
+            
+            @*$(function () {*@
+@*//                @for(s <- strikes){*@
+//                    @*appendToSelect(@s.id, @s.id, document.getElementById("strikeSelectAdmin"));*@
+                @*}*@
+            @*});*@
+
+            // Controleren in de Admincontroller in plaats van hier?
+            // Gebruik maken van de return ok()?
+            $('#strikeSelectAdmin').change(function () {
+
+                var e = document.getElementById("strikeSelectAdmin").value;
+
+                @for(s <- strikes){
+                    var e = document.getElementById("strikeSelectAdmin").value;
+                    @{
+                        if(s.id.toString() == "3")
+                        {
+
+                        }
+                    }
+                }
+
+                $('#strikeSelectAdmin').getValue();
+
+                @for(s <- strikes){
+                    @if(s.id.toString().compare("3") == 0) {
+                        $('#sourceAdmin').val("jeej");
+                    }else{
+                        $('#sourceAdmin').val("boe!");
+                    }
+                }
+            });
+
+        });
+
+    </script>
+
+}

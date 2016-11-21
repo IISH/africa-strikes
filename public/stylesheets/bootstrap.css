@@ -2753,6 +2753,12 @@ select[multiple].input-sm {
   min-width: 100%;
   max-width: 100%;
 }
+.input-full-width-disabled{
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  background-color: white;
+}
 select.input-lg {
   height: 46px;
   line-height: 46px;

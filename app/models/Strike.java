@@ -3,7 +3,6 @@ package models;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import javax.persistence.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -358,7 +357,14 @@ public class Strike extends Model{
     public static List<Strike> getAllStrikes()
     {
         List<Strike> strikes = Ebean.find(Strike.class).findList();
-        List<Sector> sectors = Ebean.find(Sector.class).findList();
         return strikes;
+    }
+
+    public static Strike[] getAllStrikesAsArray()
+    {
+        List<Strike> strikes = Ebean.find(Strike.class).findList();
+        Strike[] strikesToSend = new Strike[ strikes.size()];
+        strikes.toArray(strikesToSend);
+        return strikesToSend;
     }
 }

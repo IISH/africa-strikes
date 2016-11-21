@@ -345,7 +345,7 @@
             </div>
             @*Day of the Article*@
             <div class="form-group">
-                <label title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank.">Day of uploaded information</label>
+                <label title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank.">Day of uploaded article</label>
                 <div class="form-inline">
                     <select class="form-control input-full-width" name="dayOfArticle" id="dayOfUploadedArticleSelect"></select>
                 </div>
@@ -369,111 +369,8 @@
     <script type="text/javascript">
 
         var months = [              "January", "February", "March", "April", "May", "June", "July", "Augustus", "September", "October", "November", "December"];
-//        var sectors = [             "Agriculture, hunting, forestry, fishing",
-//                                    "Mining, quarrying",
-//                                    "Manufacturing",
-//                                    "Electricity, gas, water",
-//                                    "Construction",
-//                                    "Wholesale, retail trade, restaurants, hotels",
-//                                    "Transport, storage, communication",
-//                                    "Business serivice, financing, insurance, real estate",
-//                                    "Community, social services, personal services"];
-//        var occupations = [         "Labourers in production, transport, operators",
-//                                    "Professional, technical",
-//                                    "Administrative, managerial",
-//                                    "Clerical",
-//                                    "Sales",
-//                                    "Services",
-//                                    "Agricultural, animal husbandry, forestry, fisherman, hunters"];
         var labourRelations = [     "Non-Working", "Reciprocal Labour", "Tributary Labour", "Commodified Labour"];
         var numberParticipants = [  "0-10", "11-100", "101-500", "501-1000", "1001-5000", "5001-10000", "10001 or more"];
-        var causesOfDispute = [     "Exclusively wage demands",
-                                    "Wage demands along with other demands",
-                                    "Trade union matters",
-                                    "Disciplinary measures applied by the employer",
-                                    "Problems at the workplace",
-                                    "Demands related to conditions of employment, e.g. transport, transport allowances, accommodation, pensions, etc.",
-                                    "Retrenchments",
-                                    "Release of detainees",
-                                    "Political plus work-related subjects",
-                                    "Expressions of sympathy",
-                                    "Other (including unknown)"];
-        var identityElements = [    "Race", "Religion", "Kinship", "Ethnicity", "Class"];
-        var strikeDefinitions = [   "Constitutional or official strike(s)",
-                                    "Unofficial strike(s)",
-                                    "Sympathetic strike(s)",
-                                    "Boycott(s)",
-                                    "Political or protest strike(s)",
-                                    "General strike(s)",
-                                    "Lockout(s)",
-                                    "Working to rule / 'work in'",
-                                    "Go-slow(s)",
-                                    "Sabotage",
-                                    "Overtime bans",
-                                    "Sit-in; sleep-in",
-                                    "Intermittent or partial strike(s)",
-                                    "Picketing",
-                                    "Collective exit; desertion"];
-        var countries =[            "Algeria; Algiers",
-                                    "Angola",
-                                    "Benin (1975-); Republic of Dahomey (-1975); Dan Ho Me Kingdom (South-Benin); French West Africa",
-                                    "Botswana; Republic of Botswana 1966-); Bechuanaland",
-                                    "Burkina Faso; Upper Volta; French West Africa; Sahel (region name)",
-                                    "Burundi / Urundi; German East Africa 1885-1919; Belgian Ruanda-Urundi",
-                                    "Cabo Verde (Cape Verde)",
-                                    "Cameroon",
-                                    "Central African Republic; Central African Empire; Ubangi-Shari / Oubangui-Chari",
-                                    "Chad; Sahel (region name)",
-                                    "Comoros",
-                                    "Congo (Brazzaville) French",
-                                    "Congo, Democratic Republic of the (1997-); Zaire (1965-1997); Republic of the Congo (1960-1965); Belgian Congo (1908-1960); Congo Free State (-1908); Katanga; Congo (Kinshasa); Congo (Loepoldsville)",
-                                    "Cote d'Ivoire (Ivory Coast); French West Africa",
-                                    "Djibouti; French Somaliland; French Territory of Afars and Issas (1967-77)",
-                                    "Egypt; Nubia (region)",
-                                    "Equatorial Guinea; Spanish Guinea",
-                                    "Eritrea; Italian East Africa",
-                                    "Ethiopia; Abyssinia; Italian East Africa",
-                                    "Gabon",
-                                    "The Gambia; Senegambia; Sahel (region name)",
-                                    "Ghana; Gold Coast; Ashanti; Togoland (-1957)",
-                                    "Guinea; French Guinea (-1958); French West Africa",
-                                    "Guinea-Bissau; Sahel (region name)",
-                                    "Kenya (1963-); British East Africa/East Africa Protectorate (1890-1920); Kenya Colony/Protectorate of Kenya (1920-)",
-                                    "Lesotho; Kingdom of Lesotho (1966-); Basutoland",
-                                    "Liberia; Grain Coast",
-                                    "Libya",
-                                    "Madagascar; Merina; Malagasy Republic",
-                                    "Malawi (1964-); Nyasaland (1907-1964); British Central African Protectorate (1891-1907)",
-                                    "Mali; French Sudan; French West Africa; Mali Federation 1959-1960; Sahel (region name); Songhay/Songhai (16th century Empire); Sudanese Republic",
-                                    "Mauritania; French West Africa; Sahel (region name); Songhay/Songhai (16th century Empire)",
-                                    "Mauritius",
-                                    "Mayotte",
-                                    "Morocco; Spanish West Africa; Ifni; Marruecos",
-                                    "Mozambique; Portuegese East Africa/the State of East Africa (1498-1975)",
-                                    "Namibia; German Southwest Africa (1884-1915)",
-                                    "Niger; French West Africa; Hausaland; Sahel (region name)",
-                                    "Nigeria; Republic of Biafra; Hausaland",
-                                    "Rwanda/Ruanda; German East Africa 1885-1919; Belgian Ruanda-Urundi",
-                                    "Saharawi Arab Republic; Western Sahara",
-                                    "São Tomé and Príncipe",
-                                    "Senegal; Mali Federation (1959-1960); Sahel (region name)",
-                                    "Seychelles",
-                                    "Sierra Leone",
-                                    "Somalia; Benadir; Italian Somaliland; Jubaland (also British East Africa/East Africa Protectorate); Italian East Africa",
-                                    "Somaliland (not a recognised state) ",
-                                    "South Africa; Cape Colony/Cape of Good Hope (-1910) (incl. British Bechuanaland); Bophuthatswana (-1949); Republic of Ciskei ( -1994); Transkei/earlier Kaffraria; Stellaland; Transvaal/Zuid-Afrikaansche Republic (ZAR); Union of South Africa (1910-1961) (parliamentary union of 4 self-governing British colonies: Cape Province/Cape Colony, Natal Province/Natal Colony, Orange Free State Province/Orange River Colony, Transvaal Province/Transvaal Colony.)",
-                                    "South Sudan",
-                                    "Sudan; Nubia",
-                                    "Swaziland",
-                                    "Tanzania ; Tanganyika (territories, including Zanzibar and Pemba); British East Africa/East Africa Protectorate 1890-1920; German East Africa 1885-1919",
-                                    "Togo",
-                                    "Tunisia",
-                                    "Uganda; British East Africa/East Africa Protectorate (1890-1920)",
-                                    "Zambia; Northern Rhodesia",
-                                    "Zanzibar",
-                                    "Zimbabwe; Southern Rhodesia",
-                                    "Western Sahara; Rio de Oro; Sahara Occidental / Spanish Sahara; Spanish West Africa",
-                                    "Reunion Island (east of Madagascar); Bourbon Island"];
 
         $(document).ready(function(){
 
@@ -512,18 +409,6 @@
                 @*}*@
             });
 
-
-//            $('#addStrikeButton').click(function () {
-//               alert("Weet je het zeker?");
-//                if($('#authorInformation').value == null || $('#occupations').value == null || $('#workersSituation').value == null || $('#dominantGender').value == null) {
-//                    $('#addStrikeButton').val("inValid");
-//                    alert("Not all is filled out!");
-//                }
-//                else {
-//                    $('#addStrikeButton').val("valid");
-//                }
-//            });
-
             function appendToSelect(inner, value, selector) {
                 var el = document.createElement('option');
                 el.innerHTML = inner;
@@ -531,29 +416,10 @@
                 selector.appendChild(el);
             }
 
-            // Returns the correct number of days corresponding the selected year and month
             function getNumberOfDays(yearNumber, monthNumber) {
                 var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0))
                 return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthNumber];
             }
-
-//            $(function () {
-//                for(var i = 0; i < strikeDefinitions.length; i++){
-//                    appendToSelect(strikeDefinitions[i], (i+1), document.getElementById("strikeDefinitions"));
-//                }
-//            });
-
-//            $(function () {
-//                for(var i = 0; i < identityElements.length; i++) {
-//                    appendToSelect(identityElements[i], (i+1), document.getElementById("strikeIdentities"));
-//                }
-//            });
-
-//            $(function () {
-//                for(var i = 0; i < causesOfDispute.length; i++) {
-//                    appendToSelect(causesOfDispute[i], (i+1), document.getElementById("causeOfDisputeSelect"));
-//                }
-//            });
 
             $(function () {
                 for(var i = 0; i < numberParticipants.length; i++) {
@@ -561,19 +427,11 @@
                 }
             });
 
-            // Adds the labour relations to the labour select element
             $(function () {
                for(var i = 0; i < labourRelations.length; i++) {
                    appendToSelect(labourRelations[i], (i+1), document.getElementById("labourSelect"));
                }
             });
-
-//            // Adds the options to the occupation select element
-//            $(function () {
-//                for(var i = 0; i < occupations.length; i++) {
-//                    appendToSelect(occupations[i], (i+1), document.getElementById("occupationSelect"));
-//                }
-//            });
 
             $(function(){
                 $('#sectors_id').selectize();
@@ -610,7 +468,6 @@
                 });
             });
 
-            // Needs to be edited to fit with the correct month. Like with february only having 28 or 29 days
             $(function () {
                 for(var i = 1; i <= 31; i++) {
                     appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
