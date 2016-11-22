@@ -44,6 +44,14 @@ public class Strike extends Model{
         this.dayStart = dayStart;
     }
 
+    public int getYearEnd() {
+        return yearEnd;
+    }
+
+    public void setYearEnd(int yearEnd) {
+        this.yearEnd = yearEnd;
+    }
+
     public int getMonthEnd() {
         return monthEnd;
     }
@@ -314,6 +322,7 @@ public class Strike extends Model{
     private int yearStart,
                 monthStart,
                 dayStart,
+                yearEnd,
                 monthEnd,
                 dayEnd,
                 duration,
