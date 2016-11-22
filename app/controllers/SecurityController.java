@@ -14,10 +14,10 @@ public class SecurityController extends Controller {
     private FormFactory formFactory;
 
     public Result login() {
-        if (isDev) {
-            ctx().session().set("username", 'bkdl;sakd;l');
-            return redirect(routes.HomeController.index());
-        }
+//        if (isDev) {
+//            ctx().session().set("username", 'bkdl;sakd;l');
+//            return redirect(routes.HomeController.index());
+//        }
 
         String login = ctx().session().get("username");
         if (login != null)

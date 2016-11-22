@@ -25,9 +25,9 @@ public class Authorized {
     public static class AuthorizedAction extends Action<AdminAuthorized> {
         @Override
         public CompletionStage<Result> call(Http.Context ctx) {
-            if (isDev) {
-                return delegate.call(ctx);
-            }
+//            if (isDev) {
+//                return delegate.call(ctx);
+//            }
 
             String username = ctx.session().get("username");
             if (username == null) {
