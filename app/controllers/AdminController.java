@@ -37,4 +37,11 @@ public class AdminController extends Controller{
         return article.article;
     }
 
+    public Result getSelectedStrike(String selectedStrike)
+    {
+        System.out.println("Gekozen strike is: " + selectedStrike);
+        Strike strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
+        System.out.println("De strike is: " + toJson(strikeSelected));
+        return ok(toJson(strikeSelected));
+    }
 }

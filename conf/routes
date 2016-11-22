@@ -9,6 +9,7 @@ GET     /strikes                    controllers.HomeController.getStrikes
 
 GET     /admin                      controllers.AdminController.index
 POST    /admin                      controllers.AdminController.updateSelectedStrike()
+GET     /admin/strike/:id           controllers.AdminController.getSelectedStrike(id: String)
 
 GET     /login                      controllers.SecurityController.login()
 POST    /login                      controllers.SecurityController.authenticate()
