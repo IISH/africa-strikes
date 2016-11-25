@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Article;
 import models.Strike;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -8,7 +7,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 import views.html.admin;
 import javax.inject.Inject;
+
 import java.io.File;
+
 import static play.libs.Json.toJson;
 
 /**
@@ -31,17 +32,14 @@ public class AdminController extends Controller{
         return ok();
     }
 
-    public static File getArticleOfStrike(Strike strike)
-    {
-        Article article = strike.getArticle();
-        return article.article;
+    public Result getArticleFile(String selectedStrike) {
+        Strike strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
+        return ok(new File("C:/AfricaStrikes/Articles/" + strikeSelected.getArticle().articleName));
     }
 
     public Result getSelectedStrike(String selectedStrike)
     {
-        System.out.println("Gekozen strike is: " + selectedStrike);
         Strike strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
-        System.out.println("De strike is: " + toJson(strikeSelected));
         return ok(toJson(strikeSelected));
     }
 }

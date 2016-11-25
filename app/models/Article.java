@@ -15,11 +15,11 @@ public class Article extends Model{
 
     @Id
     public Long id;
-    public File article;
+    public String articleName;
 
-    public Article(File article)
+    public Article(String articleName)
     {
-        this.article = article;
+        this.articleName = articleName;
     }
 
     public static Model.Finder<Integer, Article> find = new Model.Finder<>(Article.class);
