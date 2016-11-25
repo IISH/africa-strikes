@@ -1,5 +1,3 @@
-@import scala.Predef.augmentString
-@import javax.swing.plaf.basic.BasicHTML
 @(message: String)(strikes: Array[Strike])(adminForm: Form[Strike])
 
 @import helper._
@@ -15,11 +13,11 @@
             <div class="form-group">
                 <label>Select a strike or search in the field</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="searchStrikeAdmin"/>
+                    <input class="input-full-width form-control" id="searchStrikeAdmin"/>
                 </div>
                 <br>
                 <div class="form-inline">
-                    <select class="input-full-width" id="strikeSelectAdmin" size="100"></select>
+                    <select class="input-full-width form-control form-control-full-height" id="strikeSelectAdmin" size="50"></select>
                 </div>
             </div>
         </div>
@@ -29,147 +27,155 @@
             <div class="form-group">
                 <label>Source</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="sourceAdmin" />
+                    <input class="input-full-width form-control" id="sourceAdmin" />
                 </div>
                 <label>Country</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="countryAdmin" />
+                    <input class="input-full-width form-control" id="countryAdmin" />
                 </div>
                 <label>Geographical context</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="geographicalAdmin" />
+                    <input class="input-full-width form-control" id="geographicalAdmin" />
                 </div>
                 <label>Location</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="locationAdmin" />
+                    <input class="input-full-width form-control" id="locationAdmin" />
                 </div>
                 <label>Year the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="yearStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="yearStrikeStartedAdmin" />
                 </div>
                 <label>Month the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="monthStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="monthStrikeStartedAdmin" />
                 </div>
                 <label>Day the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="dayStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="dayStrikeStartedAdmin" />
                 </div>
                 <label>Year the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="yearStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="yearStrikeEndedAdmin" />
                 </div>
                 <label>Month the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="monthStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="monthStrikeEndedAdmin" />
                 </div>
                 <label>Day the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="dayStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="dayStrikeEndedAdmin" />
                 </div>
                 <label>Duration</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="durationAdmin" />
+                    <input class="input-full-width form-control" id="durationAdmin" />
                 </div>
                 <label>Sectors</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="sectorsAdmin" />
+                    <input class="input-full-width form-control" id="sectorsAdmin" />
                 </div>
                 <label>Occupations HISCO first level</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="occupationsHiscoAdmin" />
+                    <input class="input-full-width form-control" id="occupationsHiscoAdmin" />
                 </div>
                 <label>Occupations</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="occupationsAdmin" />
+                    <input class="input-full-width form-control" id="occupationsAdmin" />
                 </div>
                 <label>Labour relations</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="labourRelationsAdmin" />
+                    <input class="input-full-width form-control" id="labourRelationsAdmin" />
                 </div>
                 <label>Workers on strike are</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="workersOnStrikeSituationAdmin" />
+                    <input class="input-full-width form-control" id="workersOnStrikeSituationAdmin" />
                 </div>
                 <label>Company names</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="companyNamesAdmin" />
+                    <input class="input-full-width form-control" id="companyNamesAdmin" />
                 </div>
                 <label>Company ownership</label>
                 <div class="form-group">
-                    <input class="input-full-width" id="companyOwnershipFirstAdmin" />
+                    <input class="input-full-width form-control" id="companyOwnershipFirstAdmin" />
                 </div>
                 <div class="form-inline">
-                    <input class="input-full-width" id="companyOwnershipSecondAdmin" />
+                    <input class="input-full-width form-control" id="companyOwnershipSecondAdmin" />
                 </div>
                 <label>Companies involved in strike</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="companiesInvolvedAdmin" />
+                    <input class="input-full-width form-control" id="companiesInvolvedAdmin" />
                 </div>
                 <label>Number of participants involved</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="numberOfParticipantsAdmin" />
+                    <input class="input-full-width form-control" id="numberOfParticipantsAdmin" />
                 </div>
                 <label>Type of action</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="typeOfActionAdmin" />
+                    <input class="input-full-width form-control" id="typeOfActionAdmin" />
                 </div>
                 <label>Type of organisation</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="typeOfOrganisationAdmin" />
+                    <input class="input-full-width form-control" id="typeOfOrganisationAdmin" />
                 </div>
                 <label>Predominant gender</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="predominantGenderAdmin" />
+                    <input class="input-full-width form-control" id="predominantGenderAdmin" />
                 </div>
                 <label>Cause of disputes</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="causeOfDisputesAdmin" />
+                    <input class="input-full-width form-control" id="causeOfDisputesAdmin" />
                 </div>
                 <label>Identity elements</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="identityElementsAdmin" />
+                    <input class="input-full-width form-control" id="identityElementsAdmin" />
                 </div>
                 <label>Identity details</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="identityDetailsAdmin" />
+                    <input class="input-full-width form-control" id="identityDetailsAdmin" />
                 </div>
                 <label>Strike definitions</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="strikeDefinitionsAdmin" />
+                    <input class="input-full-width form-control" id="strikeDefinitionsAdmin" />
                 </div>
                 <label>Nature of the strike</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="natureOfStrikeAdmin" />
+                    <input class="input-full-width form-control" id="natureOfStrikeAdmin" />
                 </div>
                 <label>Outcome</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="outcomeAdmin" />
+                    <input class="input-full-width form-control" id="outcomeAdmin" />
                 </div>
                 <label>Description</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="descriptionAdmin" />
+                    <input class="input-full-width form-control" id="descriptionAdmin" />
                 </div>
-                <label>Article uploaded</label>
-                <div class="form-inline">
-                    @*Moet wat anders komen te staan*@
-                    <input class="input-full-width" id="articleAdmin" />
+                <label>Article uploaded</label> (click to view)
+                <div class="form-inline" id="articleAdminDiv">
+                    <a href="#" id="articleLink">
+                        <img id="articleUploaded" alt="Article belonging to the strike">
+                    </a>
                 </div>
                 <label>Year of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="yearOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="yearOfUploadedArticleAdmin" />
                 </div>
                 <label>Month of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="monthOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="monthOfUploadedArticleAdmin" />
                 </div>
                 <label>Day of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="dayOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="dayOfUploadedArticleAdmin" />
                 </div>
                 <label>Author information</label>
                 <div class="form-inline">
-                    <input class="input-full-width" id="authorInformationAdmin" />
+                    <input class="input-full-width form-control" id="authorInformationAdmin" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-inline">
+                    <button id="approveStrikeButton" class="form-control btn-success">Approve</button>
+                    <button id="disapproveStrikeButton" class="form-control btn-danger">Disapprove</button>
+                    <button id="unchangedButton" class="form-control btn-default">Unchanged</button>
                 </div>
             </div>
         </div>
@@ -180,18 +186,48 @@
 
         $(document).ready(function(){
 
+            $('#strikeSelectAdmin').on('click', function(e){e.preventDefault();});
+            $('#approveStrikeButton').on('click', function (e) {e.preventDefault();});
+            $('#disapproveStrikeButton').on('click', function (e) {e.preventDefault();});
+            $('#unchangedButton').on('click', function (e) {e.preventDefault();});
+
             function appendToSelect(inner, value, selector) {
                 var el = document.createElement('option');
                 el.innerHTML = inner;
                 el.value = value;
                 selector.appendChild(el);
             }
-            
+
             $(function () {
                 @for(s <- strikes){
                    appendToSelect(@s.id, @s.id, document.getElementById("strikeSelectAdmin"));
                 }
             });
+
+            $('#searchStrikeAdmin').keyup(function (event) {
+                if ( event.which == 13 ) { // Needs to select the given number or the first in list
+                    if(this.value !== "")
+                        searchStrike(this.value);
+                    else
+                        event.preventDefault();
+                }
+                searchStrike(this.value);
+            });
+
+            function searchStrike(strikeNumber)
+            {
+                var strikeId = new String(strikeNumber);
+                for(var i = document.getElementById("strikeSelectAdmin").options.length - 1; i >= 0; i--){
+                    document.getElementById("strikeSelectAdmin").remove(i);
+                }
+
+                @for(s <- strikes){
+                    var $temp = new String(@s.id);
+                    if($temp.indexOf(strikeId) !== -1) {
+                        appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
+                    }
+                }
+            }
 
             $('#strikeSelectAdmin').change(function () {
                 var selectedStrike = $('#strikeSelectAdmin').val().toString();
@@ -206,7 +242,6 @@
                         return arrayAsString;
                     }
 
-                    console.log(strike);
                     $('#sourceAdmin').val(strike["source"]);
                     $('#countryAdmin').val(strike["country"]);
                     $('#geographicalAdmin').val(strike["geographicalContext"]);
@@ -219,16 +254,11 @@
                     $('#dayStrikeEndedAdmin').val(strike["dayEnd"]);
                     $('#durationAdmin').val(strike["duration"]);
                     $('#sectorsAdmin').val(getEachFromArray("sectors", "sectorName"));
-
                     $('#occupationsHiscoAdmin').val(getEachFromArray("hiscoOccupations", "occupationHiscoText"));
-
                     $('#occupationsAdmin').val(getEachFromArray("occupations", "occupationText"));
-
                     $('#labourRelationsAdmin').val(strike["labourRelation"]);
                     $('#workersOnStrikeSituationAdmin').val(strike["workersSituation"]);
-
                     $('#companyNamesAdmin').val(getEachFromArray("companyNames","companyNameText"));
-
                     $('#companyOwnershipFirstAdmin').val(strike["companyOwnership"]);
                     $('#companyOwnershipSecondAdmin').val(strike["companyOwnershipSituated"]);
                     $('#companiesInvolvedAdmin').val(strike["companiesInvolved"]);
@@ -236,24 +266,25 @@
                     $('#typeOfActionAdmin').val(strike["typeOfAction"]);
                     $('#typeOfOrganisationAdmin').val(strike["typeOfOrganisation"]);
                     $('#predominantGenderAdmin').val(strike["dominantGender"]);
-
                     $('#causeOfDisputesAdmin').val(getEachFromArray("causeOfDisputes","causeOfDisputeText"));
-
                     $('#identityElementsAdmin').val(getEachFromArray("identityElements","identityElementText"));
-
                     $('#identityDetailsAdmin').val(getEachFromArray("identityDetails","identityDetailText"));
-
                     $('#strikeDefinitionsAdmin').val(getEachFromArray("strikeDefinitions","strikeDefinitionText"));
-
                     $('#natureOfStrikeAdmin').val(strike["natureOfStrike"]);
                     $('#outcomeAdmin').val(strike["outcomeOfStrike"]);
                     $('#descriptionAdmin').val(strike["description"]);
-                    $('#articleAdmin').val(strike["article"]);
+                    $('#articleLink').attr("href", '/admin/strike/article/' + selectedStrike);
+                    document.getElementById("articleLink").target = "_blank";
+                    $('#articleUploaded').attr("src", '/admin/strike/article/' + selectedStrike);
                     $('#yearOfUploadedArticleAdmin').val(strike["yearOfArticle"]);
                     $('#monthOfUploadedArticleAdmin').val(strike["monthOfArticle"]);
                     $('#dayOfUploadedArticleAdmin').val(strike["dayOfArticle"]);
                     $('#authorInformationAdmin').val(strike["authorInformation"]);
                 });
+
+                $("#articleUploaded").on('error', function() {
+                    $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/view.png")");
+                })
             });
 
         });

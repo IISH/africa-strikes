@@ -7,9 +7,13 @@ import play.libs.Yaml;
 import play.mvc.*;
 import play.twirl.api.Html;
 import views.html.*;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
+import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static play.libs.Json.toJson;
@@ -54,10 +58,18 @@ public class HomeController extends Controller {
             saveYamlFileToDatabase((List<CompanyName>) Yaml.load("company-name-data.yml"));
         }
 
-        return ok(index.render("", formFactory.form(Strike.class),
-                Sector.find.all(), (List<String>) Yaml.load("source-data.yml"), OccupationHisco.find.all(),
-                CauseOfDispute.find.all(), IdentityElement.find.all(),
-                StrikeDefinition.find.all(), (List<String>) Yaml.load("country-data.yml")));
+        return ok(index.render("",
+                formFactory.form(Strike.class),
+                Sector.find.all(),
+                (List<String>) Yaml.load("source-data.yml"),
+                OccupationHisco.find.all(),
+                CauseOfDispute.find.all(),
+                IdentityElement.find.all(),
+                StrikeDefinition.find.all(),
+                (List<String>) Yaml.load("country-data.yml"),
+                (List<String>) Yaml.load("labour-relations.yml"),
+                (List<String>) Yaml.load("months.yml"),
+                (List<String>) Yaml.load("number-of-participants.yml")));
     }
 
     private <T> void saveYamlFileToDatabase(List<T> yamlList)
@@ -86,35 +98,63 @@ public class HomeController extends Controller {
 
     private Html handleBadForm(String message)
     {
-        return (index.render(message, formFactory.form(Strike.class),
-                Sector.find.all(), (List<String>) Yaml.load("source-data.yml"), OccupationHisco.find.all(),
-                CauseOfDispute.find.all(), IdentityElement.find.all(),
-                StrikeDefinition.find.all(), (List<String>) Yaml.load("country-data.yml")));
+        return (index.render(message,
+                formFactory.form(Strike.class),
+                Sector.find.all(),
+                (List<String>) Yaml.load("source-data.yml"),
+                OccupationHisco.find.all(),
+                CauseOfDispute.find.all(),
+                IdentityElement.find.all(),
+                StrikeDefinition.find.all(),
+                (List<String>) Yaml.load("country-data.yml"),
+                (List<String>) Yaml.load("labour-relations.yml"),
+                (List<String>) Yaml.load("months.yml"),
+                (List<String>) Yaml.load("number-of-participants.yml")));
     }
 
     public Result addStrike()
     {
         Http.MultipartFormData body = request().body().asMultipartFormData();
-        // Gets the uploaded file from the form and checks if it is empty
-        Http.MultipartFormData.FilePart<File> file = body.getFile("articleUpload");
-        if(file.equals(null))
-            System.out.println("LEEG");
-        else
-            System.out.println(file.getFilename());
 
+        // Code to save the given article image
+        Http.MultipartFormData.FilePart<File> article = body.getFile("articleUpload");
+        String[] temp = article.getFilename().split("\\.");
+        String extension = temp[temp.length - 1].toString();
 
-        Http.MultipartFormData<File> articleBody = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<File> picture = articleBody.getFile("articleUpload");
-        if (picture != null) {
-            String fileName = picture.getFilename();
-            String contentType = picture.getContentType();
-            File pictureFile = picture.getFile();
-            System.out.println("article exists!");
+        // creating the file with the correct path
+        File articleFile = null;
+        try{
+            articleFile = File.createTempFile("str", "."+extension, new File("C:\\AfricaStrikes\\Articles\\"));
         }
-        else {
-            flash("error", "Missing file");
-            System.out.println("article doesnt exist!");
+        catch(Exception e){
         }
+
+        // Checks if the file has an image extension
+        if (Pattern.compile("((?i)(jpg|png|gif|bmp)$)").matcher(extension).matches()){
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(article.getFile());
+                ImageIO.write(image, extension, articleFile);
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        else if(Pattern.compile("((?i)(pdf|tiff|tif)$)").matcher(extension).matches()){
+            try {
+                FileInputStream fs = new FileInputStream(article.getFile());
+                int b;
+                FileOutputStream os = new FileOutputStream(articleFile);
+                while ((b = fs.read()) != -1) {
+                    os.write(b);
+                }
+                os.close();
+                fs.close();
+            } catch (Exception E) {
+                E.printStackTrace();
+            }
+        }
+        // Done so the file can be found in the admin form, bit ugly, needs work!
+        String articleFileName = articleFile.getName();
 
         Ebean.beginTransaction();
         try {
@@ -178,7 +218,7 @@ public class HomeController extends Controller {
             strike.setCompanyNames(companyNamesToSave);
             strike.setOccupations(occupationsToSave);
             strike.setIdentityDetails(identityDetailsToSave);
-            strike.setArticle(new Article(file.getFile()));
+            strike.setArticle(new Article(articleFileName));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike

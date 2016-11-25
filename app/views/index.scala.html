@@ -3,7 +3,19 @@
  * message to display.
  *@
 
-@(message: String)(strikeForm: Form[Strike])(sectors: List[Sector])(sources: List[String])(hiscoOccupations: List[OccupationHisco])(causeOfDisputes: List[CauseOfDispute])(identityElements: List[IdentityElement])(strikeDefinitions: List[StrikeDefinition])(countries: List[String])
+@(  message: String,
+    strikeForm: Form[Strike],
+    sectors: List[Sector],
+    sources: List[String],
+    hiscoOccupations: List[OccupationHisco],
+    causeOfDisputes: List[CauseOfDispute],
+    identityElements: List[IdentityElement],
+    strikeDefinitions: List[StrikeDefinition],
+    countries: List[String],
+    labourRelations: List[String],
+    months: List[String],
+    numberOfParticipants: List[String]
+)
 
 @*
  * Call the `main` template with two arguments. The first
@@ -40,8 +52,8 @@
             </div>
             @*Geographical context*@
             <div class="form-group">
-                <label title="Select one of the three available options. If the strike takes place in a city or town, select urban. In case the strike takes place in mines or field located in areas away from urban centres select rural. For the cases this information is not available, select unknown.">Geographical context</label>
-                <div class="form-inline">
+                <label>Geographical context</label>
+                <div class="form-inline" title="Select one of the three available options. If the strike takes place in a city or town, select urban. In case the strike takes place in mines or field located in areas away from urban centres select rural. For the cases this information is not available, select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="geographicalContext" value="Urban geographical context">Urban geographical context
                     </label>
@@ -55,60 +67,57 @@
             </div>
             @*Location*@
             <div class="form-group">
-                <label title="Write the exact location of the strike as listed in the source. It can be the name of city or town and/or of a factory. In case the source provides both (place and factory/mine, etc.), please insert both separate by (,).">Location</label>
+                <label>Location</label>
                 <div class="form-inline input-full-width">
-                    <input class="input-full-width" type=text name="location" placeholder="Enter exact location..."/>
+                    <input class="input-full-width form-control" type=text name="location" placeholder="Enter exact location..." title="Write the exact location of the strike as listed in the source. It can be the name of city or town and/or of a factory. In case the source provides both (place and factory/mine, etc.), please insert both separate by (,)."/>
                 </div>
             </div>
             @*Year Strike Started*@
             <div class="form-group">
-                <label title="Select year from the list box according to the information provided by the source.">Year the strike started</label>
+                <label>Year the strike started</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="yearStart" id="yearStartStrikeSelect">
-                    </select>
+                    <select class="form-control input-full-width" name="yearStart" id="yearStartStrikeSelect" title="Select year from the list box according to the information provided by the source."></select>
                 </div>
             </div>
             @*Month Strike Started*@
             <div class="form-group">
-                <label title="Select month from the list box according to the information provided by the source. In case this information is not provide leave the field blank.">Month the strike started</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="monthStart" id="monthStartStrikeSelect"></select>
+                    @select(strikeForm("monthStart"), months.map(s => s -> s), '_label -> "Month the strike started", 'id -> "monthStartStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provide leave the field blank.")
                 </div>
             </div>
             @*Day Strike Started*@
             <div class="form-group">
-                <label title="Select day from the list box according to the information provided by the source. In case this information is not provide leave the field blank.">Day the strike started</label>
+                <label>Day the strike started</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="dayStart" id="dayStartStrikeSelect"></select>
+                    <select class="form-control input-full-width" name="dayStart" id="dayStartStrikeSelect" title="Select day from the list box according to the information provided by the source. In case this information is not provide leave the field blank."></select>
                 </div>
             </div>
             @*Year Strike Ended*@
             <div class="form-group">
-                <label title="Select year from the list box according to the information provided by the source.">Year the strike Ended</label>
+                <label>Year the strike Ended</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="yearEnd" id="yearEndStrikeSelect">
+                    <select class="form-control input-full-width" name="yearEnd" id="yearEndStrikeSelect" title="Select year from the list box according to the information provided by the source.">
                     </select>
                 </div>
             </div>
             @*Month Strike Ended*@
             <div class="form-group">
-                <label title="Select day from the list box according to the information provided by the source. In case this information is not provide leave the field blank.">Month the strike ended</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="monthEnd" id="monthEndStrikeSelect"></select>
+                    @select(strikeForm("monthEnd"), months.map(s => s -> s), '_label -> "Month the strike ended", 'id -> "monthEndStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provide leave the field blank.")
                 </div>
             </div>
             @*Day Strike Ended*@
             <div class="form-group">
-                <label title="Select day from the list box according to the information provided by the source. In case this information is not provide leave the field blank.">Day the strike ended</label>
+                <label>Day the strike ended</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="dayEnd" id="dayEndStrikeSelect"></select>
+                    <select class="form-control input-full-width" name="dayEnd" id="dayEndStrikeSelect" title="Select day from the list box according to the information provided by the source. In case this information is not provide leave the field blank."></select>
                 </div>
             </div>
             @*Duration of the Strike*@
             <div class="form-group">
-                <label title="Select number of days from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">Duration</label>
+                <label>Duration</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="duration" id="durationOfStrikeSelect"></select>
+                    <select class="form-control input-full-width" name="duration" id="durationOfStrikeSelect" title="Select number of days from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank."></select>
                 </div>
             </div>
             @*Sectors of the Strike*@
@@ -125,30 +134,21 @@
             </div>
             @*Occupation Strike*@
             <div class="form-group">
-                <label title="Open field. Insert the name of the main occupation(s) of the workers on strike as listed in the source. In case this information is not provide leave the field blank.">Occupations</label>
+                <label>Occupations</label>
                 <div class="selectize-control form-inline multi">
-                    <input class="input-full-width selectized" type=text name="occupations[]" id="occupations" placeholder="Enter occupations..."/>
+                    <input class="input-full-width selectized" type=text name="occupations[]" id="occupations" placeholder="Enter occupations..." title="Open field. Insert the name of the main occupation(s) of the workers on strike as listed in the source. In case this information is not provide leave the field blank."/>
                 </div>
             </div>
             @*Labour Relations*@
             <div class="form-group">
-                <label title="Select from the list box.
-                Below please find a short definition of the four categories included in the list: non-working, reciprocal labour, tributary labour and commodified labour.
-                    o	Non-Working:
-                    o	Reciprocal Labour: “work done for other members of the same household or a group of households that form a community
-                    o	Tributary Labour: “work based on obligations vis-à-vis the Polity” or the state (as in the case of serfs, forced labourers, etc.)
-                    o	Commodified Labour: situations “where the worker – or in the case of unfree labour and the owner of the worker – sells their means of production or the products of their work” to the market and/or non-market oriented institutions.
-                    ">Labour relations</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="labourRelation" id="labourSelect">
-                        <option value=0 disabled selected>Please choose...</option>
-                    </select>
+                    @select(strikeForm("labourRelation"), labourRelations.map(s => s -> s), '_label -> "Labour relations", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box.\n Below please find a short definition of the four categories included in the list: non-working, reciprocal labour, tributary labour and commodified labour.\n o\tNon-Working:\n o\tReciprocal Labour: “work done for other members of the same household or a group of households that form a community\n o\tTributary Labour: “work based on obligations vis-à-vis the Polity” or the state (as in the case of serfs, forced labourers, etc.)\n o\tCommodified Labour: situations “where the worker – or in the case of unfree labour and the owner of the worker – sells their means of production or the products of their work” to the market and/or non-market oriented institutions.")
                 </div>
             </div>
             @*Work Situation*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provide select unknown.">Workers on strike are:</label>
-                <div class="form-inline">
+                <label>Workers on strike are:</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="workersSituation" id="workersSituation" value="Free">Free
                     </label>
@@ -162,15 +162,15 @@
             </div>
             @*Company Names*@
             <div class="form-group">
-                <label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Company names</label>
+                <label>Company names</label>
                 <div class="selectize-control form-inline multi">
-                    <input class="input-full-width selectized" type=text name="companyNames[]" id="companyNames" placeholder="Enter company names..."/>
+                    <input class="input-full-width selectized" type=text name="companyNames[]" id="companyNames" placeholder="Enter company names..." title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank."/>
                 </div>
             </div>
             @*Company Ownership*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provide select unknown.">Company ownership</label>
-                <div class="form-inline">
+                <label>Company ownership</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="companyOwnership" value="Public">Public
                     </label>
@@ -181,7 +181,7 @@
                         <input type="radio" name="companyOwnership" value="Unknown">Unknown
                     </label>
                 </div>
-                <div class="form-inline">
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="companyOwnershipSituated" value="Foreign">Foreign, multinational
                     </label>
@@ -195,13 +195,13 @@
             </div>
             @*Companies Involved*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provided select unknown.">Companies involved in strike</label>
-                <div class="form-inline">
+                <label>Companies involved in strike</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
-                        <input type="radio" name="companiesInvolved" value="oneToFifty">1-50 companies involved
+                        <input type="radio" name="companiesInvolved" value="1-50 companies involved">1-50 companies involved
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="companiesInvolved" value="entireSector">Entire sector
+                        <input type="radio" name="companiesInvolved" value="Entire sector">Entire sector
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="companiesInvolved" value="Unknown">Unknown
@@ -210,17 +210,14 @@
             </div>
             @*Participants Involved*@
             <div class="form-group">
-                <label title="Select from the list box. In case this information is not provided leave the field blank.">Number of participants involved</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="participantsInvolved" id="numberParticipantsSelect">
-                        <option value=0 disabled selected>Please choose...</option>
-                    </select>
+                    @select(strikeForm("participantsInvolved"), numberOfParticipants.map(s => s -> s), '_label -> "Number of participants involved", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Type of Action*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provided select unknown.">Type of action</label>
-                <div class="form-inline">
+                <label>Type of action</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="typeOfAction" value="planned">Planned action
                     </label>
@@ -234,8 +231,8 @@
             </div>
             @*Type of Organization*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provided select unknown.">Type of organisation</label>
-                <div class="form-inline">
+                <label>Type of organisation</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="typeOfOrganisation" value="organised">Trade union, association, brotherhood, etc.
                     </label>
@@ -249,8 +246,8 @@
             </div>
             @*Dominant Gender*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provided select unknown.">Predominant gender</label>
-                <div class="form-inline">
+                <label>Predominant gender</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="dominantGender" id="dominantGender" value="male">Predominantly male
                     </label>
@@ -279,9 +276,9 @@
             </div>
             @*Identity Details*@
             <div class="form-group">
-                <label title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank.">Identity details</label>
+                <label>Identity details</label>
                 <div class="selectize-control form-inline multi">
-                    <input class="input-full-width selectized" type=text name="identityDetails[]" id="identityDetails" placeholder="Enter identity details..."/>
+                    <input class="input-full-width selectized" type=text name="identityDetails[]" id="identityDetails" placeholder="Enter identity details..." title="Open field. Insert the name of the company or companies as listed in the source. In case this information is not provide leave the field blank."/>
                 </div>
             </div>
             @*Strike Definitions*@
@@ -292,8 +289,8 @@
             </div>
             @*Nature of the Strike*@
             <div class="form-group">
-                <label title="Select one of the option available. In case this information is not provided select unknown.">Nature of the strike</label>
-                <div class="form-inline">
+                <label>Nature of the strike</label>
+                <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
                     <label class="radio-inline">
                         <input type="radio" name="natureOfStrike" value="violent">Of violent nature
                     </label>
@@ -307,54 +304,50 @@
             </div>
             @*Outcome of the Strike*@
             <div class="form-group">
-                <label title="Open field. Insert the information as listed in the source. In case this information is not provide leave the field blank.">Outcome</label>
+                <label>Outcome</label>
                 <div class="form-inline">
-                    <input class="input-full-width" type=text name="outcomeOfStrike" placeholder="Enter the outcome of the strike..."/>
+                    <input class="input-full-width form-control" type=text name="outcomeOfStrike" placeholder="Enter the outcome of the strike..." title="Open field. Insert the information as listed in the source. In case this information is not provide leave the field blank."/>
                 </div>
             </div>
             @*Description of the Strike*@
             <div class="form-group">
-                <label title="Open field. Here you can insert any information provided by the source that you consider relevant and is not registered in any of the fields included in the online form.">Description</label>
+                <label>Description</label>
                 <div class="form-inline">
-                    <textarea class="input-full-width" name="description" rows="5" placeholder="Enter the description of the strike..."></textarea>
+                    <textarea class="input-full-width form-control" name="description" rows="5" placeholder="Enter the description of the strike..." title="Open field. Here you can insert any information provided by the source that you consider relevant and is not registered in any of the fields included in the online form."></textarea>
                 </div>
             </div>
             @*Arctile of the Strike*@
             <div class="form-group">
-                <label title="Upload a digital copy of the newspaper article from where you have extracted the information. Digital copies can be uploaded in PFD, JPEG or TIFF format.">Article upload</label>
+                <label>Article upload</label>
                 <div class="form-inline input-full-width">
-                    <input type="file" name="articleUpload" id="articleUploadButton"/>
-                </div>
-                <div class="form-inline input-full-width">
-                    <output name="uploadedArticle" id="uploadedArticleOutput" for="articleUpload">File's uploaded: </output>
+                    <input type="file" name="articleUpload" id="articleUploadButton" title="Upload a digital copy of the newspaper article from where you have extracted the information. Digital copies can be uploaded in PDF, JPEG or TIFF format."/>
                 </div>
             </div>
             @*Year of the Article*@
             <div class="form-group">
-                <label title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank.">Year of uploaded article</label>
+                <label>Year of uploaded article</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="yearOfArticle" id="yearOfUploadedArticleSelect"></select>
+                    <select class="form-control input-full-width" name="yearOfArticle" id="yearOfUploadedArticleSelect" title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank."></select>
                 </div>
             </div>
             @*Month of the Article*@
             <div class="form-group">
-                <label title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank.">Month of uploaded article</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="monthOfArticle" id="monthOfUploadedArticleSelect"></select>
+                    @select(strikeForm("monthOfArticle"), months.map(s => s -> s), '_label -> "Month of uploaded article", 'id -> "monthOfUploadedArticleSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provide leave the field blank.")
                 </div>
             </div>
             @*Day of the Article*@
             <div class="form-group">
-                <label title="Select year from the list box according to the newspaper publication date. In case this information is not provide leave the field blank.">Day of uploaded article</label>
+                <label>Day of uploaded article</label>
                 <div class="form-inline">
-                    <select class="form-control input-full-width" name="dayOfArticle" id="dayOfUploadedArticleSelect"></select>
+                    <select class="form-control input-full-width" name="dayOfArticle" id="dayOfUploadedArticleSelect" title="Select day from the list box according to the newspaper publication date. In case this information is not provide leave the field blank."></select>
                 </div>
             </div>
             @*Information of the Author*@
             <div class="form-group">
-                <label title="Open field. Insert your name, so we can contact you later in case we have any questions concerning the information inserted in the form or the source you have used. ">Author Information</label>
+                <label>Author Information</label>
                 <div class="form-inline">
-                    <input class="input-full-width" type=text name="authorInformation" id="authorInformation" placeholder="Enter your own name..."/>
+                    <input class="input-full-width form-control" type=text name="authorInformation" id="authorInformation" placeholder="Enter your own name..." title="Open field. Insert your name, so we can contact you later in case we have any questions concerning the information inserted in the form or the source you have used."/>
                 </div>
             </div>
 
@@ -367,10 +360,6 @@
 
 
     <script type="text/javascript">
-
-        var months = [              "January", "February", "March", "April", "May", "June", "July", "Augustus", "September", "October", "November", "December"];
-        var labourRelations = [     "Non-Working", "Reciprocal Labour", "Tributary Labour", "Commodified Labour"];
-        var numberParticipants = [  "0-10", "11-100", "101-500", "501-1000", "1001-5000", "5001-10000", "10001 or more"];
 
         $(document).ready(function(){
 
@@ -416,23 +405,6 @@
                 selector.appendChild(el);
             }
 
-            function getNumberOfDays(yearNumber, monthNumber) {
-                var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0))
-                return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthNumber];
-            }
-
-            $(function () {
-                for(var i = 0; i < numberParticipants.length; i++) {
-                    appendToSelect(numberParticipants[i], (i+1), document.getElementById("numberParticipantsSelect"));
-                }
-            });
-
-            $(function () {
-               for(var i = 0; i < labourRelations.length; i++) {
-                   appendToSelect(labourRelations[i], (i+1), document.getElementById("labourSelect"));
-               }
-            });
-
             $(function(){
                 $('#sectors_id').selectize();
                 $('#hiscoOccupations_id').selectize();
@@ -469,18 +441,10 @@
             });
 
             $(function () {
-                for(var i = 1; i <= 31; i++) {
+                for(var i = 0; i <= 31; i++) {
                     appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
                     appendToSelect(i, i, document.getElementById("dayEndStrikeSelect"));
                     appendToSelect(i, i, document.getElementById("dayOfUploadedArticleSelect"))
-                }
-            });
-
-            $(function () {
-                for(var i = 0; i < months.length; i++) {
-                    appendToSelect(months[i], (i + 1), document.getElementById("monthStartStrikeSelect"));
-                    appendToSelect(months[i], (i + 1), document.getElementById("monthEndStrikeSelect"));
-                    appendToSelect(months[i], (i + 1), document.getElementById("monthOfUploadedArticleSelect"));
                 }
             });
 
@@ -502,11 +466,38 @@
                 var yearArticleElement = document.getElementById("yearOfUploadedArticleSelect");
                 var monthArticleElement = document.getElementById("monthOfUploadedArticleSelect");
                 var yearNum = yearArticleElement.options[yearArticleElement.selectedIndex].value;
-                var monthNum = monthArticleElement.options[monthArticleElement.selectedIndex].value - 1;
+                var monthNum = monthArticleElement.selectedIndex -1; // Due to the months containing a default value
                 $('#dayOfUploadedArticleSelect').empty();
-                for(var i = 1; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
                     appendToSelect(i, i, document.getElementById("dayOfUploadedArticleSelect"));
                 }
+            }
+
+            function updateStrikeDayField() {
+                var yearStartElement = document.getElementById("yearStartStrikeSelect");
+                var monthStartElement = document.getElementById("monthStartStrikeSelect");
+                var yearNum = yearStartElement.options[yearStartElement.selectedIndex].value;
+                var monthNum = monthStartElement.selectedIndex -1; // Due to the months containing a default value
+                $('#dayStartStrikeSelect').empty();
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                    appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
+                }
+            }
+
+            function updateStrikeDayEndField(){
+                var yearEndElement = document.getElementById("yearEndStrikeSelect");
+                var monthEndElement = document.getElementById("monthEndStrikeSelect");
+                var yearNum = yearEndElement.options[yearEndElement.selectedIndex].value;
+                var monthNum = monthEndElement.selectedIndex -1; // Due to the months containing a default value
+                $('#dayEndStrikeSelect').empty();
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                    appendToSelect(i, i, document.getElementById("dayEndStrikeSelect"));
+                }
+            }
+
+            function getNumberOfDays(yearNumber, monthNumber) {
+                var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0));
+                return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthNumber];
             }
 
             $("#yearOfUploadedArticleSelect").change(function () {
@@ -517,17 +508,6 @@
                 updateArticleDayField();
             });
 
-            function updateStrikeDayField() {
-                var yearStartElement = document.getElementById("yearStartStrikeSelect");
-                var monthStartElement = document.getElementById("monthStartStrikeSelect");
-                var yearNum = yearStartElement.options[yearStartElement.selectedIndex].value;
-                var monthNum = monthStartElement.options[monthStartElement.selectedIndex].value - 1;
-                $('#dayStartStrikeSelect').empty();
-                for(var i = 1; i <= getNumberOfDays(yearNum, monthNum); i++) {
-                    appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
-                }
-            }
-
             $("#yearStartStrikeSelect").change(function () {
                 updateStrikeDayField();
             });
@@ -535,6 +515,14 @@
             $("#monthStartStrikeSelect").change(function () {
                 updateStrikeDayField();
             });
+
+            $('#yearEndStrikeSelect').change(function () {
+               updateStrikeDayEndField();
+            });
+
+            $('#monthEndStrikeSelect').change(function () {
+                updateStrikeDayEndField();
+            })
 
             $("#articleUploadButton").change(function () {
                 $("#uploadedArticleOutput").append(document.getElementById("articleUploadButton").value);
