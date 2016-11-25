@@ -28,11 +28,11 @@ public class Strike extends Model{
         this.yearStart = yearStart;
     }
 
-    public int getMonthStart() {
+    public String getMonthStart() {
         return monthStart;
     }
 
-    public void setMonthStart(int monthStart) {
+    public void setMonthStart(String monthStart) {
         this.monthStart = monthStart;
     }
 
@@ -52,11 +52,11 @@ public class Strike extends Model{
         this.yearEnd = yearEnd;
     }
 
-    public int getMonthEnd() {
+    public String getMonthEnd() {
         return monthEnd;
     }
 
-    public void setMonthEnd(int monthEnd) {
+    public void setMonthEnd(String monthEnd) {
         this.monthEnd = monthEnd;
     }
 
@@ -84,11 +84,11 @@ public class Strike extends Model{
         this.daysLost = daysLost;
     }
 
-    public int getParticipantsInvolved() {
+    public String getParticipantsInvolved() {
         return participantsInvolved;
     }
 
-    public void setParticipantsInvolved(int participantsInvolved) {
+    public void setParticipantsInvolved(String participantsInvolved) {
         this.participantsInvolved = participantsInvolved;
     }
 
@@ -100,11 +100,11 @@ public class Strike extends Model{
         this.yearOfArticle = yearOfArticle;
     }
 
-    public int getMonthOfArticle() {
+    public String getMonthOfArticle() {
         return monthOfArticle;
     }
 
-    public void setMonthOfArticle(int monthOfArticle) {
+    public void setMonthOfArticle(String monthOfArticle) {
         this.monthOfArticle = monthOfArticle;
     }
 
@@ -320,24 +320,24 @@ public class Strike extends Model{
     @Id
     public Long id;
     private int yearStart,
-                monthStart,
                 dayStart,
                 yearEnd,
-                monthEnd,
                 dayEnd,
                 duration,
                 daysLost,
-                participantsInvolved,
                 yearOfArticle,
-                monthOfArticle,
                 dayOfArticle;
     private String  country,
                     location,
+                    monthStart,
+                    monthEnd,
+                    monthOfArticle,
                     labourRelation,
                     workersSituation,
                     companyOwnership,
                     companyOwnershipSituated,
                     companiesInvolved,
+                    participantsInvolved,
                     typeOfAction,
                     typeOfOrganisation,
                     dominantGender,

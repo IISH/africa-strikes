@@ -5,7 +5,7 @@
 
 create table article (
   id                            bigint not null,
-  article                       longvarbinary,
+  article_name                  varchar(255),
   constraint pk_article primary key (id)
 );
 create sequence article_seq;
@@ -65,23 +65,24 @@ create sequence sector_seq;
 create table strike (
   id                            bigint not null,
   year_start                    integer,
-  month_start                   integer,
   day_start                     integer,
-  month_end                     integer,
+  year_end                      integer,
   day_end                       integer,
   duration                      integer,
   days_lost                     integer,
-  participants_involved         integer,
   year_of_article               integer,
-  month_of_article              integer,
   day_of_article                integer,
   country                       varchar(255),
   location                      varchar(255),
+  month_start                   varchar(255),
+  month_end                     varchar(255),
+  month_of_article              varchar(255),
   labour_relation               varchar(255),
   workers_situation             varchar(255),
   company_ownership             varchar(255),
   company_ownership_situated    varchar(255),
   companies_involved            varchar(255),
+  participants_involved         varchar(255),
   type_of_action                varchar(255),
   type_of_organisation          varchar(255),
   dominant_gender               varchar(255),
