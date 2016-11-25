@@ -8,7 +8,7 @@
 
     @form(action = routes.AdminController.index()){
         @*Select form*@
-        <div class="container col-lg-3">
+        <div class="container col-lg-2 col-lg-offset-1">
             <h2></h2>
             <div class="form-group">
                 <label>Select a strike or search in the field</label>
@@ -22,131 +22,131 @@
             </div>
         </div>
         @*Display form for strike*@
-        <div class="container col-lg-9">
+        <div class="container col-lg-8">
             <h2></h2>
             <div class="form-group">
                 <label>Source</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="sourceAdmin" />
+                    <input class="input-full-width form-control" id="sourceAdmin" readonly/>
                 </div>
                 <label>Country</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="countryAdmin" />
+                    <input class="input-full-width form-control" id="countryAdmin" readonly/>
                 </div>
                 <label>Geographical context</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="geographicalAdmin" />
+                    <input class="input-full-width form-control" id="geographicalAdmin" readonly/>
                 </div>
                 <label>Location</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="locationAdmin" />
+                    <input class="input-full-width form-control" id="locationAdmin" readonly/>
                 </div>
                 <label>Year the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="yearStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="yearStrikeStartedAdmin" readonly/>
                 </div>
                 <label>Month the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="monthStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="monthStrikeStartedAdmin" readonly/>
                 </div>
                 <label>Day the strike started</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="dayStrikeStartedAdmin" />
+                    <input class="input-full-width form-control" id="dayStrikeStartedAdmin" readonly/>
                 </div>
                 <label>Year the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="yearStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="yearStrikeEndedAdmin" readonly/>
                 </div>
                 <label>Month the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="monthStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="monthStrikeEndedAdmin" readonly/>
                 </div>
                 <label>Day the strike ended</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="dayStrikeEndedAdmin" />
+                    <input class="input-full-width form-control" id="dayStrikeEndedAdmin" readonly/>
                 </div>
                 <label>Duration</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="durationAdmin" />
+                    <input class="input-full-width form-control" id="durationAdmin" readonly/>
                 </div>
                 <label>Sectors</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="sectorsAdmin" />
+                    <input class="input-full-width form-control" id="sectorsAdmin" readonly/>
                 </div>
                 <label>Occupations HISCO first level</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="occupationsHiscoAdmin" />
+                    <input class="input-full-width form-control" id="occupationsHiscoAdmin" readonly/>
                 </div>
                 <label>Occupations</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="occupationsAdmin" />
+                    <input class="input-full-width form-control" id="occupationsAdmin" readonly/>
                 </div>
                 <label>Labour relations</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="labourRelationsAdmin" />
+                    <input class="input-full-width form-control" id="labourRelationsAdmin" readonly/>
                 </div>
                 <label>Workers on strike are</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="workersOnStrikeSituationAdmin" />
+                    <input class="input-full-width form-control" id="workersOnStrikeSituationAdmin" readonly/>
                 </div>
                 <label>Company names</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="companyNamesAdmin" />
+                    <input class="input-full-width form-control" id="companyNamesAdmin" readonly/>
                 </div>
                 <label>Company ownership</label>
                 <div class="form-group">
-                    <input class="input-full-width form-control" id="companyOwnershipFirstAdmin" />
+                    <input class="input-full-width form-control" id="companyOwnershipFirstAdmin" readonly/>
                 </div>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="companyOwnershipSecondAdmin" />
+                    <input class="input-full-width form-control" id="companyOwnershipSecondAdmin" readonly/>
                 </div>
                 <label>Companies involved in strike</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="companiesInvolvedAdmin" />
+                    <input class="input-full-width form-control" id="companiesInvolvedAdmin" readonly/>
                 </div>
                 <label>Number of participants involved</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="numberOfParticipantsAdmin" />
+                    <input class="input-full-width form-control" id="numberOfParticipantsAdmin" readonly/>
                 </div>
                 <label>Type of action</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="typeOfActionAdmin" />
+                    <input class="input-full-width form-control" id="typeOfActionAdmin" readonly/>
                 </div>
                 <label>Type of organisation</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="typeOfOrganisationAdmin" />
+                    <input class="input-full-width form-control" id="typeOfOrganisationAdmin" readonly/>
                 </div>
                 <label>Predominant gender</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="predominantGenderAdmin" />
+                    <input class="input-full-width form-control" id="predominantGenderAdmin" readonly/>
                 </div>
                 <label>Cause of disputes</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="causeOfDisputesAdmin" />
+                    <input class="input-full-width form-control" id="causeOfDisputesAdmin" readonly/>
                 </div>
                 <label>Identity elements</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="identityElementsAdmin" />
+                    <input class="input-full-width form-control" id="identityElementsAdmin" readonly/>
                 </div>
                 <label>Identity details</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="identityDetailsAdmin" />
+                    <input class="input-full-width form-control" id="identityDetailsAdmin" readonly/>
                 </div>
                 <label>Strike definitions</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="strikeDefinitionsAdmin" />
+                    <input class="input-full-width form-control" id="strikeDefinitionsAdmin" readonly/>
                 </div>
                 <label>Nature of the strike</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="natureOfStrikeAdmin" />
+                    <input class="input-full-width form-control" id="natureOfStrikeAdmin" readonly/>
                 </div>
                 <label>Outcome</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="outcomeAdmin" />
+                    <input class="input-full-width form-control" id="outcomeAdmin" readonly/>
                 </div>
                 <label>Description</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="descriptionAdmin" />
+                    <input class="input-full-width form-control" id="descriptionAdmin" readonly/>
                 </div>
                 <label>Article uploaded</label> (click to view)
                 <div class="form-inline" id="articleAdminDiv">
@@ -156,19 +156,19 @@
                 </div>
                 <label>Year of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="yearOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="yearOfUploadedArticleAdmin" readonly/>
                 </div>
                 <label>Month of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="monthOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="monthOfUploadedArticleAdmin" readonly/>
                 </div>
                 <label>Day of uploaded article</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="dayOfUploadedArticleAdmin" />
+                    <input class="input-full-width form-control" id="dayOfUploadedArticleAdmin" readonly/>
                 </div>
                 <label>Author information</label>
                 <div class="form-inline">
-                    <input class="input-full-width form-control" id="authorInformationAdmin" />
+                    <input class="input-full-width form-control" id="authorInformationAdmin" readonly/>
                 </div>
             </div>
             <div class="form-group">
@@ -185,6 +185,8 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+
+
 
             $('#strikeSelectAdmin').on('click', function(e){e.preventDefault();});
             $('#approveStrikeButton').on('click', function (e) {e.preventDefault();});
