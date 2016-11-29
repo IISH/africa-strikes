@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static play.libs.Json.toJson;
 
@@ -58,6 +59,9 @@ public class HomeController extends Controller {
             saveYamlFileToDatabase((List<CompanyName>) Yaml.load("company-name-data.yml"));
         }
 
+        List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
+        List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
+        List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
         return ok(index.render("",
                 formFactory.form(Strike.class),
                 Sector.find.all(),
@@ -69,7 +73,10 @@ public class HomeController extends Controller {
                 (List<String>) Yaml.load("country-data.yml"),
                 (List<String>) Yaml.load("labour-relations.yml"),
                 (List<String>) Yaml.load("months.yml"),
-                (List<String>) Yaml.load("number-of-participants.yml")));
+                (List<String>) Yaml.load("number-of-participants.yml"),
+                years,
+                days,
+                duration));
     }
 
     private <T> void saveYamlFileToDatabase(List<T> yamlList)
@@ -98,6 +105,9 @@ public class HomeController extends Controller {
 
     private Html handleBadForm(String message)
     {
+        List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
+        List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
+        List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
         return (index.render(message,
                 formFactory.form(Strike.class),
                 Sector.find.all(),
@@ -109,7 +119,10 @@ public class HomeController extends Controller {
                 (List<String>) Yaml.load("country-data.yml"),
                 (List<String>) Yaml.load("labour-relations.yml"),
                 (List<String>) Yaml.load("months.yml"),
-                (List<String>) Yaml.load("number-of-participants.yml")));
+                (List<String>) Yaml.load("number-of-participants.yml"),
+                years,
+                days,
+                duration));
     }
 
     public Result addStrike()
@@ -190,33 +203,33 @@ public class HomeController extends Controller {
 
 
             // Gets the companyNames from the form and adds them to a list to save in the collected strike form.
-            String[] companies = (String[]) body.asFormUrlEncoded().get("companyNames[]");
+           /* String[] companies = (String[]) body.asFormUrlEncoded().get("companyNames[]");
             List<String> companyNames = Arrays.asList(companies[0].split(","));
             List<CompanyName> companyNamesToSave = new ArrayList<>();
             for (String s : companyNames) {
                 companyNamesToSave.add(new CompanyName(s));
-            }
+            }*/
 
             // Gets the occupations from the form and adds them to a list to save in the collected strike form.
-            String[] occupations = (String[]) body.asFormUrlEncoded().get("occupations[]");
-            List<String> occupationNames = Arrays.asList(occupations[0].split(","));
-            List<Occupation> occupationsToSave = new ArrayList<>();
-            for(String s : occupationNames){
-                occupationsToSave.add(new Occupation(s));
-            }
+//            String[] occupations = (String[]) body.asFormUrlEncoded().get("occupations[]");
+//            List<String> occupationNames = Arrays.asList(occupations[0].split(","));
+//            List<Occupation> occupationsToSave = new ArrayList<>();
+//            for(String s : occupationNames){
+//                occupationsToSave.add(new Occupation(s));
+//            }
 
-            String[] identityDetails = (String[]) body.asFormUrlEncoded().get("identityDetails[]");
-            List<String> identityDetailNames = Arrays.asList(identityDetails[0].split(","));
-            List<IdentityDetail> identityDetailsToSave = new ArrayList<>();
-            for(String s : identityDetailNames){
-                identityDetailsToSave.add(new IdentityDetail(s));
-            }
+//            String[] identityDetails = (String[]) body.asFormUrlEncoded().get("identityDetails[]");
+//            List<String> identityDetailNames = Arrays.asList(identityDetails[0].split(","));
+//            List<IdentityDetail> identityDetailsToSave = new ArrayList<>();
+//            for(String s : identityDetailNames){
+//                identityDetailsToSave.add(new IdentityDetail(s));
+//            }
 
             // Collects the strike form and sets the company names
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
-            strike.setCompanyNames(companyNamesToSave);
-            strike.setOccupations(occupationsToSave);
-            strike.setIdentityDetails(identityDetailsToSave);
+//            strike.setCompanyNames(companyNamesToSave);
+//            strike.setOccupations(occupationsToSave);
+//            strike.setIdentityDetails(identityDetailsToSave);
             strike.setArticle(new Article(articleFile.getName()));
 
             // --------------------------------------------------------------------------------- \\

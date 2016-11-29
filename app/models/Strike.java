@@ -4,7 +4,9 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Igor on 11/4/2016.
@@ -281,31 +283,32 @@ public class Strike extends Model{
         this.causeOfDisputes = causeOfDisputes;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<CompanyName> getCompanyNames() {
-        return companyNames;
+    public String getCompanyNames() {
+        return String.join(",", companyNames.stream().map(c -> c.companyNameText).collect(Collectors.toList()));
     }
 
-    public void setCompanyNames(List<CompanyName> companyNames) {
-        this.companyNames = companyNames;
+    public void setCompanyNames(String companies) {
+
+        List<String> companyNames2 = Arrays.asList(companies.split(","));
+        companyNames.addAll(companyNames2.stream().map(CompanyName::new).collect(Collectors.toList()));
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<Occupation> getOccupations() {
-        return occupations;
+    public String getOccupations() {
+        return String.join(",", occupations.stream().map(o -> o.occupationText).collect(Collectors.toList()));
     }
 
-    public void setOccupations(List<Occupation> occupations) {
-        this.occupations = occupations;
+    public void setOccupations(String newOccupations) {
+        List<String> occupationsToSave = Arrays.asList(newOccupations.split(","));
+        occupations.addAll(occupationsToSave.stream().map(Occupation::new).collect(Collectors.toList()));
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<IdentityDetail> getIdentityDetails() {
-        return identityDetails;
+    public String getIdentityDetails() {
+        return String.join(",", identityDetails.stream().map(i -> i.identityDetailText).collect(Collectors.toList()));
     }
 
-    public void setIdentityDetails(List<IdentityDetail> identityDetails) {
-        this.identityDetails = identityDetails;
+    public void setIdentityDetails(String identities) {
+        List<String> identitiesToSave = Arrays.asList(identities.split(","));
+        identityDetails.addAll(identitiesToSave.stream().map(IdentityDetail::new).collect(Collectors.toList()));
     }
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -349,8 +352,11 @@ public class Strike extends Model{
                     geographicalContext;
     private Article article;
     private List<Sector> sectors = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Occupation> occupations = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
     private List<CompanyName> companyNames = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
     private List<IdentityDetail> identityDetails = new ArrayList<>();
     private List<CauseOfDispute> causeOfDisputes = new ArrayList<>();
     private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
