@@ -8,9 +8,12 @@ POST    /                           controllers.HomeController.addStrike()
 GET     /strikes                    controllers.HomeController.getStrikes
 
 GET     /admin                      controllers.AdminController.index
-POST    /admin                      controllers.AdminController.updateSelectedStrike()
 GET     /admin/strike/:id           controllers.AdminController.getSelectedStrike(id: String)
 GET     /admin/strike/article/:id   controllers.AdminController.getArticleFile(id: String)
+
+GET     /admin/update               controllers.AdminController.update
+POST    /admin/update               controllers.AdminController.saveUpdatedStrike
+GET     /admin/update/strike/:id    controllers.AdminController.strikeToUpdate(id: Long)
 
 GET     /login                      controllers.SecurityController.login()
 POST    /login                      controllers.SecurityController.authenticate()

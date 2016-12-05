@@ -142,7 +142,7 @@
             <div class="form-group">
                 <div class="form-inline">
                     <button id="approveStrikeButton" class="form-control btn-success">Approve</button>
-                    <a href="@routes.AdminController.update"><button id="updateStrikeButton" class="form-control btn-warning">Update</button></a>
+                    <a id="updateLink"><button type="submit" id="updateStrikeButton" class="form-control btn-warning">Update</button></a>
                     <button id="discardButton" class="form-control btn-danger">Discard</button>
                 </div>
             </div>
@@ -159,8 +159,10 @@
             $('#strikeSelectAdmin').on('click', function(e){e.preventDefault();});
             $('#approveStrikeButton').on('click', function (e) {
                 e.preventDefault();
-                @*e.action = @routes.AdminController.update();*@
+                e.action = "@routes.AdminController.update";
+//                $('#updateLink').attr("href", '/admin/update/' + selectedStrike);
             });
+
             $('#approveStrikeButton').on('click', function (e) {e.preventDefault();});
             $('#discardButton').on('click', function (e) {e.preventDefault();});
 
