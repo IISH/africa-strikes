@@ -156,13 +156,13 @@
             <div class="form-group">
                 @*<label>Companies involved in strike</label>*@
                 <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
-                    @inputRadioGroup(strikeForm("companiesInvolved"), options = options("1-50 companies involved" -> "1-50 companies involved", "Entire sector" -> "Entire sector", "Unknown" -> "Unknow"), '_label -> "Companies involved in strike")
+                    @inputRadioGroup(strikeForm("companiesInvolved"), options = options("1-50 companies involved" -> "1-50 companies involved", "Half sector" -> "Half sector", "Entire sector" -> "Entire sector", "Unknown" -> "Unknow"), '_label -> "Companies involved in strike")
                 </div>
             </div>
             @*Participants Involved*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("participantsInvolved"), numberOfParticipants.map(s => s -> s), '_label -> "Number of participants involved", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provided leave the field blank.")
+                    @select(strikeForm("participantsInvolved"), numberOfParticipants.map(s => s -> s), '_label -> "Number of participants involved (approximately)", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Type of Action*@
