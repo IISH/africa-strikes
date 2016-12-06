@@ -16,8 +16,10 @@ public class CauseOfDispute extends Model{
     public long id;
     public String causeOfDisputeText;
 
-    public CauseOfDispute()
-    {}
+    public CauseOfDispute(String causeOfDispute)
+    {
+        this.causeOfDisputeText = causeOfDispute;
+    }
 
     public static Model.Finder<Integer, CauseOfDispute> find = new Model.Finder<>(CauseOfDispute.class);
 

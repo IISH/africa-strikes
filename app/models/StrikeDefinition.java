@@ -16,8 +16,10 @@ public class StrikeDefinition extends Model{
     public long id;
     public String strikeDefinitionText;
 
-    public StrikeDefinition()
-    {}
+    public StrikeDefinition(String strikeDefinition)
+    {
+        this.strikeDefinitionText = strikeDefinition;
+    }
 
     public static Model.Finder<Integer, StrikeDefinition> find = new Model.Finder<>(StrikeDefinition.class);
 

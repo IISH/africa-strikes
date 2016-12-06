@@ -61,7 +61,6 @@ public class HomeController extends Controller {
 
         List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
         List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
-        List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
         return ok(index.render("",
                 formFactory.form(Strike.class),
                 Sector.find.all(),
@@ -75,8 +74,7 @@ public class HomeController extends Controller {
                 (List<String>) Yaml.load("months.yml"),
                 (List<String>) Yaml.load("number-of-participants.yml"),
                 years,
-                days,
-                duration));
+                days));
     }
 
     private <T> void saveYamlFileToDatabase(List<T> yamlList)
@@ -107,7 +105,6 @@ public class HomeController extends Controller {
     {
         List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
         List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
-        List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
         return (index.render(message,
                 formFactory.form(Strike.class),
                 Sector.find.all(),
@@ -121,8 +118,7 @@ public class HomeController extends Controller {
                 (List<String>) Yaml.load("months.yml"),
                 (List<String>) Yaml.load("number-of-participants.yml"),
                 years,
-                days,
-                duration));
+                days));
     }
 
     public Result addStrike()
@@ -200,31 +196,6 @@ public class HomeController extends Controller {
 //                return badRequest(handleBadForm("Author"));
 //            }
 
-
-
-            // Gets the companyNames from the form and adds them to a list to save in the collected strike form.
-           /* String[] companies = (String[]) body.asFormUrlEncoded().get("companyNames[]");
-            List<String> companyNames = Arrays.asList(companies[0].split(","));
-            List<CompanyName> companyNamesToSave = new ArrayList<>();
-            for (String s : companyNames) {
-                companyNamesToSave.add(new CompanyName(s));
-            }*/
-
-            // Gets the occupations from the form and adds them to a list to save in the collected strike form.
-//            String[] occupations = (String[]) body.asFormUrlEncoded().get("occupations[]");
-//            List<String> occupationNames = Arrays.asList(occupations[0].split(","));
-//            List<Occupation> occupationsToSave = new ArrayList<>();
-//            for(String s : occupationNames){
-//                occupationsToSave.add(new Occupation(s));
-//            }
-
-//            String[] identityDetails = (String[]) body.asFormUrlEncoded().get("identityDetails[]");
-//            List<String> identityDetailNames = Arrays.asList(identityDetails[0].split(","));
-//            List<IdentityDetail> identityDetailsToSave = new ArrayList<>();
-//            for(String s : identityDetailNames){
-//                identityDetailsToSave.add(new IdentityDetail(s));
-//            }
-
             // Collects the strike form and sets the company names
             Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
 //            strike.setCompanyNames(companyNamesToSave);
@@ -235,27 +206,27 @@ public class HomeController extends Controller {
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> sectorMap = Sector.find.findMap();
-            strike.setSectors(mapSelectedOptionsToTheStrike(body, strike, "sectors.id[]", sectorMap));
+            strike.setSectors(mapSelectedOptionsToTheStrike(body, strike, "sectors[]", sectorMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the occupations given by the form and puts them in the occupations list of the Strike
             Map<?, OccupationHisco> occupationHiscoMap = OccupationHisco.find.findMap();
-            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations.id[]", occupationHiscoMap));
+            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations[]", occupationHiscoMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike
             Map<?, CauseOfDispute> causeOfDisputeMap = CauseOfDispute.find.findMap();
-            strike.setCauseOfDisputes(mapSelectedOptionsToTheStrike(body, strike, "causeOfDisputes.id[]", causeOfDisputeMap));
+            strike.setCauseOfDisputes(mapSelectedOptionsToTheStrike(body, strike, "causeOfDisputes[]", causeOfDisputeMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the identityElements given by the form and puts them in the identityElements list of the Strike
             Map<?, IdentityElement> identityElementMap = IdentityElement.find.findMap();
-            strike.setIdentityElements(mapSelectedOptionsToTheStrike(body, strike, "identityElements.id[]", identityElementMap));
+            strike.setIdentityElements(mapSelectedOptionsToTheStrike(body, strike, "identityElements[]", identityElementMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
             Map<?, StrikeDefinition> strikeDefinitionMap = StrikeDefinition.find.findMap();
-            strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions.id[]", strikeDefinitionMap));
+            strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
 
             // Saves the strike
             strike.save();

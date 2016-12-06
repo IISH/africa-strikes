@@ -13,9 +13,8 @@ public class Sector extends Model {
     public long id;
     public String sectorName;
 
-    public Sector(long sectorId, String name)
+    public Sector(String name)
     {
-        this.id = sectorId;
         this.sectorName = name;
     }
 

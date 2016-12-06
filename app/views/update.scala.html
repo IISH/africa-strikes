@@ -101,13 +101,13 @@
             @*Sectors of the Strike*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("sectors.id"), sectors.map(s => s.getId().toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("sectors"), sectors.map(s => s.getId().toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Occupation HISCO first level*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("hiscoOccupations.id"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("hiscoOccupations"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Occupation Strike*@
@@ -177,13 +177,13 @@
             @*Cause of Dispute*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("causeOfDisputes.id"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("causeOfDisputes"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Identity Elements*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("identityElements.id"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("identityElements"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Identity Details*@
@@ -195,7 +195,7 @@
             @*Strike Definitions*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("strikeDefinitions.id"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("strikeDefinitions"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Nature of the Strike*@
@@ -260,11 +260,11 @@
 
         $(document).ready(function(){
 
-            $('#sectors_id').selectize();
-            $('#hiscoOccupations_id').selectize();
-            $('#causeOfDisputes_id').selectize();
-            $('#identityElements_id').selectize();
-            $('#strikeDefinitions_id').selectize();
+            $('#sectors').selectize();
+            $('#hiscoOccupations').selectize();
+            $('#causeOfDisputes').selectize();
+            $('#identityElements').selectize();
+            $('#strikeDefinitions').selectize();
             $('#companyNames').selectize({
                 plugins: ['remove_button'],
                 create: function(input) {

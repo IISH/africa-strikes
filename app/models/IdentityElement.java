@@ -16,8 +16,10 @@ public class IdentityElement extends Model {
     public long id;
     public String identityElementText;
 
-    public IdentityElement()
-    {}
+    public IdentityElement(String identityElement)
+    {
+        this.identityElementText = identityElement;
+    }
 
     public static Model.Finder<Integer, IdentityElement> find = new Model.Finder<>(IdentityElement.class);
 

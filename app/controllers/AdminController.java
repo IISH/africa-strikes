@@ -117,27 +117,27 @@ public class AdminController extends Controller{
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> sectorMap = Sector.find.findMap();
-            strike.setSectors(mapSelectedOptionsToTheStrike(body, strike, "sectors.id[]", sectorMap));
+            strike.setSectors(mapSelectedOptionsToTheStrike(body, strike, "sectors[]", sectorMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the occupations given by the form and puts them in the occupations list of the Strike
             Map<?, OccupationHisco> occupationHiscoMap = OccupationHisco.find.findMap();
-            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations.id[]", occupationHiscoMap));
+            strike.setHiscoOccupations(mapSelectedOptionsToTheStrike(body, strike, "hiscoOccupations[]", occupationHiscoMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the causeOfDisputes given by the form and puts them in the causeOfDisputes list of the Strike
             Map<?, CauseOfDispute> causeOfDisputeMap = CauseOfDispute.find.findMap();
-            strike.setCauseOfDisputes(mapSelectedOptionsToTheStrike(body, strike, "causeOfDisputes.id[]", causeOfDisputeMap));
+            strike.setCauseOfDisputes(mapSelectedOptionsToTheStrike(body, strike, "causeOfDisputes[]", causeOfDisputeMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the identityElements given by the form and puts them in the identityElements list of the Strike
             Map<?, IdentityElement> identityElementMap = IdentityElement.find.findMap();
-            strike.setIdentityElements(mapSelectedOptionsToTheStrike(body, strike, "identityElements.id[]", identityElementMap));
+            strike.setIdentityElements(mapSelectedOptionsToTheStrike(body, strike, "identityElements[]", identityElementMap));
 
             // --------------------------------------------------------------------------------- \\
             // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
             Map<?, StrikeDefinition> strikeDefinitionMap = StrikeDefinition.find.findMap();
-            strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions.id[]", strikeDefinitionMap));
+            strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
 
             // Saves the strike
 

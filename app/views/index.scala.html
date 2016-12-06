@@ -16,8 +16,7 @@
     months: List[String],
     numberOfParticipants: List[String],
     years: List[Integer],
-    days: List[Integer],
-    duration: List[Integer]
+    days: List[Integer]
 )
 
 @*
@@ -104,19 +103,19 @@
             @*Duration of the Strike*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("duration"), options = duration.map(s => s.toString() -> s.toString()), '_label -> "Duration", 'class -> "form-control input-full-width", 'title -> "Select number of days from the list box. In case this information is not provided, or you are not sure which option to select leave the field blank.")
+                    @inputText(strikeForm("duration"), 'type -> "number", '_label -> "Duration", 'class -> "input-full-width form-control", 'title -> "Write down the number of days of the strike. In case this information is not provided, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Sectors of the Strike*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                    @select(strikeForm("sectors.id"), sectors.map(s => s.getId().toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @select(strikeForm("sectors"), sectors.map(s => s.id.toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Occupation HISCO first level*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                    @select(strikeForm("hiscoOccupations.id"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @select(strikeForm("hiscoOccupations"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Occupation Strike*@
@@ -186,13 +185,13 @@
             @*Cause of Dispute*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("causeOfDisputes.id"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("causeOfDisputes"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Identity Elements*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("identityElements.id"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("identityElements"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Identity Details*@
@@ -204,7 +203,7 @@
             @*Strike Definitions*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("strikeDefinitions.id"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                @select(strikeForm("strikeDefinitions"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Nature of the Strike*@
@@ -310,11 +309,11 @@
             }
 
             $(function(){
-                $('#sectors_id').selectize();
-                $('#hiscoOccupations_id').selectize();
-                $('#causeOfDisputes_id').selectize();
-                $('#identityElements_id').selectize();
-                $('#strikeDefinitions_id').selectize();
+                $('#sectors').selectize();
+                $('#hiscoOccupations').selectize();
+                $('#causeOfDisputes').selectize();
+                $('#identityElements').selectize();
+                $('#strikeDefinitions').selectize();
                 $('#companyNames').selectize({
                     plugins: ['remove_button'],
                     create: function(input) {
@@ -342,28 +341,6 @@
                         }
                     }
                 });
-            });
-
-            $(function () {
-                for(var i = 0; i <= 31; i++) {
-                    appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("dayEndStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("dayOfUploadedArticleSelect"))
-                }
-            });
-
-            $(function () {
-                for(var i = 1700; i <= 2000; i++) {
-                    appendToSelect(i, i, document.getElementById("yearStartStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("yearEndStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("yearOfUploadedArticleSelect"));
-                }
-            });
-
-            $(function () {
-                for(var i = 0; i <= 365; i++) {
-                    appendToSelect(i, i, document.getElementById("durationOfStrikeSelect"));
-                }
             });
 
             function updateArticleDayField() {
