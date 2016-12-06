@@ -193,7 +193,8 @@ public class AdminController extends Controller{
                     years,
                     days,
                     duration,
-                    id));
+                    id,
+                    strikeSelected));
     }
 
     public Result getArticleFile(String selectedStrike) {

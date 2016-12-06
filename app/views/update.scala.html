@@ -14,7 +14,8 @@
     years: List[Integer],
     days: List[Integer],
     duration: List[Integer],
-    strikeGiven: Long
+    strikeGiven: Long,
+    strikeSelected: Strike
 )
 
 @import helper._
@@ -100,14 +101,20 @@
             </div>
             @*Sectors of the Strike*@
             <div class="form-group">
+                <label>Sectors</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("sectors"), sectors.map(s => s.getId().toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="sectors" name="sectors[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                        @for(i <- 0 until sectors.length) {<option value="@sectors(i).id" @(if(strikeSelected.getSectors().contains(sectors(i))) "selected" else "")>@sectors(i).sectorName</option>}
+                    </select>
                 </div>
             </div>
             @*Occupation HISCO first level*@
             <div class="form-group">
+                <label>Occupations HISCO first level</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("hiscoOccupations"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="hiscoOccupations" name="hiscoOccupations[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                        @for(i <- 0 until hiscoOccupations.length) {<option value="@hiscoOccupations(i).id" @(if(strikeSelected.getHiscoOccupations().contains(hiscoOccupations(i))) "selected" else "")>@hiscoOccupations(i).occupationHiscoText </option>}
+                    </select>
                 </div>
             </div>
             @*Occupation Strike*@
@@ -176,14 +183,20 @@
             </div>
             @*Cause of Dispute*@
             <div class="form-group">
+                <label>Cause of disputes</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("causeOfDisputes"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="causeOfDisputes" name="causeOfDisputes[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                        @for(i <- 0 until causeOfDisputes.length) {<option value="@causeOfDisputes(i).id" @(if(strikeSelected.getCauseOfDisputes().contains(causeOfDisputes(i))) "selected" else "")>@causeOfDisputes(i).causeOfDisputeText </option>}
+                    </select>
                 </div>
             </div>
             @*Identity Elements*@
             <div class="form-group">
+                <label>Identity elements</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("identityElements"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="identityElements" name="identityElements[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                        @for(i <- 0 until identityElements.length) {<option value="@identityElements(i).id" @(if(strikeSelected.getIdentityElements().contains(identityElements(i))) "selected" else "")>@identityElements(i).identityElementText </option>}
+                    </select>
                 </div>
             </div>
             @*Identity Details*@
@@ -194,8 +207,11 @@
             </div>
             @*Strike Definitions*@
             <div class="form-group">
+                <label>Strike definitions</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("strikeDefinitions"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="strikeDefinitions" name="strikeDefinitions[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                        @for(i <- 0 until strikeDefinitions.length) {<option value="@strikeDefinitions(i).id" @(if(strikeSelected.getStrikeDefinitions().contains(strikeDefinitions(i))) "selected" else "")>@strikeDefinitions(i).strikeDefinitionText </option>}
+                    </select>
                 </div>
             </div>
             @*Nature of the Strike*@
