@@ -4,7 +4,6 @@ import com.avaje.ebean.Ebean;
 import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -17,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -41,10 +41,45 @@ public class AdminController extends Controller{
 
     public Result update()
     {
-        if(strikeSelected != null)
-            return redirect("/admin/update/strike/" + strikeSelected.id);
-        else
-            return  redirect(routes.AdminController.index());
+        String[] postAction = request().body().asMultipartFormData().asFormUrlEncoded().get("updateStrikeButton");
+        if(postAction == null || postAction.length == 0)
+            return badRequest("You first need to select a strike");
+        else{
+            if("approve".equals(postAction[0])){
+                strikeSelected.setChecked(true);
+                strikeSelected.update();
+                return redirect(routes.AdminController.index());
+            }else if("update".equals(postAction[0])){
+                if(strikeSelected != null)
+                    return redirect("/admin/update/strike/" + strikeSelected.id);
+                else
+                    return badRequest("You first need to select a strike");
+            }else if("discard".equals(postAction[0])){
+                strikeSelected.delete();
+                System.out.println(postAction[0]);
+                return redirect(routes.AdminController.index());
+            }
+        }
+        return redirect(routes.AdminController.index());
+    }
+
+    public Result getCheckedStrikes(String checked)
+    {
+        List<Long> checkedOrUncheckedStrikes = new ArrayList<>();
+        if(checked == null){ // returns all the strikes as default.
+            checkedOrUncheckedStrikes.addAll(Strike.getAllStrikes().stream().map(strike -> strike.id).collect(Collectors.toList()));
+        } else {
+            if("checked".equals(checked)){
+                checkedOrUncheckedStrikes.addAll(Strike.getAllStrikes().stream().filter(s -> s.getChecked()).map(strike -> strike.id).collect(Collectors.toList()));
+            } else if ("unchecked".equals(checked)){
+                checkedOrUncheckedStrikes.addAll(Strike.getAllStrikes().stream().filter(s -> !s.getChecked()).map(strike -> strike.id).collect(Collectors.toList()));
+            }
+            else if("all".equals(checked)){
+                checkedOrUncheckedStrikes.addAll(Strike.getAllStrikes().stream().map(strike -> strike.id).collect(Collectors.toList()));
+            }
+        }
+
+        return ok(toJson(checkedOrUncheckedStrikes));
     }
 
     public Result saveUpdatedStrike()
