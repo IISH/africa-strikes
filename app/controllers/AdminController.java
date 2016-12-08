@@ -107,47 +107,50 @@ public class AdminController extends Controller{
     {
         // Code to save the given article image
         Http.MultipartFormData.FilePart<File> article = body.getFile("articleUpload");
-        String[] temp = article.getFilename().split("\\.");
-        String extension = temp[temp.length - 1].toString();
+        Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
 
-        // creating the file with the correct path
-        File articleFile = null;
-        try{
-            articleFile = File.createTempFile("article-", "."+extension, new File("C:\\AfricaStrikes\\Articles\\"));
-        }
-        catch(Exception e){
-        }
+        if(article.getFilename().length() > 0) {
+            String[] temp = article.getFilename().split("\\.");
+            String extension = temp[temp.length - 1].toString();
 
-        // Checks if the file has an image extension
-        if (Pattern.compile("((?i)(jpg|png|gif|bmp)$)").matcher(extension).matches()){
-            BufferedImage image = null;
+            // creating the file with the correct path
+            File articleFile = null;
             try {
-                image = ImageIO.read(article.getFile());
-                ImageIO.write(image, extension, articleFile);
+                articleFile = File.createTempFile("article-", "." + extension, new File("C:\\AfricaStrikes\\Articles\\"));
             } catch (Exception e) {
-                e.getMessage();
             }
-        }
-        // Checks if the file has a pdf or tif extension
-        else if(Pattern.compile("((?i)(pdf|tiff|tif)$)").matcher(extension).matches()){
-            try {
-                FileInputStream fs = new FileInputStream(article.getFile());
-                int b;
-                FileOutputStream os = new FileOutputStream(articleFile);
-                while ((b = fs.read()) != -1) {
-                    os.write(b);
+
+            // Checks if the file has an image extension
+            if (Pattern.compile("((?i)(jpg|png|gif|bmp)$)").matcher(extension).matches()) {
+                BufferedImage image = null;
+                try {
+                    image = ImageIO.read(article.getFile());
+                    ImageIO.write(image, extension, articleFile);
+                } catch (Exception e) {
+                    e.getMessage();
                 }
-                os.close();
-                fs.close();
-            } catch (Exception E) {
-                E.printStackTrace();
             }
+            // Checks if the file has a pdf or tif extension
+            else if (Pattern.compile("((?i)(pdf|tiff|tif)$)").matcher(extension).matches()) {
+                try {
+                    FileInputStream fs = new FileInputStream(article.getFile());
+                    int b;
+                    FileOutputStream os = new FileOutputStream(articleFile);
+                    while ((b = fs.read()) != -1) {
+                        os.write(b);
+                    }
+                    os.close();
+                    fs.close();
+                } catch (Exception E) {
+                    E.printStackTrace();
+                }
+            }
+            strike.setArticle(new Article(articleFile.getName()));
         }
 
         Ebean.beginTransaction();
         try {
-            Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
-            strike.setArticle(new Article(articleFile.getName()));
+
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike

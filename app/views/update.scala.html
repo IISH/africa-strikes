@@ -236,7 +236,7 @@
             <div class="form-group">
                 <div class="form-inline input-full-width">
                 @inputFile(strikeForm("articleUpload"), '_label -> "Article upload", 'id -> "articleUploadButton", 'title -> "Upload a digital copy of the newspaper article from where you have extracted the information. Digital copies can be uploaded in PDF, JPEG or TIFF format.")
-                "Previous" article: @strikeSelected.getArticle().articleName
+                "Previous" article: @if(strikeSelected.getArticle == null){ none }else{ @strikeSelected.getArticle().articleName}
                 </div>
             </div>
             @*Year of the Article*@
