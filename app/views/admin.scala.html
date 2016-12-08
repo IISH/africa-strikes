@@ -12,12 +12,12 @@
         <div class="container col-lg-2 col-lg-offset-1">
             <h2></h2>
             <div class="form-group">
-                <label>Select a strike or search in the field</label>
+                <label>Search for a specific strike</label>
                 <div class="form-group">
                     <input class="input-full-width form-control" id="searchStrikeAdmin"/>
                 </div>
                 <div class="form-group">
-                    <label>Select type of strike</label>
+                    <label>Select all strikes with specific type</label>
                     <div class="form-inline">
                         <label>
                             <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="checked" onclick="">Checked
@@ -30,6 +30,7 @@
                         </label>
                     </div>
                 </div>
+                <label>Select a strike from the list</label>
                 <div class="form-inline">
                     <select class="input-full-width form-control form-control-full-height" id="strikeSelectAdmin" size="50"></select>
                 </div>
@@ -198,49 +199,59 @@
             $('#searchStrikeAdmin').keyup(function (event) {
                 if ( event.which == 13 ) { // Needs to select the given number or the first in list
                     if(this.value !== "")
-                        searchStrike(this.value);
+                        searchStrike(this.value, undefined);
                     else
                         event.preventDefault();
                 }
-                searchStrike(this.value);
+                // To uncheck the selected checkbox
+                var ele = document.getElementsByName("checkedOrUncheckedStrikes");
+                for(var i=0;i<ele.length;i++)
+                    ele[i].checked = false;
+                searchStrike(this.value, undefined);
             });
 
-            function searchStrike(strikeNumber)
-            {
-                var strikeId = new String(strikeNumber);
+            function searchStrike(strikeNumber, strikesGiven){
+                var oldStrikesOptions = document.getElementById("strikeSelectAdmin").options;
+                var oldStrikes = [];
+                for(var i = 0; i < oldStrikesOptions.length; i++) {
+                    oldStrikes.push(oldStrikesOptions[i].innerHTML);
+                }
+
+                // deletion of all the options
                 for(var i = document.getElementById("strikeSelectAdmin").options.length - 1; i >= 0; i--){
                     document.getElementById("strikeSelectAdmin").remove(i);
                 }
 
-                @for(s <- strikes){
-                    var $temp = new String(@s.id);
-                    if($temp.indexOf(strikeId) !== -1) {
+                var strikeId = new String(strikeNumber); // the given strike number as a string
+                if(strikeNumber === -1){ // if not searched via searchbox
+                    for(var i =0; i < strikesGiven.length; i++){
+                        var $temp = new String(strikesGiven[i]);
                         appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
+                    }
+                }
+                else if(strikesGiven === undefined){ // searching via the searchbox
+                    if(strikeId.length === 0) { // if the searchfield has been emptied
+                        @for(s <- strikes){
+                            var $temp = new String(@s.id);
+                            appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
+                        }
+                    }
+                    else{ // if searching
+                        console.log(strikeId.length);
+                        @for(s <- strikes){
+                            var $temp = new String(@s.id);
+                            if(strikeId == $temp.slice(0,strikeId.length)) {
+                                appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
+                            }
+                        }
                     }
                 }
             }
 
-            function searchStrikeBetter(strikeNumber, strikesGiven){
-
-                var oldStrikes = document.getElementById("strikeSelectAdmin").options.value;
-                console.log(oldStrikes);
-
-                var strikeId = new String(strikeNumber);
-                for(var i = document.getElementById("strikeSelectAdmin").options.length - 1; i >= 0; i--){
-                    document.getElementById("strikeSelectAdmin").remove(i);
-                }
-
-                for(var i =0; i < strikesGiven.length; i++){
-                    var $temp = new String(strikesGiven[i]);
-//                    if($temp.indexOf(strikeId) !== -1 || strikeId === 0) {
-                        appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
-//                    }
-                }
-            }
-
             $("input[name='checkedOrUncheckedStrikes']").change(function(e){
+                $('#searchStrikeAdmin').val("");
                 $.getJSON('/admin/type/' + $(this).val(), function (strikesReturned) {
-                    searchStrikeBetter(0, strikesReturned);
+                    searchStrike(-1, strikesReturned);
                 });
             });
 
@@ -257,8 +268,7 @@
                         return arrayAsString;
                     }
 
-                    for (var key in strike)
-                    {
+                    for (var key in strike) {
                         if (strike.hasOwnProperty(key)) {
                             $('[id=' + key + ']').val(strike[key]);
                         }
@@ -270,10 +280,15 @@
                     $('#causeOfDisputes').val(getEachFromArray("causeOfDisputes","causeOfDisputeText"));
                     $('#identityElements').val(getEachFromArray("identityElements","identityElementText"));
                     $('#strikeDefinitions').val(getEachFromArray("strikeDefinitions","strikeDefinitionText"));
-                    $('#articleLink').attr("href", '/admin/strike/article/' + selectedStrike);
-                    document.getElementById("articleLink").target = "_blank";
-                    $('#articleUploaded').attr("src", '/admin/strike/article/' + selectedStrike);
-
+                    if(strike["article"] === null){
+                        $('#articleLink').attr("href", "javascript:");
+                        $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/noArticle.png")");
+                    }
+                    else{
+                        $('#articleLink').attr("href", '/admin/strike/article/' + selectedStrike);
+                        document.getElementById("articleLink").target = "_blank";
+                        $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/viewArticle.png")");
+                    }
                 });
             });
         });
