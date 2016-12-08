@@ -171,6 +171,7 @@ public class HomeController extends Controller{
             strike.setArticle(new Article(articleFile.getName()));
         }
         strike.setChecked(false);
+        strike.setAuthorInformation(ctx().session().get("username"));
 
         Ebean.beginTransaction();
         try {

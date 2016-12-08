@@ -248,12 +248,6 @@
                     @select(strikeForm("dayOfArticle"), options = days.map(s => s.toString() -> s.toString()), '_label -> "Day of uploaded article", 'class -> "form-control input-full-width", 'title -> "Select day from the list box according to the newspaper publication date. In case this information is not provided leave the field blank.")
                 </div>
             </div>
-            @*Information of the Author*@
-            <div class="form-group">
-                <div class="form-inline">
-                    @inputText(strikeForm("authorInformation"), '_label -> "Author information", 'class -> "input-full-width form-control", 'placeholder -> "Enter your own name...", 'title -> "Open field. Insert your name, so we can contact you later in case we have any questions concerning the information inserted in the form or the source you have used.")
-                </div>
-            </div>
             @*Submit button to save the specific strike*@
             <div class="form-group">
                 <button name="addStrikeButton" id="addStrikeButton" onclick="isValid()">Add Strike</button>
