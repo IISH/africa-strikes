@@ -73,7 +73,7 @@
             @*Month Strike Started*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("monthStart"), months.map(s => s -> s), '_label -> "Month the strike started", 'id -> "monthStartStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                    @select(strikeForm("monthStart"), months.map(s => s -> s), '_label -> "Month the strike started", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day Strike Started*@
@@ -91,7 +91,7 @@
             @*Month Strike Ended*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("monthEnd"), months.map(s => s -> s), '_label -> "Month the strike ended", 'id -> "monthEndStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                    @select(strikeForm("monthEnd"), months.map(s => s -> s), '_label -> "Month the strike ended", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day Strike Ended*@
@@ -239,7 +239,7 @@
             @*Month of the Article*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("monthOfArticle"), months.map(s => s -> s), '_label -> "Month of uploaded article", 'id -> "monthOfUploadedArticleSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                    @select(strikeForm("monthOfArticle"), months.map(s => s -> s), '_label -> "Month of uploaded article", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day of the Article*@
@@ -346,66 +346,66 @@
             });
 
             function updateArticleDayField() {
-                var yearArticleElement = document.getElementById("yearOfUploadedArticleSelect");
-                var monthArticleElement = document.getElementById("monthOfUploadedArticleSelect");
+                var yearArticleElement = document.getElementById("yearOfArticle");
+                var monthArticleElement = document.getElementById("monthOfArticle");
                 var yearNum = yearArticleElement.options[yearArticleElement.selectedIndex].value;
                 var monthNum = monthArticleElement.selectedIndex -1; // Due to the months containing a default value
-                $('#dayOfUploadedArticleSelect').empty();
+                $('#dayOfArticle').empty();
                 for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
-                    appendToSelect(i, i, document.getElementById("dayOfUploadedArticleSelect"));
+                    appendToSelect(i, i, document.getElementById("dayOfArticle"));
                 }
             }
 
             function updateStrikeDayField() {
-                var yearStartElement = document.getElementById("yearStartStrikeSelect");
-                var monthStartElement = document.getElementById("monthStartStrikeSelect");
+                var yearStartElement = document.getElementById("yearStart");
+                var monthStartElement = document.getElementById("monthStart");
                 var yearNum = yearStartElement.options[yearStartElement.selectedIndex].value;
                 var monthNum = monthStartElement.selectedIndex -1; // Due to the months containing a default value
-                $('#dayStartStrikeSelect').empty();
+                $('#dayStart').empty();
                 for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
-                    appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
+                    appendToSelect(i, i, document.getElementById("dayStart"));
                 }
             }
 
             function updateStrikeDayEndField(){
-                var yearEndElement = document.getElementById("yearEndStrikeSelect");
-                var monthEndElement = document.getElementById("monthEndStrikeSelect");
+                var yearEndElement = document.getElementById("yearEnd");
+                var monthEndElement = document.getElementById("monthEnd");
                 var yearNum = yearEndElement.options[yearEndElement.selectedIndex].value;
                 var monthNum = monthEndElement.selectedIndex -1; // Due to the months containing a default value
-                $('#dayEndStrikeSelect').empty();
+                $('#dayEnd').empty();
                 for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
-                    appendToSelect(i, i, document.getElementById("dayEndStrikeSelect"));
+                    appendToSelect(i, i, document.getElementById("dayEnd"));
                 }
             }
 
             function getNumberOfDays(yearNumber, monthNumber) {
                 var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0));
-                return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthNumber];
+                return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][(monthNumber === -1)? 0 : monthNumber];
             }
 
-            $("#yearOfUploadedArticleSelect").change(function () {
+            $("#yearOfArticle").change(function () {
                 updateArticleDayField();
             });
 
-            $("#monthOfUploadedArticleSelect").change(function () {
+            $("#monthOfArticle").change(function () {
                 updateArticleDayField();
             });
 
-            $("#yearStartStrikeSelect").change(function () {
+            $("#yearStart").change(function () {
                 updateStrikeDayField();
             });
 
-            $("#monthStartStrikeSelect").change(function () {
+            $("#monthStart").change(function () {
                 updateStrikeDayField();
             });
 
-            $('#yearEndStrikeSelect').change(function () {
+            $('#yearEnd').change(function () {
                updateStrikeDayEndField();
             });
 
-            $('#monthEndStrikeSelect').change(function () {
+            $('#monthEnd').change(function () {
                 updateStrikeDayEndField();
-            })
+            });
 
             $("#articleUploadButton").change(function () {
                 $("#uploadedArticleOutput").append(document.getElementById("articleUploadButton").value);
