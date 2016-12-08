@@ -61,7 +61,6 @@ public class AdminController extends Controller{
                     return badRequest("You first need to select a strike");
             }else if("discard".equals(postAction[0])){
                 strikeSelected.delete();
-                System.out.println(postAction[0]);
                 return redirect(routes.AdminController.index());
             }
         }
@@ -99,10 +98,7 @@ public class AdminController extends Controller{
                 updateStrike(body);
 //                return edit(request());
             } else if ("undo".equals(postAction[0])) {
-                System.out.println(postAction[0]);
-//                return remove(request());
-            } else {
-//                return badRequest("This action is not allowed");
+                return redirect(routes.AdminController.index());
             }
         }
         return redirect(routes.AdminController.index());
@@ -187,7 +183,6 @@ public class AdminController extends Controller{
             Long id = strikeSelected.id;
             strikeSelected = strike;
             strikeSelected.id = id;
-//            Ebean.update(strikeSelected);
             strikeSelected.update();
             Ebean.commitTransaction();
         }

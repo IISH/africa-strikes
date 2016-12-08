@@ -66,7 +66,7 @@
             @*Month Strike Started*@
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("monthStart"), months.map(s => s -> s), '_label -> "Month the strike started", 'id -> "monthStartStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                @select(strikeForm("monthStart"), months.map(s => s -> s), '_label -> "Month the strike started", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day Strike Started*@
@@ -84,7 +84,7 @@
             @*Month Strike Ended*@
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("monthEnd"), months.map(s => s -> s), '_label -> "Month the strike ended", 'id -> "monthEndStrikeSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                @select(strikeForm("monthEnd"), months.map(s => s -> s), '_label -> "Month the strike ended", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day Strike Ended*@
@@ -96,7 +96,7 @@
             @*Duration of the Strike*@
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("duration"), options = duration.map(s => s.toString() -> s.toString()), '_label -> "Duration", 'class -> "form-control input-full-width", 'title -> "Select number of days from the list box. In case this information is not provided, or you are not sure which option to select leave the field blank.")
+                    @inputText(strikeForm("duration"), 'type -> "number", '_label -> "Duration", 'class -> "input-full-width form-control", 'title -> "Write down the number of days of the strike. In case this information is not provided, or you are not sure which option to select leave the field blank.")
                 </div>
             </div>
             @*Sectors of the Strike*@
@@ -248,7 +248,7 @@
             @*Month of the Article*@
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("monthOfArticle"), months.map(s => s -> s), '_label -> "Month of uploaded article", 'id -> "monthOfUploadedArticleSelect", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
+                @select(strikeForm("monthOfArticle"), months.map(s => s -> s), '_label -> "Month of uploaded article", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select month from the list box according to the information provided by the source. In case this information is not provided leave the field blank.")
                 </div>
             </div>
             @*Day of the Article*@
@@ -317,102 +317,67 @@
                 selector.appendChild(el);
             }
 
-            $(function () {
-                for(var i = 0; i <= 31; i++) {
-                    appendToSelect(i, i, document.getElementById("dayStartStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("dayEndStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("dayOfUploadedArticleSelect"))
+            function getNumberOfDays(yearNumber, monthNumber) {
+                var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0));
+                return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][(monthNumber === -1)? 0 : monthNumber];
+            }
+
+            function updateArticleDayField() {
+                var yearArticleElement = document.getElementById("yearOfArticle");
+                var monthArticleElement = document.getElementById("monthOfArticle");
+                var yearNum = yearArticleElement.options[yearArticleElement.selectedIndex].value;
+                var monthNum = monthArticleElement.selectedIndex -1; // Due to the months containing a default value
+                $('#dayOfArticle').empty();
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                    appendToSelect(i, i, document.getElementById("dayOfArticle"));
                 }
+            }
+
+            function updateStrikeDayField() {
+                var yearStartElement = document.getElementById("yearStart");
+                var monthStartElement = document.getElementById("monthStart");
+                var yearNum = yearStartElement.options[yearStartElement.selectedIndex].value;
+                var monthNum = monthStartElement.selectedIndex -1; // Due to the months containing a default value
+                $('#dayStart').empty();
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                    appendToSelect(i, i, document.getElementById("dayStart"));
+                }
+            }
+
+            function updateStrikeDayEndField(){
+                var yearEndElement = document.getElementById("yearEnd");
+                var monthEndElement = document.getElementById("monthEnd");
+                var yearNum = yearEndElement.options[yearEndElement.selectedIndex].value;
+                var monthNum = monthEndElement.selectedIndex -1; // Due to the months containing a default value
+                $('#dayEnd').empty();
+                for(var i = 0; i <= getNumberOfDays(yearNum, monthNum); i++) {
+                    appendToSelect(i, i, document.getElementById("dayEnd"));
+                }
+            }
+
+            $("#yearOfArticle").change(function () {
+                updateArticleDayField();
             });
 
-            $(function () {
-                for(var i = 1700; i <= 2000; i++) {
-                    appendToSelect(i, i, document.getElementById("yearStartStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("yearEndStrikeSelect"));
-                    appendToSelect(i, i, document.getElementById("yearOfUploadedArticleSelect"));
-                }
+            $("#monthOfArticle").change(function () {
+                updateArticleDayField();
             });
 
-            $(function () {
-                for(var i = 0; i <= 365; i++) {
-                    appendToSelect(i, i, document.getElementById("durationOfStrikeSelect"));
-                }
+            $("#yearStart").change(function () {
+                updateStrikeDayField();
             });
 
-//            $('#source').options.each(function () {
-//                console.log($(this).val());
-//            });
+            $("#monthStart").change(function () {
+                updateStrikeDayField();
+            });
 
-//            var allOptions = $('#source').options;
+            $('#yearEnd').change(function () {
+                updateStrikeDayEndField();
+            });
 
-//            $(function () {
-//                $.map($('#source option'), function(e) { console.log(e.value); });
-//            });
-
-
-//            var options = $('#source');
-//
-//            $.map(options ,function(option) {
-//                console.log(option.value);
-//            });
-
-            @*console.log(typeof @strikeGiven.getSource);*@
-            @*console.log(typeof @strikeGiven);*@
-
-            @*console.log(@strikeGiven.getSource());*@
-
-            @*if(@strikeGiven.getClass() === 'undefined')*@
-                @*console.log("Strike besta nie");*@
-            @*else*@
-                @*console.log(@strikeGiven.getClass);*@
-
-            @*if(typeof @strikeGiven.getSource === 'undefined'){*@
-                @*console.log("Da ding beste nie jonguh!");*@
-            @*}*@
-            @*else*@
-                @*console.log(@strikeGiven.getSource);*@
-
-            @*$.map($('#source option'), function(e) {*@
-                @*console.log(e.value);*@
-                @*if(e.value === "@strikeGiven.getSource"){*@
-                    @*$('#source').selectedIndex = $(this).selectedIndex;*@
-                @*}*@
-            @*});*@
-
-
-            @*$('#source option').each(function () {*@
-                @*console.log($(this).val());*@
-                @*if($(this).val() === @strikeGiven.getSource)*@
-                @*{*@
-                    @*$('#source').selectedIndex = $(this).selectedIndex;*@
-                @*}*@
-            @*});*@
-
-            @*var sourcesList = @sources;*@
-            @*var strikeSource = @strikeGiven.getSource();*@
-
-            @*for(var i = 0; i < sourcesList.length; i++)*@
-            @*{*@
-                @*if(strikeSource === sourcesList[i])*@
-                @*{*@
-                    @*$('#source').selectedIndex = i;*@
-                @*}*@
-            @*}*@
-
-@*//            @for(s <- sources){*@
-                @*console.log(@s);*@
-                @*var temp = @s;*@
-                @*var tempStrike = "";*@
-                @*tempStrike = @strikeGiven.getSource();*@
-                @*console.log($tempStrike);*@
-                @*if(tempStrike.equals(temp)){*@
-                    @*$('#source').selectedIndex = @sources.indexOf(s);*@
-                @*}else{}*@
-            @*}*@
-
-
-
-
+            $('#monthEnd').change(function () {
+                updateStrikeDayEndField();
+            });
         });
 
     </script>

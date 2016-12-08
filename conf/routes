@@ -12,7 +12,6 @@ GET     /admin/type/:id             controllers.AdminController.getCheckedStrike
 GET     /admin/strike/:id           controllers.AdminController.getSelectedStrike(id: String)
 GET     /admin/strike/article/:id   controllers.AdminController.getArticleFile(id: String)
 
-#GET     /admin/update               controllers.AdminController.update
 POST    /admin/update               controllers.AdminController.update
 POST    /admin/update/strike        controllers.AdminController.saveUpdatedStrike
 GET     /admin/update/strike/:id    controllers.AdminController.strikeToUpdate(id: Long)

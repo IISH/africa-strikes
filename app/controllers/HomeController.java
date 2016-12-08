@@ -92,18 +92,6 @@ public class HomeController extends Controller{
         }
     }
 
-    //// Method to convert the input text to a List to save in the strike
-//    private <T> List<T> convertSelectizeInputToList(Http.MultipartFormData body, String name)
-//    {
-//        String[] elements = (String[]) body.asFormUrlEncoded().get(name);
-//        List<String> elementList = Arrays.asList(elements[0].split(","));
-//        List<CompanyName> elementsToSave = new ArrayList<>();
-//        for (String s : elementList) {
-//            elementsToSave.add(new CompanyName(s));
-//        }
-//        return elementsToSave;
-//    }
-
     private Html handleBadForm(String message)
     {
         List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
@@ -175,44 +163,6 @@ public class HomeController extends Controller{
 
         Ebean.beginTransaction();
         try {
-//            if(body.asFormUrlEncoded().get("source") == null)
-//                System.out.println("Source is null");
-//            else if(body.asFormUrlEncoded().get("source") == "")
-//                System.out.println("Source is empty");
-//            else
-//                System.out.println(toJson(body.asFormUrlEncoded().get("source")));
-
-//            if(body.asFormUrlEncoded().get("source") == "") {
-//                System.out.println("Source is: "+toJson(body.asFormUrlEncoded().get("source")));
-//                return badRequest(handleBadForm("SourceStrike"));
-//            }
-//            else if(body.asFormUrlEncoded().get("country") == ""){
-//                return badRequest(handleBadForm("Country"));
-//            }
-//            else if(body.asFormUrlEncoded().get("yearStrikeStarted") == ""){
-//                return badRequest(handleBadForm("YearStrikeStarted"));
-//            }
-//            else if(body.asFormUrlEncoded().get("occupations") == ""){
-//                return badRequest(handleBadForm("Occupation"));
-//            }
-//            else if(body.asFormUrlEncoded().get("workersSituation") == ""){
-//                return badRequest(handleBadForm("WorkersSituation"));
-//            }
-//            else if(body.asFormUrlEncoded().get("dominantGender") == ""){
-//                return badRequest(handleBadForm("DominantGender"));
-//            }
-//            else if(body.asFormUrlEncoded().get("authorInformation") == ""){
-//                return badRequest(handleBadForm("Author"));
-//            }
-
-            // Collects the strike form and sets the company names
-//            Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
-//            strike.setCompanyNames(companyNamesToSave);
-//            strike.setOccupations(occupationsToSave);
-//            strike.setIdentityDetails(identityDetailsToSave);
-//            strike.setArticle(new Article(articleFile.getName()));
-//            strike.setChecked(false);
-
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
             Map<?, Sector> sectorMap = Sector.find.findMap();
