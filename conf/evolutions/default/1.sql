@@ -93,6 +93,7 @@ create table strike (
   source                        varchar(255),
   geographical_context          varchar(255),
   article_id                    bigint,
+  checked                       boolean,
   constraint uq_strike_article_id unique (article_id),
   constraint pk_strike primary key (id)
 );

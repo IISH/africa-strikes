@@ -320,6 +320,14 @@ public class Strike extends Model{
         this.article = article;
     }
 
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
     @Id
     public Long id;
     private int yearStart,
@@ -362,6 +370,7 @@ public class Strike extends Model{
     private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
     private List<IdentityElement> identityElements = new ArrayList<>();
     private List<StrikeDefinition> strikeDefinitions = new ArrayList<>();
+    private Boolean checked;
 
     public Strike()
     {

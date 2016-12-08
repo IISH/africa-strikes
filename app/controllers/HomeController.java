@@ -202,6 +202,7 @@ public class HomeController extends Controller {
 //            strike.setOccupations(occupationsToSave);
 //            strike.setIdentityDetails(identityDetailsToSave);
             strike.setArticle(new Article(articleFile.getName()));
+            strike.setChecked(false);
 
             // --------------------------------------------------------------------------------- \\
             // Maps the sectors given by the form and puts them in the sectors list of the Strike
