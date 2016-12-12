@@ -37,6 +37,7 @@ import static play.libs.Json.toJson;
 public class AdminController extends Controller{
 
     @Inject FormFactory formFactory;
+    @Inject SecurityController securityController;
     private Strike strikeSelected = null;
 
     public Result index()
@@ -62,6 +63,10 @@ public class AdminController extends Controller{
             }else if("discard".equals(postAction[0])){
                 strikeSelected.delete();
                 return redirect(routes.AdminController.index());
+            }else if("logout".equals(postAction[0])) {
+                securityController.logout();
+            }else if("refresh".equals(postAction[0])){
+                index();
             }
         }
         return redirect(routes.AdminController.index());

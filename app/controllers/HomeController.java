@@ -178,7 +178,6 @@ public class HomeController extends Controller{
                 Map<?, StrikeDefinition> strikeDefinitionMap = StrikeDefinition.find.findMap();
                 strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
 
-                System.out.println("Value of valid is: " + checkIfValid(strike));
                 if (checkIfValid(strike).size() != 0) {
                     return handleRequest(checkIfValid(strike), strike);
                 }
