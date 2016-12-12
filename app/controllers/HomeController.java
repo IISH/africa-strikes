@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.typesafe.config.ConfigFactory;
 import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
@@ -118,7 +119,7 @@ public class HomeController extends Controller{
                     // creating the file with the correct path
                     File articleFile = null;
                     try {
-                        articleFile = File.createTempFile("article-", "." + extension, new File("C:\\AfricaStrikes\\Articles\\"));
+                        articleFile = File.createTempFile("article-", "." + extension, new File(ConfigFactory.load().getString("articleFilePath")));
                     } catch (Exception e) {
                     }
 
