@@ -9,156 +9,168 @@
     @form(action = routes.AdminController.update(), 'enctype -> "multipart/form-data"){
     @*<form name="selectForm">*@
         @*Select form*@
-        <div class="container col-lg-2 col-lg-offset-1">
-            <h2></h2>
-            <div class="form-group">
-                <label>Search for a specific strike</label>
+        <div class="container">
+            <div class="col-lg-10">
+                <h2>Administrator view of the strikes.</h2>
+            </div>
+            <div class="col-lg-2">
                 <div class="form-group">
-                    <input class="input-full-width form-control" id="searchStrikeAdmin"/>
-                </div>
-                <div class="form-group">
-                    <label>Select all strikes with specific type</label>
-                    <div class="form-inline">
-                        <label>
-                            <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="checked" onclick="">Checked
-                        </label>
-                        <label>
-                            <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="unchecked" onclick="">Unchecked
-                        </label>
-                        <label>
-                            <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="all" onclick="">All
-                        </label>
-                    </div>
-                </div>
-                <label>Select a strike from the list</label>
-                <div class="form-inline">
-                    <select class="input-full-width form-control form-control-full-height" id="strikeSelectAdmin" size="50"></select>
+                    <h2><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
                 </div>
             </div>
         </div>
-    @*</form>*@
-
-        @*Display form for strike*@
-        <div class="container col-lg-8">
-            <h2></h2>
-            <div class="form-group">
-                <div class="form-inline">
-                    @inputText(adminForm("source"), '_label -> "Source", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("country"), '_label -> "Country", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("geographicalContext"), '_label -> "Geographical context", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("location"), '_label -> "Location", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("yearStart"), '_label -> "Year the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("monthStart"), '_label -> "Month the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("dayStart"), '_label -> "Day the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("yearEnd"), '_label -> "Year the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("monthEnd"), '_label -> "Month the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("dayEnd"), '_label -> "Day the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("duration"), '_label -> "Duration", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="selectize-control form-inline">
-                    @inputText(adminForm("sectors"), '_label -> "Sectors", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("hiscoOccupations"), '_label -> "Occupations HISCO first level", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="selectize-control form-inline multi">
-                    @inputText(adminForm("occupations"), '_label -> "Occupations", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("labourRelation"), '_label -> "Labour relations", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("workersSituation"), '_label -> "Workers on strike are:", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="selectize-control form-inline multi">
-                    @inputText(adminForm("companyNames"), '_label -> "Company names", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
+        <div class="container">
+            <div class="container col-lg-2">
+                <h2></h2>
                 <div class="form-group">
-                    @inputText(adminForm("companyOwnership"), '_label -> "Company ownership", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("companyOwnershipSituated"), '_label -> "", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("companiesInvolved"), '_label -> "Companies involved in strike", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("participantsInvolved"), '_label -> "Number of participants involved", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("typeOfAction"), '_label -> "Type of action", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("typeOfOrganisation"), '_label -> "Type of organisation", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("dominantGender"), '_label -> "Predominant gender", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("causeOfDisputes"), '_label -> "Cause of disputes", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("identityElements"), '_label -> "Identity elements", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="selectize-control form-inline multi">
-                    @inputText(adminForm("identityDetails"), '_label -> "Identity details", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("strikeDefinitions"), '_label -> "Strike definitions", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("natureOfStrike"), '_label -> "Nature of the strike", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("outcomeOfStrike"), '_label -> "Outcome", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("description"), '_label -> "Description", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <label>Article uploaded</label> (click to view)
-                <div class="form-inline" id="articleAdminDiv">
-                    <a href="#" id="articleLink">
-                        <img id="articleUploaded" alt="Article belonging to the strike">
-                    </a>
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("yearOfArticle"), '_label -> "Year of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("monthOfArticle"), '_label -> "Month of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("dayOfArticle"), '_label -> "Day of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
-                </div>
-                <div class="form-inline">
-                    @inputText(adminForm("authorInformation"), '_label -> "Author information", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    <label>Search for a specific strike</label>
+                    <div class="form-group">
+                        <input class="input-full-width form-control" id="searchStrikeAdmin"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Select all strikes with specific type</label>
+                        <div class="form-inline">
+                            <label>
+                                <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="checked" onclick="">Checked
+                            </label>
+                            <label>
+                                <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="unchecked" onclick="">Unchecked
+                            </label>
+                            <label>
+                                <input type="radio" name="checkedOrUncheckedStrikes" id="checkedOrUncheckedStrikes" value="all" onclick="">All
+                            </label>
+                        </div>
+                    </div>
+                    <label>Select a strike from the list</label>
+                    <div class="form-inline">
+                        <select class="input-full-width form-control form-control-full-height" id="strikeSelectAdmin" size="50"></select>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="form-inline">
-                    <button type="submit" name="updateStrikeButton" id="approveStrikeButton" value="approve" class="form-control btn-success" onclick="return confirm('Are you sure you want to approve the selected strike?');">Approve</button>
-                    <button type="submit" name="updateStrikeButton" id="updateStrikeButton" value="update" class="form-control btn-warning">Update</button>
-                    <button type="submit" name="updateStrikeButton" id="discardStrikeButton" value="discard" class="form-control btn-danger" onclick="return confirm('Are you sure you want to discard the selected strike?');">Discard</button>
+        @*</form>*@
+
+            @*Display form for strike*@
+            <div class="container col-lg-10">
+                <h2></h2>
+                <div class="form-group">
+                    <div class="form-inline">
+                        @inputText(adminForm("source"), '_label -> "Source", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("country"), '_label -> "Country", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("geographicalContext"), '_label -> "Geographical context", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("location"), '_label -> "Location", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("yearStart"), '_label -> "Year the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("monthStart"), '_label -> "Month the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("dayStart"), '_label -> "Day the strike started", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("yearEnd"), '_label -> "Year the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("monthEnd"), '_label -> "Month the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("dayEnd"), '_label -> "Day the strike ended", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("duration"), '_label -> "Duration", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="selectize-control form-inline">
+                        @inputText(adminForm("sectors"), '_label -> "Sectors", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("hiscoOccupations"), '_label -> "Occupations HISCO first level", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="selectize-control form-inline multi">
+                        @inputText(adminForm("occupations"), '_label -> "Occupations", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("labourRelation"), '_label -> "Labour relations", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("workersSituation"), '_label -> "Workers on strike are:", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="selectize-control form-inline multi">
+                        @inputText(adminForm("companyNames"), '_label -> "Company names", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-group">
+                        @inputText(adminForm("companyOwnership"), '_label -> "Company ownership", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("companyOwnershipSituated"), '_label -> "", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("companiesInvolved"), '_label -> "Companies involved in strike", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("participantsInvolved"), '_label -> "Number of participants involved", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("typeOfAction"), '_label -> "Type of action", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("typeOfOrganisation"), '_label -> "Type of organisation", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("dominantGender"), '_label -> "Predominant gender", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("causeOfDisputes"), '_label -> "Cause of disputes", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("identityElements"), '_label -> "Identity elements", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="selectize-control form-inline multi">
+                        @inputText(adminForm("identityDetails"), '_label -> "Identity details", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("strikeDefinitions"), '_label -> "Strike definitions", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("natureOfStrike"), '_label -> "Nature of the strike", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("outcomeOfStrike"), '_label -> "Outcome", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("description"), '_label -> "Description", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <label>Article uploaded</label> (click to view)
+                    <div class="form-inline" id="articleAdminDiv">
+                        <a href="#" id="articleLink">
+                            <img id="articleUploaded" alt="Article belonging to the strike">
+                        </a>
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("yearOfArticle"), '_label -> "Year of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("monthOfArticle"), '_label -> "Month of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("dayOfArticle"), '_label -> "Day of uploaded article", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                    <div class="form-inline">
+                        @inputText(adminForm("authorInformation"), '_label -> "Author information", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <button type="submit" name="updateStrikeButton" id="approveStrikeButton" value="approve" class="form-control btn-success" onclick="return confirm('Are you sure you want to approve the selected strike?');">Approve</button>
+                        <button type="submit" name="updateStrikeButton" id="updateStrikeButton" value="update" class="form-control btn-warning">Update</button>
+                        <button type="submit" name="updateStrikeButton" id="discardStrikeButton" value="discard" class="form-control btn-danger" onclick="return confirm('Are you sure you want to discard the selected strike?');">Discard</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -237,7 +249,6 @@
                         }
                     }
                     else{ // if searching
-                        console.log(strikeId.length);
                         @for(s <- strikes){
                             var $temp = new String(@s.id);
                             if(strikeId == $temp.slice(0,strikeId.length)) {

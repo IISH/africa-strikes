@@ -3,7 +3,7 @@
  * message to display.
  *@
 
-@(  message: String,
+@(  messages: Map[String, String],
     strikeForm: Form[Strike],
     sectors: List[Sector],
     sources: List[String],
@@ -16,7 +16,8 @@
     months: List[String],
     numberOfParticipants: List[String],
     years: List[Integer],
-    days: List[Integer]
+    days: List[Integer],
+    strike: Strike
 )
 
 @*
@@ -38,18 +39,33 @@
 
     @form(action = routes.HomeController.addStrike(), 'enctype -> "multipart/form-data") {
         <div class="container">
-            <h2>Fill in the description of the strike.</h2>
-            @message
+            <div class="col-lg-10">
+                <h2>Fill in the description of the strike.</h2>
+                (Fields marked with an (*) are mandatory!)
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <h2><button name="indexButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <hr>
+            @if(messages.size() > 0) {
+                <h4><label class="alert-info">The strike is missing some information!</label></h4>
+            }
             @*Source*@
             <div class="form-group">
                 <div class="form-inline">
-                @select(strikeForm("source"), sources.map(s => s -> s), '_label -> "Source", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @select(strikeForm("source"), sources.map(s => s -> s), '_label -> "Source*", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @if(messages.get("source")){<label class="alert-danger">@messages.get("source")</label>}
                 </div>
             </div>
             @*Country*@
             <div class="form-group">
                 <div class="selectize-control form-inline">
-                @select(strikeForm("country"), countries.map(s => s -> s), '_label -> "Country", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @select(strikeForm("country"), countries.map(s => s -> s), '_label -> "Country*", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    @if(messages.get("country")){<label class="alert-danger">@messages.get("country")</label>}
                 </div>
             </div>
             @*Geographical context*@
@@ -67,7 +83,8 @@
             @*Year Strike Started*@
             <div class="form-group">
                 <div class="form-inline">
-                    @select(strikeForm("yearStart"), options = years.map(s => s.toString() -> s.toString()), '_label -> "Year the strike started", 'class -> "form-control input-full-width", 'title -> "Select year from the list box according to the information provided by the source.")
+                    @select(strikeForm("yearStart"), options = years.map(s => s.toString() -> s.toString()), '_label -> "Year the strike started*", 'class -> "form-control input-full-width", 'title -> "Select year from the list box according to the information provided by the source.")
+                    @if(messages.get("yearStart")){<label class="alert-danger">@messages.get("yearStart")</label>}
                 </div>
             </div>
             @*Month Strike Started*@
@@ -108,20 +125,27 @@
             </div>
             @*Sectors of the Strike*@
             <div class="form-group">
+                <label>Sectors</label>
                 <div class="selectize-control form-inline">
-                    @select(strikeForm("sectors"), sectors.map(s => s.id.toString() -> s.sectorName), '_label -> "Sectors", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="sectors" name="sectors[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until sectors.length) {<option value="@sectors(i).id" @(if(strike.getSectors().contains(sectors(i))) "selected" else "")>@sectors(i).sectorName</option>}
+                    </select>
                 </div>
             </div>
             @*Occupation HISCO first level*@
             <div class="form-group">
+                <label>Occupations HISCO first level</label>
                 <div class="selectize-control form-inline">
-                    @select(strikeForm("hiscoOccupations"), hiscoOccupations.map(s => s.id.toString() -> s.occupationHiscoText), '_label -> "Occupations HISCO first level", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="hiscoOccupations" name="hiscoOccupations[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until hiscoOccupations.length) {<option value="@hiscoOccupations(i).id" @(if(strike.getHiscoOccupations().contains(hiscoOccupations(i))) "selected" else "")>@hiscoOccupations(i).occupationHiscoText </option>}
+                    </select>
                 </div>
             </div>
             @*Occupation Strike*@
             <div class="form-group">
                 <div class="selectize-control form-inline multi">
-                    @inputText(strikeForm("occupations"), '_label -> "Occupations", 'class -> "input-full-width form-control selectized", 'title -> "Open field. Insert the name of the main occupation(s) of the workers on strike as listed in the source. In case this information is not provided leave the field blank.")
+                    @inputText(strikeForm("occupations"), '_label -> "Occupations*", 'class -> "input-full-width form-control selectized", 'title -> "Open field. Insert the name of the main occupation(s) of the workers on strike as listed in the source. In case this information is not provided leave the field blank.")
+                    @if(messages.get("occupations")){<label class="alert-danger">@messages.get("occupations")</label>}
                 </div>
             </div>
             @*Labour Relations*@
@@ -133,7 +157,8 @@
             @*Work Situation*@
             <div class="form-group">
                 <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
-                    @inputRadioGroup(strikeForm("workersSituation"), options = options("Free" -> "Free", "Unfree" -> "Unfree", "Unknown" -> "Unknow"), '_label -> "Workers on strike are:")
+                    @inputRadioGroup(strikeForm("workersSituation"), options = options("Free" -> "Free", "Unfree" -> "Unfree", "Unknown" -> "Unknow"), '_label -> "Workers on strike are:*")
+                    @if(messages.get("workersSituation")){<label class="alert-danger">@messages.get("workersSituation")</label>}
                 </div>
             </div>
             @*Company Names*@
@@ -179,19 +204,26 @@
             @*Dominant Gender*@
             <div class="form-group">
                 <div class="form-inline" title="Select one of the option available. In case this information is not provided select unknown.">
-                    @inputRadioGroup(strikeForm("dominantGender"), options = options("Predominantly male" -> "Predominantly male", "Predominantly female" -> "Predominantly female", "Mixed" -> "Mixed" ,"Unknown" -> "Unknow"), '_label -> "Predominant gender")
+                    @inputRadioGroup(strikeForm("dominantGender"), options = options("Predominantly male" -> "Predominantly male", "Predominantly female" -> "Predominantly female", "Mixed" -> "Mixed" ,"Unknown" -> "Unknow"), '_label -> "Predominant gender*")
+                    @if(messages.get("dominantGender")){<label class="alert-danger">@messages.get("dominantGender")</label>}
                 </div>
             </div>
             @*Cause of Dispute*@
             <div class="form-group">
+                <label>Cause of disputes</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("causeOfDisputes"), causeOfDisputes.map(s => s.id.toString() -> s.causeOfDisputeText), '_label -> "Cause of disputes", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="causeOfDisputes" name="causeOfDisputes[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until causeOfDisputes.length) {<option value="@causeOfDisputes(i).id" @(if(strike.getCauseOfDisputes().contains(causeOfDisputes(i))) "selected" else "")>@causeOfDisputes(i).causeOfDisputeText </option>}
+                    </select>
                 </div>
             </div>
             @*Identity Elements*@
             <div class="form-group">
+                <label>Identity elements</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("identityElements"), identityElements.map(s => s.id.toString() -> s.identityElementText), '_label -> "Identity elements", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="identityElements" name="identityElements[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until identityElements.length) {<option value="@identityElements(i).id" @(if(strike.getIdentityElements().contains(identityElements(i))) "selected" else "")>@identityElements(i).identityElementText </option>}
+                    </select>
                 </div>
             </div>
             @*Identity Details*@
@@ -202,8 +234,11 @@
             </div>
             @*Strike Definitions*@
             <div class="form-group">
+                <label>Strike definitions</label>
                 <div class="selectize-control form-inline">
-                @select(strikeForm("strikeDefinitions"), strikeDefinitions.map(s => s.id.toString() -> s.strikeDefinitionText), '_label -> "Strike definitions", 'multiple -> "multiple", 'placeholder -> "Please choose...", 'title -> "Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.")
+                    <select multiple="multiple" id="strikeDefinitions" name="strikeDefinitions[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until strikeDefinitions.length) {<option value="@strikeDefinitions(i).id" @(if(strike.getStrikeDefinitions().contains(strikeDefinitions(i))) "selected" else "")>@strikeDefinitions(i).strikeDefinitionText </option>}
+                    </select>
                 </div>
             </div>
             @*Nature of the Strike*@
@@ -228,6 +263,7 @@
             <div class="form-group">
                 <div class="form-inline input-full-width">
                     @inputFile(strikeForm("articleUpload"), '_label -> "Article upload", 'id -> "articleUploadButton", 'title -> "Upload a digital copy of the newspaper article from where you have extracted the information. Digital copies can be uploaded in PDF, JPEG or TIFF format.")
+                    @if(strike.getArticle != null){<label class="alert-info">Please (re)select article.</label>}
                 </div>
             </div>
             @*Year of the Article*@
@@ -250,7 +286,7 @@
             </div>
             @*Submit button to save the specific strike*@
             <div class="form-group">
-                <button name="addStrikeButton" id="addStrikeButton" onclick="isValid()">Add Strike</button>
+                <button name="indexButton" id="addStrikeButton" value="add" class="form-control btn-success">Add Strike</button>
             </div>
         </div>
     }
