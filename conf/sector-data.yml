@@ -1,0 +1,30 @@
+# Sectors
+- &0 !!models.Sector
+      sectorName: No sector provided...
+
+- &0 !!models.Sector
+      sectorName: Agriculture, hunting, forestry, fishing
+
+- &0 !!models.Sector
+      sectorName: Mining, quarrying
+
+- &0 !!models.Sector
+      sectorName: Manufacturing
+
+- &0 !!models.Sector
+      sectorName: Electricity, gas, water
+
+- &0 !!models.Sector
+      sectorName: Construction
+
+- &0 !!models.Sector
+      sectorName: Wholesale, retail trade, restaurants, hotels
+
+- &0 !!models.Sector
+      sectorName: Transport, storage, communication
+
+- &0 !!models.Sector
+      sectorName: Business serivice, financing, insurance, real estate
+
+- &0 !!models.Sector
+      sectorName: Community, social services, personal services

@@ -1,0 +1,4 @@
+#CompanyNames
+- &0 !!models.CompanyName
+      id:               1
+      companyNameText:  No company name provided...
