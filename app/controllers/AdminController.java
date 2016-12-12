@@ -33,7 +33,7 @@ import static play.libs.Json.toJson;
  * Created by Igor on 11/4/2016.
  */
 @Security.Authenticated(Secured.class)
-//@Authorized.AdminAuthorized
+@Authorized.AdminAuthorized
 public class AdminController extends Controller{
 
     @Inject FormFactory formFactory;
