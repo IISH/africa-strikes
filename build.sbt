@@ -1,6 +1,6 @@
-name := """AfricaStrikes"""
+name := """africa-strikes"""
 
-version := "1.0-SNAPSHOT"
+version := "1.0.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
