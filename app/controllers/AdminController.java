@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.typesafe.config.ConfigFactory;
 import models.*;
 import play.data.FormFactory;
 import play.libs.Yaml;
@@ -12,7 +13,6 @@ import security.Authorized;
 import security.Secured;
 import views.html.admin;
 import views.html.update;
-
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import java.awt.image.BufferedImage;
@@ -122,7 +122,7 @@ public class AdminController extends Controller{
             // creating the file with the correct path
             File articleFile = null;
             try {
-                articleFile = File.createTempFile("article-", "." + extension, new File("C:\\AfricaStrikes\\Articles\\"));
+                articleFile = File.createTempFile("article-", "." + extension, new File(ConfigFactory.load().getString("articleFilePath")));
             } catch (Exception e) {
             }
 
@@ -242,7 +242,7 @@ public class AdminController extends Controller{
 
     public Result getArticleFile(String selectedStrike) {
         strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
-        return ok(new File("C:/AfricaStrikes/Articles/" + strikeSelected.getArticle().articleName));
+        return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
     }
 
     public Result getSelectedStrike(String selectedStrike)
