@@ -1,0 +1,9 @@
+/*!
+ * Stylesheet created specially for africa strikes
+ */
+/* Makes sure the input fields are of same width.*/
+.input-full-width{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
