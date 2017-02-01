@@ -1,26 +1,18 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import com.typesafe.config.ConfigFactory;
 import models.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
-import play.twirl.api.Html;
 import security.Secured;
 import views.html.*;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import static play.libs.Json.toJson;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -32,7 +24,7 @@ public class HomeController extends Controller{
     @Inject FormFactory formFactory;
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
-    private boolean isFirstLoad = true;
+
     /**
      * An action that renders an HTML page with a welcome message.
      * The configuration in the <code>routes</code> file means that
@@ -40,10 +32,7 @@ public class HomeController extends Controller{
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        if(isFirstLoad){
-            strikeController.loadYamlFiles();
-            isFirstLoad = false;
-        }
+        strikeController.checkFirstLoad();
         // Fills the tables with the correct data if the tables are empty
         if(Sector.find.findRowCount() == 0) {
             saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
@@ -101,7 +90,7 @@ public class HomeController extends Controller{
             }
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -136,8 +125,7 @@ public class HomeController extends Controller{
         }
         catch (NullPointerException e)
         {
-            System.out.println("Iets in strike is leeg!");
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
         finally {
             Ebean.endTransaction();

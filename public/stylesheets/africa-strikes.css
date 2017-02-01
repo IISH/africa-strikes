@@ -7,3 +7,30 @@
     min-width: 100%;
     max-width: 100%;
 }
+
+.error-header{
+    margin-top: 10%;
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.error-explanation{
+    text-align: center;
+    width: 40%;
+    height: 20%;
+    max-height: 20%;
+    border-style: dashed;
+    border-width: 1px;
+    margin-bottom:5%;
+}
+
+.error-button-field{
+    max-width: 100%;
+    text-align: center;
+}
+
+.error-button{
+    width: 20%;
+    max-width: 20%;
+    height: 50px;
+}

@@ -2,8 +2,6 @@ package controllers;
 
 import com.typesafe.config.ConfigFactory;
 import models.*;
-import play.GlobalSettings;
-import play.api.GlobalSettings$;
 import play.libs.Yaml;
 import play.mvc.Http;
 import javax.imageio.ImageIO;
@@ -26,6 +24,14 @@ public class StrikeController {
     private static List<String> labourRelations;
     private static List<String> months;
     private static List<String> numberOfParticipants;
+    private boolean isFirstLoad = true;
+
+    public void checkFirstLoad(){
+        if(isFirstLoad){
+            loadYamlFiles();
+            isFirstLoad = false;
+        }
+    }
 
     public void loadYamlFiles(){
         sourceData = (List<String>) Yaml.load("source-data.yml");

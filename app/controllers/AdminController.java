@@ -4,7 +4,6 @@ import com.avaje.ebean.Ebean;
 import com.typesafe.config.ConfigFactory;
 import models.*;
 import play.data.FormFactory;
-import play.libs.Yaml;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -13,19 +12,13 @@ import security.Authorized;
 import security.Secured;
 import views.html.admin;
 import views.html.update;
-import javax.imageio.ImageIO;
+import views.html.noStrikeSelected;
 import javax.inject.Inject;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static play.libs.Json.toJson;
 
@@ -43,6 +36,7 @@ public class AdminController extends Controller{
 
     public Result index()
     {
+        strikeSelected = null;
         return ok(admin.render("", Strike.getAllStrikesAsArray(), formFactory.form(Strike.class)));
     }
 
@@ -53,22 +47,29 @@ public class AdminController extends Controller{
             return badRequest("You first need to select a strike");
         else{
             if("approve".equals(postAction[0])){
-                strikeSelected.setChecked(true);
-                strikeSelected.update();
-                return redirect(routes.AdminController.index());
+                if(strikeSelected != null) {
+                    strikeSelected.setChecked(true);
+                    strikeSelected.update();
+                    return redirect(routes.AdminController.index());
+                }else
+                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("update".equals(postAction[0])){
                 if(strikeSelected != null)
                     return redirect("/admin/update/strike/" + strikeSelected.id);
                 else
-                    return badRequest("You first need to select a strike");
+                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("discard".equals(postAction[0])){
-                strikeSelected.delete();
-                return redirect(routes.AdminController.index());
+                if(strikeSelected != null) {
+                    strikeSelected.delete();
+                    return redirect(routes.AdminController.index());
+                }else
+                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
             }else if("refresh".equals(postAction[0])){
                 index();
             }
+            strikeSelected = null;
         }
         return redirect(routes.AdminController.index());
     }
@@ -128,8 +129,7 @@ public class AdminController extends Controller{
             Ebean.commitTransaction();
         }
         catch (Exception e){
-            System.out.println("Iets in strike is leeg!");
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
         finally {
             Ebean.endTransaction();
@@ -137,6 +137,7 @@ public class AdminController extends Controller{
     }
 
     public Result strikeToUpdate(Long id){
+        strikeController.checkFirstLoad();
         List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
         List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
         List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
