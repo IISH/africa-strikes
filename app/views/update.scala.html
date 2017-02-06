@@ -25,7 +25,7 @@
     <script src="@routes.Assets.versioned("javascripts/selectize.js")" type="text/javascript"></script>
 
     @form(action = routes.AdminController.saveUpdatedStrike(), 'enctype -> "multipart/form-data"){
-
+        @CSRF.formField
         <div class="container">
             <h2>Update the description of the strike.</h2>
             <h3>
@@ -278,6 +278,10 @@
     <script>
 
         $(document).ready(function(){
+
+            $(document).on("keypress", ":input:not(textarea)", function(event) {
+                return event.keyCode != 13;
+            });
 
             $('#sectors').selectize();
             $('#hiscoOccupations').selectize();

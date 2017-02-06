@@ -38,6 +38,7 @@
     <script src="@routes.Assets.versioned("javascripts/selectize.js")" type="text/javascript"></script>
 
     @form(action = routes.HomeController.addStrike(), 'enctype -> "multipart/form-data") {
+        @CSRF.formField
         <div class="container">
             <div class="col-lg-10">
                 <h2>Fill in the description of the strike.</h2>
@@ -295,6 +296,10 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+
+            $(document).on("keypress", ":input:not(textarea)", function(event) {
+                return event.keyCode != 13;
+            });
 
             $('#duration').val(0);
 

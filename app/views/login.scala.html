@@ -3,6 +3,7 @@
 @import helper._
 @main("Login | Africa Strikes") {
     @form(action = routes.SecurityController.authenticate()) {
+        @CSRF.formField
         <div class="container">
             @if(loginForm.hasGlobalErrors) {
                 <div class="alert alert-danger" role="alert">
