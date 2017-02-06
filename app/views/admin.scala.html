@@ -185,6 +185,10 @@
 
         $(document).ready(function(){
 
+            $(document).on("keypress", ":input:not(textarea)", function(event) {
+                return event.keyCode != 13;
+            });
+
             $('#strikeSelectAdmin').on('click', function(e){e.preventDefault();});
 
             $('#updateStrikeButton').click(function (e) {
@@ -306,8 +310,10 @@
                     }
                     if(strike["checked"] === true){
                         $('#approveStrikeButton').hide();
+                        $('#updateStrikeButton').hide();
                     }else{
                         $('#approveStrikeButton').show();
+                        $('#updateStrikeButton').show();
                     }
                 });
             });
