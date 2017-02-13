@@ -39,7 +39,7 @@ public class AdminController extends Controller{
     public Result index()
     {
         strikeSelected = null;
-        return ok(admin.render("", Strike.getAllStrikesAsArray(), formFactory.form(Strike.class)));
+        return ok(admin.render("", Strike.getAllStrikesIds(), formFactory.form(Strike.class)));
     }
 
     public Result update()
@@ -68,8 +68,6 @@ public class AdminController extends Controller{
                     return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
-            }else if("refresh".equals(postAction[0])){
-                index();
             }
             strikeSelected = null;
         }
@@ -167,9 +165,12 @@ public class AdminController extends Controller{
         return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
     }
 
-    public Result getSelectedStrike(String selectedStrike)
-    {
+    public Result getSelectedStrike(String selectedStrike) {
         strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
         return ok(toJson(strikeSelected));
+    }
+
+    public Result getAllStrikeIds(){
+        return ok(toJson(Strike.getAllStrikesIds()));
     }
 }

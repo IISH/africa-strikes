@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -389,6 +390,18 @@ public class Strike extends Model{
         List<Strike> strikes = Ebean.find(Strike.class).findList();
         Strike[] strikesToSend = new Strike[ strikes.size()];
         strikes.toArray(strikesToSend);
+        return strikesToSend;
+    }
+
+    public static Long[] getAllStrikesIds(){
+        List<Object> objects = Ebean.find(Strike.class).findIds();
+        List<Long> strikesIds = new ArrayList<>();
+        for (Object obj : objects) {
+            strikesIds.add((Long)obj);
+        }
+        Collections.sort(strikesIds);
+        Long[] strikesToSend = new Long[strikesIds.size()];
+        strikesIds.toArray(strikesToSend);
         return strikesToSend;
     }
 }

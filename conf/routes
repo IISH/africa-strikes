@@ -7,6 +7,7 @@ GET     /                           controllers.HomeController.index
 POST    /                           controllers.HomeController.addStrike()
 
 GET     /admin                      controllers.AdminController.index
+GET     /admin/strikes              controllers.AdminController.getAllStrikeIds()
 GET     /admin/type/:id             controllers.AdminController.getCheckedStrikes(id: String)
 GET     /admin/strike/:id           controllers.AdminController.getSelectedStrike(id: String)
 GET     /admin/strike/article/:id   controllers.AdminController.getArticleFile(id: String)
