@@ -2,6 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import models.*;
+import play.Logger;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
@@ -24,6 +25,7 @@ public class HomeController extends Controller{
     @Inject FormFactory formFactory;
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
+    final Logger.ALogger logger = Logger.of(this.getClass());
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -90,7 +92,7 @@ public class HomeController extends Controller{
             }
         }
         catch (Exception e) {
-            e.getMessage();
+            logger.error("Exception loading Yaml files into database " + e);
         }
     }
 
@@ -125,7 +127,7 @@ public class HomeController extends Controller{
         }
         catch (NullPointerException e)
         {
-            e.getMessage();
+            logger.error("Exception adding strike to database " + e);
         }
         finally {
             Ebean.endTransaction();

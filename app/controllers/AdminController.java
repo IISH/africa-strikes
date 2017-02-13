@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.typesafe.config.ConfigFactory;
 import models.*;
+import play.Logger;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -33,6 +34,7 @@ public class AdminController extends Controller{
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
     private Strike strikeSelected = null;
+    private final Logger.ALogger logger = Logger.of(this.getClass());
 
     public Result index()
     {
@@ -129,7 +131,7 @@ public class AdminController extends Controller{
             Ebean.commitTransaction();
         }
         catch (Exception e){
-            e.getMessage();
+            logger.error("Exception updating a strike " + e);
         }
         finally {
             Ebean.endTransaction();
