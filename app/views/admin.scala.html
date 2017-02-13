@@ -148,7 +148,7 @@
                         @inputText(adminForm("outcomeOfStrike"), '_label -> "Outcome", 'readonly -> "readonly", 'class -> "input-full-width form-control")
                     </div>
                     <div class="form-inline">
-                        @inputText(adminForm("description"), '_label -> "Description", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                        @textarea(adminForm("description"), '_label -> "Description", 'rows -> "5", 'readonly -> "readonly", 'class -> "input-full-width form-control")
                     </div>
                     <label>Article uploaded</label> (click to view)
                     <div class="form-inline" id="articleAdminDiv">
