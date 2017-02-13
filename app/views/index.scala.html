@@ -303,41 +303,6 @@
 
             $('#duration').val(0);
 
-            $(function () {
-                @*if(@message.compareTo(""))*@
-                @*{*@
-                    @*alert("Apparently message is not empty?");*@
-                @*}*@
-                @*else if(@message.compareTo("SourceStrike"))*@
-                @*{*@
-                    @*alert("The 'Source' was not filled out!");*@
-                @*}*@
-                @*else if(@message.compareTo("Country"))*@
-                @*{*@
-                    @*alert("The 'Country' was not selected!");*@
-                @*}*@
-                @*else if(@message.compareTo("YearStrikeStarted"))*@
-                @*{*@
-                    @*alert("The 'Year the strike started' was not selected!");*@
-                @*}*@
-                @*else if(@message.compareTo("Occupation"))*@
-                @*{*@
-                    @*alert("The 'Occupations' was not filled out!");*@
-                @*}*@
-                @*else if(@message.compareTo("WorkersSituation"))*@
-                @*{*@
-                    @*alert("The 'Workers on strike are:' was not selected!");*@
-                @*}*@
-                @*else if(@message.compareTo("DominantGender"))*@
-                @*{*@
-                    @*alert("The 'Predominant gender' was not selected!");*@
-                @*}*@
-                @*else if(@message.compareTo("Author"))*@
-                @*{*@
-                    @*alert("The 'Author' was not filled out!");*@
-                @*}*@
-            });
-
             function appendToSelect(inner, value, selector) {
                 var el = document.createElement('option');
                 el.innerHTML = inner;
