@@ -8,7 +8,6 @@
 
     @form(action = routes.AdminController.update(), 'enctype -> "multipart/form-data"){
         @CSRF.formField
-    @*<form name="selectForm">*@
         @*Select form*@
         <div class="container">
             <div class="col-lg-10">
@@ -51,8 +50,6 @@
                     </div>
                 </div>
             </div>
-        @*</form>*@
-
             @*Display form for strike*@
             <div class="container col-lg-9">
                 <h2></h2>

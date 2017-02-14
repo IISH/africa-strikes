@@ -1,43 +1,9 @@
 /**
- * Created by Igor on 2/13/2017.
+ * Created by Igor on 2/14/2017.
  */
-$(document).ready(function(){
-
-    $(document).on("keypress", ":input:not(textarea)", function(event) {
+$(document).ready(function() {
+    $(document).on("keypress", ":input:not(textarea)", function (event) {
         return event.keyCode != 13;
-    });
-
-    $('#sectors').selectize();
-    $('#hiscoOccupations').selectize();
-    $('#causeOfDisputes').selectize();
-    $('#identityElements').selectize();
-    $('#strikeDefinitions').selectize();
-    $('#companyNames').selectize({
-        plugins: ['remove_button'],
-        create: function(input) {
-            return {
-                value: input,
-                text: input
-            }
-        }
-    });
-    $('#occupations').selectize({
-        plugins: ['remove_button'],
-        create:function(input){
-            return{
-                value: input,
-                text: input
-            }
-        }
-    });
-    $('#identityDetails').selectize({
-        plugins: ['remove_button'],
-        create:function(input){
-            return{
-                value: input,
-                text: input
-            }
-        }
     });
 
     function appendToSelect(inner, value, selector) {
@@ -47,10 +13,40 @@ $(document).ready(function(){
         selector.appendChild(el);
     }
 
-    function getNumberOfDays(yearNumber, monthNumber) {
-        var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0));
-        return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][(monthNumber === -1)? 0 : monthNumber];
-    }
+    $(function(){
+        $('#sectors').selectize();
+        $('#hiscoOccupations').selectize();
+        $('#causeOfDisputes').selectize();
+        $('#identityElements').selectize();
+        $('#strikeDefinitions').selectize();
+        $('#companyNames').selectize({
+            plugins: ['remove_button'],
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
+        $('#occupations').selectize({
+            plugins: ['remove_button'],
+            create:function(input){
+                return{
+                    value: input,
+                    text: input
+                }
+            }
+        });
+        $('#identityDetails').selectize({
+            plugins: ['remove_button'],
+            create:function(input){
+                return{
+                    value: input,
+                    text: input
+                }
+            }
+        });
+    });
 
     function updateArticleDayField() {
         var yearArticleElement = document.getElementById("yearOfArticle");
@@ -85,6 +81,11 @@ $(document).ready(function(){
         }
     }
 
+    function getNumberOfDays(yearNumber, monthNumber) {
+        var isLeap = ((yearNumber % 4) == 0 && ((yearNumber % 100) != 0 || (yearNumber % 400) == 0));
+        return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][(monthNumber === -1)? 0 : monthNumber];
+    }
+
     $("#yearOfArticle").change(function () {
         updateArticleDayField();
     });
@@ -108,4 +109,5 @@ $(document).ready(function(){
     $('#monthEnd').change(function () {
         updateStrikeDayEndField();
     });
+
 });
