@@ -15,9 +15,17 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/selectize.bootstrap3.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/selectize.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/africa-strikes.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.ico")">
     </head>
     <body>
+        <div class="container page-header">
+            <div class="col-lg-6">
+                <img class="img-responsive" src="@routes.Assets.versioned("images/IISG logo Eng RGB grijsblauw.jpg")">
+            </div>
+            <div class="col-lg-6 text-center text-uppercase">
+                <h1 class="site-slogan">Africa Strikes</h1>
+            </div>
+        </div>
         @* And here's where we render the `Html` object containing
          * the page content. *@
         @content
