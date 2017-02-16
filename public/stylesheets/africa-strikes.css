@@ -34,3 +34,11 @@
     max-width: 20%;
     height: 50px;
 }
+
+.site-slogan{
+    font-family: Georgia,'Times New Roman',serif;
+    line-height: 15px;
+    color: #A078A0;
+    margin-top: 52px;
+    font-size: 42px;
+}
