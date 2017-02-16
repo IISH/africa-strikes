@@ -25,6 +25,12 @@ public class SecurityController extends Controller {
         return ok(views.html.login.render(formFactory.form(Login.class)));
     }
 
+    public boolean isAdmin(){
+        String username = ctx().session().get("username");
+        User user = User.findByUsername(username);
+        return (user.isAdmin());
+    }
+
     public Result authenticate() {
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
         if (loginForm.hasErrors())

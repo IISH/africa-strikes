@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.typesafe.config.ConfigFactory;
 import models.*;
+import play.Logger;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -33,11 +34,12 @@ public class AdminController extends Controller{
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
     private Strike strikeSelected = null;
+    private final Logger.ALogger logger = Logger.of(this.getClass());
 
     public Result index()
     {
         strikeSelected = null;
-        return ok(admin.render("", Strike.getAllStrikesAsArray(), formFactory.form(Strike.class)));
+        return ok(admin.render("", Strike.getAllStrikesIds(), formFactory.form(Strike.class)));
     }
 
     public Result update()
@@ -66,8 +68,9 @@ public class AdminController extends Controller{
                     return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
-            }else if("refresh".equals(postAction[0])){
-                index();
+            }
+            else if("index".equals(postAction[0])){ // return to default page
+                return redirect(routes.HomeController.index());
             }
             strikeSelected = null;
         }
@@ -129,7 +132,7 @@ public class AdminController extends Controller{
             Ebean.commitTransaction();
         }
         catch (Exception e){
-            e.getMessage();
+            logger.error("Exception updating a strike " + e);
         }
         finally {
             Ebean.endTransaction();
@@ -165,9 +168,12 @@ public class AdminController extends Controller{
         return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
     }
 
-    public Result getSelectedStrike(String selectedStrike)
-    {
+    public Result getSelectedStrike(String selectedStrike) {
         strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
         return ok(toJson(strikeSelected));
+    }
+
+    public Result getAllStrikeIds(){
+        return ok(toJson(Strike.getAllStrikesIds()));
     }
 }

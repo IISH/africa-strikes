@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory;
 import models.*;
 import play.libs.Yaml;
 import play.mvc.Http;
+import play.Logger;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +26,7 @@ public class StrikeController {
     private static List<String> months;
     private static List<String> numberOfParticipants;
     private boolean isFirstLoad = true;
+    final Logger.ALogger logger = Logger.of(this.getClass());
 
     public void checkFirstLoad(){
         if(isFirstLoad){
@@ -51,7 +53,7 @@ public class StrikeController {
             try {
                 articleFile = File.createTempFile("article-", "." + extension, new File(ConfigFactory.load().getString("articleFilePath")));
             } catch (Exception e) {
-                e.getMessage();
+                logger.error("Exception creating the initial file " + e);
             }
 
             // Checks if the file has an image extension
@@ -61,7 +63,7 @@ public class StrikeController {
                     image = ImageIO.read(article.getFile());
                     ImageIO.write(image, extension, articleFile);
                 } catch (Exception e) {
-                    e.getMessage();
+                    logger.error("Exception checking image extension " + e);
                 }
             }
             // Checks if the file has a pdf or tif extension
@@ -75,8 +77,8 @@ public class StrikeController {
                     }
                     os.close();
                     fs.close();
-                } catch (Exception E) {
-                    E.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("Exception checking pdf or tiff extension " + e);
                 }
             }
             strike.setArticle(new Article(articleFile.getName()));

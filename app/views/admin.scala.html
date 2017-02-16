@@ -1,4 +1,4 @@
-@(message: String)(strikes: Array[Strike])(adminForm: Form[Strike])
+@(message: String)(strikes: Array[Long])(adminForm: Form[Strike])
 
 @import helper._
 @main("Africa Strikes"){
@@ -8,7 +8,6 @@
 
     @form(action = routes.AdminController.update(), 'enctype -> "multipart/form-data"){
         @CSRF.formField
-    @*<form name="selectForm">*@
         @*Select form*@
         <div class="container">
             <div class="col-lg-10">
@@ -16,6 +15,7 @@
             </div>
             <div class="col-lg-2">
                 <div class="form-group">
+                    <h2><button name="updateStrikeButton" id="defaultPageButton" value="index" class="form-control btn-primary">Input form</button></h2>
                     <h2><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
                 </div>
             </div>
@@ -44,15 +44,13 @@
                     </div>
                     <div class="form-group">
                         <label>Select a strike from the list</label>
-                        <button name="updateStrikeButton" id="refreshListButton" value="refresh" class="form-control btn-info">Refresh</button>
+                        <button type="button" name="updateStrikeButton" id="refreshListButton" value="refresh" class="form-control btn-info">Refresh</button>
                     </div>
                     <div class="form-inline">
                         <select class="input-full-width form-control form-control-full-height" id="strikeSelectAdmin" size="50"></select>
                     </div>
                 </div>
             </div>
-        @*</form>*@
-
             @*Display form for strike*@
             <div class="container col-lg-9">
                 <h2></h2>
@@ -148,7 +146,7 @@
                         @inputText(adminForm("outcomeOfStrike"), '_label -> "Outcome", 'readonly -> "readonly", 'class -> "input-full-width form-control")
                     </div>
                     <div class="form-inline">
-                        @inputText(adminForm("description"), '_label -> "Description", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                        @textarea(adminForm("description"), '_label -> "Description", 'rows -> "5", 'readonly -> "readonly", 'class -> "input-full-width form-control")
                     </div>
                     <label>Article uploaded</label> (click to view)
                     <div class="form-inline" id="articleAdminDiv">
@@ -180,7 +178,6 @@
         </div>
     }
 
-
     <script type="text/javascript">
 
         $(document).ready(function(){
@@ -189,19 +186,22 @@
                 return event.keyCode != 13;
             });
 
-            $('#strikeSelectAdmin').on('click', function(e){e.preventDefault();});
-
-            $('#updateStrikeButton').click(function (e) {
-               if($(this).value === "discard"){
-                   if(confirm('Are you sure you want to discard the selected strike?')){
-
-                   }
-                   else {
-                       e.preventDefault();
-                   }
-               }
+            $('#refreshListButton').on('click', function () {
+                // unselect the select button
+                deselectSelection();
+                // clear search field
+                $('#searchStrikeAdmin').val("");
+                // clear the list
+                for(var i = document.getElementById("strikeSelectAdmin").options.length - 1; i >= 0; i--){
+                    document.getElementById("strikeSelectAdmin").remove(i);
+                }
+                // fill the list
+                $.getJSON('/admin/strikes', function (updatedStrikes) {
+                    for(var i = 0; i < updatedStrikes.length; i++){
+                        appendToSelect(updatedStrikes[i], updatedStrikes[i], document.getElementById("strikeSelectAdmin"));
+                    }
+                });
             });
-
 
             function appendToSelect(inner, value, selector) {
                 var el = document.createElement('option');
@@ -212,7 +212,7 @@
 
             $(function () {
                 @for(s <- strikes){
-                   appendToSelect(@s.id, @s.id, document.getElementById("strikeSelectAdmin"));
+                   appendToSelect(@s, @s, document.getElementById("strikeSelectAdmin"));
                 }
             });
 
@@ -224,12 +224,19 @@
                         event.preventDefault();
                 }
                 // To uncheck the selected checkbox
-                var ele = document.getElementsByName("checkedOrUncheckedStrikes");
-                for(var i=0;i<ele.length;i++)
-                    ele[i].checked = false;
+                deselectSelection();
+                // Search the strike
                 searchStrike(this.value, undefined);
             });
 
+            // Deselects the selections for checked, unchecked and all
+            function deselectSelection(){
+                var ele = document.getElementsByName("checkedOrUncheckedStrikes");
+                for(var i=0;i<ele.length;i++)
+                    ele[i].checked = false;
+            }
+
+            // Search for the strike with a given strikenumber and the strikes given for checked/unchecked
             function searchStrike(strikeNumber, strikesGiven){
                 var oldStrikesOptions = document.getElementById("strikeSelectAdmin").options;
                 var oldStrikes = [];
@@ -252,13 +259,13 @@
                 else if(strikesGiven === undefined){ // searching via the searchbox
                     if(strikeId.length === 0) { // if the searchfield has been emptied
                         @for(s <- strikes){
-                            var $temp = new String(@s.id);
+                            var $temp = new String(@s);
                             appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
                         }
                     }
                     else{ // if searching
                         @for(s <- strikes){
-                            var $temp = new String(@s.id);
+                            var $temp = new String(@s);
                             if(strikeId == $temp.slice(0,strikeId.length)) {
                                 appendToSelect($temp, $temp, document.getElementById("strikeSelectAdmin"));
                             }
@@ -318,7 +325,6 @@
                 });
             });
         });
-
     </script>
 
 }
