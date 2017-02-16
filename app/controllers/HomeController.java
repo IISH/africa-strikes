@@ -6,6 +6,7 @@ import play.Logger;
 import play.data.FormFactory;
 import play.libs.Yaml;
 import play.mvc.*;
+import security.Authorized;
 import security.Secured;
 import views.html.*;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class HomeController extends Controller{
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
     final Logger.ALogger logger = Logger.of(this.getClass());
+    private String successMessage = "";
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -81,7 +83,9 @@ public class HomeController extends Controller{
                 strikeController.getNumberOfParticipants(),
                 years,
                 days,
-                strike));
+                strike,
+                securityController.isAdmin(),
+                successMessage));
     }
 
     private <T> void saveYamlFileToDatabase(List<T> yamlList)
@@ -104,6 +108,8 @@ public class HomeController extends Controller{
             String[] postAction = request().body().asMultipartFormData().asFormUrlEncoded().get("indexButton");
             if("logout".equals(postAction[0])){
                 securityController.logout();
+            }else if("admin".equals(postAction[0])){
+                return redirect(routes.AdminController.index());
             }else if("add".equals(postAction[0])) {
                 Strike strike = formFactory.form(Strike.class).bindFromRequest().get();
 
@@ -117,17 +123,20 @@ public class HomeController extends Controller{
                 strikeController.handleStrikeMapping(strike, body);
 
                 if (checkIfValid(strike).size() != 0) {
+                    successMessage = "";
                     return handleRequest(checkIfValid(strike), strike);
                 }
 
                 // Saves the strike
                 strike.save();
                 Ebean.commitTransaction();
+                successMessage = "The labour conflict has been added!";
             }
         }
         catch (NullPointerException e)
         {
             logger.error("Exception adding strike to database " + e);
+            successMessage = "";
         }
         finally {
             Ebean.endTransaction();

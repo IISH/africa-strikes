@@ -69,6 +69,9 @@ public class AdminController extends Controller{
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
             }
+            else if("index".equals(postAction[0])){ // return to default page
+                return redirect(routes.HomeController.index());
+            }
             strikeSelected = null;
         }
         return redirect(routes.AdminController.index());
