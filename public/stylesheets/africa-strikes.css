@@ -7,13 +7,11 @@
     min-width: 100%;
     max-width: 100%;
 }
-
 .error-header{
     margin-top: 10%;
     margin-bottom: 5%;
     text-align: center;
 }
-
 .error-explanation{
     text-align: center;
     width: 40%;
@@ -23,22 +21,22 @@
     border-width: 1px;
     margin-bottom:5%;
 }
-
 .error-button-field{
     max-width: 100%;
     text-align: center;
 }
-
 .error-button{
     width: 20%;
     max-width: 20%;
     height: 50px;
 }
-
 .site-slogan{
     font-family: Georgia,'Times New Roman',serif;
     line-height: 15px;
     color: #A078A0;
     margin-top: 52px;
     font-size: 42px;
+}
+.africa-header{
+    padding-top: 9px;
 }
