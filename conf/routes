@@ -3,24 +3,26 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-POST    /                           controllers.HomeController.addStrike()
+GET     /                               controllers.HomeController.index
+POST    /                               controllers.HomeController.addStrike()
 
-GET     /admin                      controllers.AdminController.index
-GET     /admin/strikes              controllers.AdminController.getAllStrikeIds()
-GET     /admin/type/:id             controllers.AdminController.getCheckedStrikes(id: String)
-GET     /admin/strike/:id           controllers.AdminController.getSelectedStrike(id: String)
-GET     /admin/strike/article/:id   controllers.AdminController.getArticleFile(id: String)
+GET     /admin                          controllers.AdminController.index
+GET     /admin/strikes                  controllers.AdminController.getAllStrikeIds()
+GET     /admin/type/:id                 controllers.AdminController.getCheckedStrikes(id: String)
+GET     /admin/strike/:id               controllers.AdminController.getSelectedStrike(id: String)
+GET     /admin/strike/article/:id       controllers.AdminController.getArticleFile(id: String)
 
-POST    /admin/update               controllers.AdminController.update
-POST    /admin/update/strike        controllers.AdminController.saveUpdatedStrike
-GET     /admin/update/strike/:id    controllers.AdminController.strikeToUpdate(id: Long)
+POST    /admin/update                   controllers.AdminController.update
+POST    /admin/update/strike            controllers.AdminController.saveUpdatedStrike
+GET     /admin/update/strike/:id        controllers.AdminController.strikeToUpdate(id: Long)
 
-GET     /admin/user-overview        controllers.AdminController.userOverview
+GET     /admin/user-overview            controllers.UserOverviewController.index
+GET     /admin/user-overview/user/:id   controllers.UserOverviewController.getSelectedUser(id: String)
+POST    /admin/user-overview/update     controllers.UserOverviewController.update
 
-GET     /login                      controllers.SecurityController.login()
-POST    /login                      controllers.SecurityController.authenticate()
-GET     /logout                     controllers.SecurityController.logout()
+GET     /login                          controllers.SecurityController.login()
+POST    /login                          controllers.SecurityController.authenticate()
+GET     /logout                         controllers.SecurityController.logout()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)

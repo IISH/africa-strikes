@@ -61,9 +61,7 @@ public class User extends Model {
 
     public static User[] getAllUsersAsArray(){
         List<User> users = Ebean.find(User.class).findList();
-        User[] usersToSend = new User[ users.size()];
-        users.toArray(usersToSend);
-        return usersToSend;
+        return users.toArray(new User[ users.size()]);
     }
 
     public static String[] getAllUserNames(){
