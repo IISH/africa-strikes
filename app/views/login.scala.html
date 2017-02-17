@@ -4,6 +4,7 @@
 @main("Login | Africa Strikes") {
     @form(action = routes.SecurityController.authenticate()) {
         @CSRF.formField
+        <br><br><br>
         <div class="container">
             @if(loginForm.hasGlobalErrors) {
                 <div class="alert alert-danger" role="alert">
