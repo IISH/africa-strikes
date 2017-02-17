@@ -16,6 +16,8 @@ POST    /admin/update               controllers.AdminController.update
 POST    /admin/update/strike        controllers.AdminController.saveUpdatedStrike
 GET     /admin/update/strike/:id    controllers.AdminController.strikeToUpdate(id: Long)
 
+GET     /admin/user-overview        controllers.AdminController.userOverview
+
 GET     /login                      controllers.SecurityController.login()
 POST    /login                      controllers.SecurityController.authenticate()
 GET     /logout                     controllers.SecurityController.logout()

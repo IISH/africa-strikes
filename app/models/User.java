@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -12,6 +13,8 @@ import javax.naming.directory.InitialDirContext;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class User extends Model {
@@ -19,6 +22,7 @@ public class User extends Model {
     private Integer id;
     private String username;
     private String fullName;
+    private String rights;
 
     public static Model.Finder<Integer, User> find = new Model.Finder<>(User.class);
 
@@ -44,6 +48,27 @@ public class User extends Model {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getRights() { return rights; }
+
+    public void setRights(String rights) { this.rights = rights; }
+
+    public static List<User> getAllUsers(){
+        List<User> users = Ebean.find(User.class).findList();
+        return users;
+    }
+
+    public static User[] getAllUsersAsArray(){
+        List<User> users = Ebean.find(User.class).findList();
+        User[] usersToSend = new User[ users.size()];
+        users.toArray(usersToSend);
+        return usersToSend;
+    }
+
+    public static String[] getAllUserNames(){
+        List<String> userNames = Ebean.find(User.class).findList().stream().map(User::getUsername).collect(Collectors.toList());
+        return userNames.toArray(new String[userNames.size()]);
     }
 
     public boolean isAdmin() {

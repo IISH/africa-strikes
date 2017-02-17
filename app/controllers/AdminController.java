@@ -14,6 +14,7 @@ import security.Secured;
 import views.html.admin;
 import views.html.update;
 import views.html.noStrikeSelected;
+import views.html.userOverview;
 import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
@@ -75,6 +76,10 @@ public class AdminController extends Controller{
             strikeSelected = null;
         }
         return redirect(routes.AdminController.index());
+    }
+
+    public Result userOverview(){
+        return ok(userOverview.render("User Overview", User.getAllUserNames(), formFactory.form(User.class)));
     }
 
     public Result getCheckedStrikes(String checked)

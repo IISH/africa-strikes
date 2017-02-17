@@ -130,6 +130,7 @@ create table user (
   id                            integer auto_increment not null,
   username                      varchar(255),
   full_name                     varchar(255),
+  rights                        varchar(255),
   constraint pk_user primary key (id)
 );
 
