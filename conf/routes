@@ -18,6 +18,7 @@ GET     /admin/update/strike/:id        controllers.AdminController.strikeToUpda
 
 GET     /admin/user-overview            controllers.UserOverviewController.index
 GET     /admin/user-overview/user/:id   controllers.UserOverviewController.getSelectedUser(id: String)
+GET     /admin/user-overview/users      controllers.UserOverviewController.getAllUsers
 POST    /admin/user-overview/update     controllers.UserOverviewController.update
 
 GET     /login                          controllers.SecurityController.login()

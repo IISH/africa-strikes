@@ -1,8 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import models.Authority;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
@@ -11,10 +10,9 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Authorized;
 import security.Secured;
-import views.html.userOverview;
+import views.html.*;
 import play.data.FormFactory;
 import javax.inject.Inject;
-import java.util.List;
 
 import static play.libs.Json.toJson;
 
@@ -22,7 +20,7 @@ import static play.libs.Json.toJson;
  * Created by Igor on 2/17/2017.
  */
 @Security.Authenticated(Secured.class)
-@Authorized.AdminAuthorized
+@Authorized.With(Authorized.With.Authority.ADMIN)
 public class UserOverviewController extends Controller{
 
     @Inject FormFactory formFactory;
@@ -30,9 +28,12 @@ public class UserOverviewController extends Controller{
     private User userSelected = null;
 
     public Result index(){
-        Config conf = ConfigFactory.load();
-        List<String> rights = conf.getStringList("rights");
-        return ok(userOverview.render("User Overview", User.getAllUsersAsArray(), formFactory.form(User.class), rights));
+        System.out.println(toJson(Authority.find.all()));
+        return ok(userOverview.render(
+                "User Overview",
+                User.getAllUsersAsArray(),
+                formFactory.form(User.class),
+                Authority.find.all()));
     }
 
     public Result update(){
@@ -44,6 +45,12 @@ public class UserOverviewController extends Controller{
                 if(userSelected != null) {
                     Http.MultipartFormData body = request().body().asMultipartFormData();
                     updateUser(body);
+                    return redirect(routes.UserOverviewController.index());
+                }else
+                    return badRequest("You first need to select a user");
+            }else if("remove".equals(postAction[0])){
+                if(userSelected != null){
+                    userSelected.delete();
                     return redirect(routes.UserOverviewController.index());
                 }else
                     return badRequest("You first need to select a user");
@@ -60,7 +67,6 @@ public class UserOverviewController extends Controller{
 
     public void updateUser(Http.MultipartFormData body){
         User user  = formFactory.form(User.class).bindFromRequest().get();
-
         Ebean.beginTransaction();
         try{
             Integer id = userSelected.getId();
@@ -75,8 +81,16 @@ public class UserOverviewController extends Controller{
         }
     }
 
+    public Result getAllUsers(){
+        return ok(toJson(User.getAllUsers()));
+    }
+
     public Result getSelectedUser(String userId){
         User user = User.find.byId(Integer.parseInt(userId));
+        if(user.getAuthority() == null){
+            user.setAuthority("Unauthorized");
+            user.save();
+        }
         userSelected = user;
         return ok(toJson(user));
     }

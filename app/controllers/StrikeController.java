@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import com.typesafe.config.ConfigFactory;
 import models.*;
 import play.libs.Yaml;
@@ -41,6 +42,18 @@ public class StrikeController {
         labourRelations = (List<String>) Yaml.load("labour-relations.yml");
         months = (List<String>) Yaml.load("months.yml");
         numberOfParticipants = (List<String>) Yaml.load("number-of-participants.yml");
+    }
+
+    public <T> void saveYamlFileToDatabase(List<T> yamlList)
+    {
+        try {
+            for (int i = 0; i < yamlList.size(); i++) {
+                Ebean.save(yamlList.get(i));
+            }
+        }
+        catch (Exception e) {
+            Logger.error("Exception loading Yaml files into database " + e);
+        }
     }
 
     public void handleStrikeArticle(Http.MultipartFormData.FilePart<File> article, Strike strike){

@@ -1,4 +1,4 @@
-@(loginForm: Form[SecurityController.Login])
+@(loginForm: Form[SecurityController.Login], message: String)
 
 @import helper._
 @main("Login | Africa Strikes") {
@@ -9,6 +9,11 @@
             @if(loginForm.hasGlobalErrors) {
                 <div class="alert alert-danger" role="alert">
                     @loginForm.globalError.message
+                </div>
+            }
+            @if(message != ""){
+                <div class="alert alert-danger" role="alert">
+                    @message
                 </div>
             }
 

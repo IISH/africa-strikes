@@ -1,28 +1,31 @@
 package controllers;
 
+import models.Authority;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.libs.Yaml;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class SecurityController extends Controller {
-    @Inject
-    private FormFactory formFactory;
+    @Inject private FormFactory formFactory;
+    @Inject private StrikeController strikeController;
 
     public Result login() {
-//        if (isDev) {
-//            ctx().session().set("username", 'bkdl;sakd;l');
-//            return redirect(routes.HomeController.index());
-//        }
+        if(Authority.find.findRowCount() == 0)
+            strikeController.saveYamlFileToDatabase((List<Authority>) Yaml.load("authorities.yml"));
+        if(User.find.findRowCount() == 0)
+            strikeController.saveYamlFileToDatabase((List<User>) Yaml.load("default-users.yml"));
 
         String login = ctx().session().get("username");
         if (login != null)
             return redirect(routes.HomeController.index());
-        return ok(views.html.login.render(formFactory.form(Login.class)));
+        return ok(views.html.login.render(formFactory.form(Login.class), ""));
     }
 
     public boolean isAdmin(){
@@ -34,10 +37,20 @@ public class SecurityController extends Controller {
     public Result authenticate() {
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
         if (loginForm.hasErrors())
-            return badRequest(views.html.login.render(loginForm));
+            return badRequest(views.html.login.render(loginForm, ""));
 
         session("username", loginForm.get().username);
-        return redirect(routes.HomeController.index());
+        User user = User.findByUsername(ctx().session().get("username"));
+
+        if(user.hasAuthority()) {
+            return redirect(routes.HomeController.index());
+        }else{
+            user.setAuthority("Unauthorized");
+            user.save();
+            return badRequest(views.html.login.render(loginForm,
+                    "You don't have the authority to log in. " +
+                    "Please contact the administrator of this application."));
+        }
     }
 
     public Result logout() {

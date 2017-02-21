@@ -4,7 +4,6 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -16,13 +15,15 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static play.libs.Json.toJson;
+
 @Entity
 public class User extends Model {
     @Id
     private Integer id;
     private String username;
     private String fullName;
-    private String rights;
+    private String authority;
 
     public static Model.Finder<Integer, User> find = new Model.Finder<>(User.class);
 
@@ -50,12 +51,13 @@ public class User extends Model {
         this.fullName = fullName;
     }
 
-    public String getRights() { return rights; }
+    public String getAuthority() { return authority; }
 
-    public void setRights(String rights) { this.rights = rights; }
+    public void setAuthority(String auth) { this.authority = auth; }
 
     public static List<User> getAllUsers(){
         List<User> users = Ebean.find(User.class).findList();
+        System.out.println(toJson(users));
         return users;
     }
 
@@ -70,7 +72,12 @@ public class User extends Model {
     }
 
     public boolean isAdmin() {
-        return ConfigFactory.load().getStringList("admins").contains(username);
+        return authority.equals("Admin");
+    }
+
+    public boolean hasAuthority() {
+        List<String> roles = Ebean.find(Authority.class).findList().stream().map(Authority::getRole).collect(Collectors.toList());
+        return roles.contains(authority) && !authority.equals("Unauthorized");
     }
 
     public static User findByUsername(String username) {

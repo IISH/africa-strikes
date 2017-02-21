@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
  * to the application's home page.
  */
 @Security.Authenticated(Secured.class)
+@Authorized.With(Authorized.With.Authority.SUBSCRIBER)
 public class HomeController extends Controller{
 
     @Inject FormFactory formFactory;
@@ -39,27 +40,23 @@ public class HomeController extends Controller{
         strikeController.checkFirstLoad();
         // Fills the tables with the correct data if the tables are empty
         if(Sector.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
+            strikeController.saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
         }
 
         if(OccupationHisco.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<OccupationHisco>) Yaml.load("occupation-hisco-data.yml"));
+            strikeController.saveYamlFileToDatabase((List<OccupationHisco>) Yaml.load("occupation-hisco-data.yml"));
         }
 
         if(CauseOfDispute.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<CauseOfDispute>) Yaml.load("cause-of-dispute-data.yml"));
+            strikeController.saveYamlFileToDatabase((List<CauseOfDispute>) Yaml.load("cause-of-dispute-data.yml"));
         }
 
         if(IdentityElement.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<IdentityElement>) Yaml.load("identity-element-data.yml"));
+            strikeController.saveYamlFileToDatabase((List<IdentityElement>) Yaml.load("identity-element-data.yml"));
         }
 
         if(StrikeDefinition.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<StrikeDefinition>) Yaml.load("strike-definition-data.yml"));
-        }
-
-        if(CompanyName.find.findRowCount() == 0) {
-            saveYamlFileToDatabase((List<CompanyName>) Yaml.load("company-name-data.yml"));
+            strikeController.saveYamlFileToDatabase((List<StrikeDefinition>) Yaml.load("strike-definition-data.yml"));
         }
 
         Map<String, String> messages = new HashMap<>();
@@ -86,18 +83,6 @@ public class HomeController extends Controller{
                 strike,
                 securityController.isAdmin(),
                 successMessage));
-    }
-
-    private <T> void saveYamlFileToDatabase(List<T> yamlList)
-    {
-        try {
-            for (int i = 0; i < yamlList.size(); i++) {
-                Ebean.save(yamlList.get(i));
-            }
-        }
-        catch (Exception e) {
-            logger.error("Exception loading Yaml files into database " + e);
-        }
     }
 
     public Result addStrike()
