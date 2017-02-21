@@ -22,7 +22,7 @@
     <script src="@routes.Assets.versioned("javascripts/bootstrap.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/selectize.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/africa-strikes.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.versioned("javascripts/africa-strikes-index.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/africa-strikes-form.js")" type="text/javascript"></script>
 
     @form(action = routes.HomeController.addStrike(), 'enctype -> "multipart/form-data") {
         @CSRF.formField
@@ -290,6 +290,13 @@
             $(function() {
                 (@isAdmin) ? $('#adminButton').show() : $('#adminButton').hide();
             });
+
+            $('#duration').val(0);
+
+            $("#articleUploadButton").change(function () {
+                $("#uploadedArticleOutput").append(document.getElementById("articleUploadButton").value);
+            });
+
         });
     </script>
 }
