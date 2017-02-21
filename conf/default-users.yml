@@ -1,0 +1,9 @@
+#Users
+- &0 !!models.User
+      username: igor.vanderbom
+      fullName: Igor van der Bom
+      authority: Admin
+- &0 !!models.User
+      username: filipa.ribeirodasilva
+      fullName: Filipa Ribeiro da Silva
+      authority: Admin

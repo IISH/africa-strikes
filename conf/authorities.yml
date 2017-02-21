@@ -1,0 +1,7 @@
+#Authorities
+- &0 !!models.Authority
+      role: Unauthorized
+- &0 !!models.Authority
+      role: Subscriber
+- &0 !!models.Authority
+      role: Admin

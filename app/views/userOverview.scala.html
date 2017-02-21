@@ -1,0 +1,96 @@
+@(
+    message: String,
+    users: Array[User],
+    userForm: Form[User],
+    authorities: List[Authority]
+)
+
+@import helper._
+@main("Africa Strikes"){
+  <script src="@routes.Assets.versioned("javascripts/jquery-3.1.1.js")" type="text/javascript"></script>
+  <script src="@routes.Assets.versioned("javascripts/bootstrap.js")" type="text/javascript"></script>
+  <script src="@routes.Assets.versioned("javascripts/africa-strikes-user-overview.js")" type="text/javascript"></script>
+
+  @form(action = routes.UserOverviewController.update(), 'enctype -> "multipart/form-data") {
+    @CSRF.formField
+    <div class="container">
+      <div class="col-lg-10">
+        <h2>Overview of the users.</h2>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-inline">
+          <h2 class="h2Africa"><button name="userOverviewButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+          <h2 class="h2Africa"><button name="userOverviewButton" id="defaultPageButton" value="admin" class="form-control btn-primary">Admin</button></h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="container col-lg-3">
+        <label>Search for a specific user</label>
+        <div class="form-group">
+          <input class="input-full-width form-control" id="searchUserAdmin"/>
+        </div>
+        <div class="form-group">
+          <label>Select a user from the list</label>
+          <button type="button" name="userOverviewButton" id="refreshListButton" value="refresh" class="form-control btn-info">Refresh</button>
+        </div>
+        <div class="form-inline">
+          <select class="input-full-width form-control form-control-full-height" id="userSelectAdmin" size="20"></select>
+        </div>
+      </div>
+      <div class="container col-lg-9">
+        <div class="form-inline">
+          @inputText(userForm("id"), '_label -> "ID", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+        </div>
+        <div class="form-inline">
+          @inputText(userForm("username"), '_label -> "Username", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+        </div>
+        <div class="form-inline">
+          @inputText(userForm("fullName"), '_label -> "Full name", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+        </div>
+        <div class="form-inline">
+          @select(userForm("authority"), authorities.map(a => a.getRole -> a.getRole), '_label -> "Authority", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select a right for the user from the dropdown list")
+        </div>
+        <div class="form-inline">
+          <button name="userOverviewButton" id="updateUserButton" value="update" class="form-control btn-success">Save user</button>
+          <button name="userOverviewButton" id="removeUserButton" value="remove" class="form-control btn-danger">Remove user</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+      $(function () {
+        @for(u <- users){
+          appendToSelect("@u.getUsername", "@u.getId", document.getElementById("userSelectAdmin"));
+        }
+      });
+
+      // Search for the user with a given name
+      window.searchUser = function(userNameGiven){
+        // deletion of all the options
+        for(var i = document.getElementById("userSelectAdmin").options.length - 1; i >= 0; i--){
+          document.getElementById("userSelectAdmin").remove(i);
+        }
+
+        var userNameId = new String(userNameGiven); // the given strike number as a string
+        if(userNameGiven.length === 0) { // if the searchfield has been emptied
+          @for(u <- users){
+              appendToSelect("@u.getUsername", "@u.getId", document.getElementById("userSelectAdmin"));
+          }
+        }
+        else{ // if searching
+          @for(u <- users){
+            var $temp = "@u.getUsername";
+            if(userNameId == $temp.slice(0,userNameId.length)) {
+              appendToSelect("@u.getUsername", "@u.getId", document.getElementById("userSelectAdmin"));
+            }
+          }
+        }
+      }
+
+    });
+  </script>
+}

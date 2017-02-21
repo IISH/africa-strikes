@@ -11,9 +11,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Authorized;
 import security.Secured;
-import views.html.admin;
-import views.html.update;
-import views.html.noStrikeSelected;
+import views.html.*;
 import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import static play.libs.Json.toJson;
  * Created by Igor on 11/4/2016.
  */
 @Security.Authenticated(Secured.class)
-@Authorized.AdminAuthorized
+@Authorized.With(Authorized.With.Authority.ADMIN)
 public class AdminController extends Controller{
 
     @Inject FormFactory formFactory;
@@ -68,9 +66,10 @@ public class AdminController extends Controller{
                     return badRequest(noStrikeSelected.render("You first need to select a strike"));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
-            }
-            else if("index".equals(postAction[0])){ // return to default page
+            }else if("index".equals(postAction[0])){ // return to default page
                 return redirect(routes.HomeController.index());
+            }else if("userOverview".equals(postAction[0])){ // return to default page
+                return redirect(routes.UserOverviewController.index());
             }
             strikeSelected = null;
         }
