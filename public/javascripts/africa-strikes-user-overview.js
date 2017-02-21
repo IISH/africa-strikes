@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    $(document).on("keypress", ":input:not(textarea)", function(event) {
+        return event.keyCode != 13;
+    });
+
     // Refreshes the users in the list
     $('#refreshListButton').on('click', function () {
         // clear search field
