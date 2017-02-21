@@ -28,7 +28,6 @@ public class HomeController extends Controller{
     @Inject SecurityController securityController;
     @Inject StrikeController strikeController;
     final Logger.ALogger logger = Logger.of(this.getClass());
-    private String successMessage = "";
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -38,7 +37,6 @@ public class HomeController extends Controller{
      */
     public Result index() {
         strikeController.checkFirstLoad();
-        successMessage = "";
         // Fills the tables with the correct data if the tables are empty
         if(Sector.find.findRowCount() == 0) {
             strikeController.saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
@@ -82,8 +80,7 @@ public class HomeController extends Controller{
                 years,
                 days,
                 strike,
-                securityController.isAdmin(),
-                successMessage));
+                securityController.isAdmin()));
     }
 
     public Result addStrike()
@@ -109,20 +106,18 @@ public class HomeController extends Controller{
                 strikeController.handleStrikeMapping(strike, body);
 
                 if (checkIfValid(strike).size() != 0) {
-                    successMessage = "";
                     return handleRequest(checkIfValid(strike), strike);
                 }
 
                 // Saves the strike
                 strike.save();
                 Ebean.commitTransaction();
-                successMessage = "The labour conflict has been added!";
+                flash("success", "The labour conflict has been added!");
             }
         }
         catch (NullPointerException e)
         {
             logger.error("Exception adding strike to database " + e);
-            successMessage = "";
         }
         finally {
             Ebean.endTransaction();

@@ -13,8 +13,7 @@
     years: List[Integer],
     days: List[Integer],
     strike: Strike,
-    isAdmin: Boolean,
-    successMessage: String
+    isAdmin: Boolean
 )
 
 @import helper._
@@ -41,8 +40,8 @@
         </div>
         <div class="container">
             <hr>
-            @if(successMessage.length() > 0) {
-                <h4><label class="alert-success">@successMessage</label></h4>
+            @if(flash.containsKey("success")) {
+                <h4><label class="alert-success">@flash.get("success")</label></h4>
             }
             @if(messages.size() > 0) {
                 <h4><label class="alert-danger">The strike is missing some information!</label></h4>
