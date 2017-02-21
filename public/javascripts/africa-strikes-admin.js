@@ -3,9 +3,6 @@
  */
 
 $(document).ready(function() {
-    $(document).on("keypress", ":input:not(textarea)", function(event) {
-        return event.keyCode != 13;
-    });
 
     $('#refreshListButton').on('click', function () {
         // unselect the select button
@@ -23,13 +20,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    window.appendToSelect = function(inner, value, selector) {
-        var el = document.createElement('option');
-        el.innerHTML = inner;
-        el.value = value;
-        selector.appendChild(el);
-    };
 
     $('#searchStrikeAdmin').keyup(function (event) {
         if ( event.which == 13 ) { // Needs to select the given number or the first in list

@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-    $(document).on("keypress", ":input:not(textarea)", function(event) {
-        return event.keyCode != 13;
-    });
-
     // Refreshes the users in the list
     $('#refreshListButton').on('click', function () {
         // clear search field
@@ -51,12 +47,5 @@ $(document).ready(function() {
 
         });
     });
-
-    window.appendToSelect = function(inner, value, selector) {
-        var el = document.createElement('option');
-        el.innerHTML = inner;
-        el.value = value;
-        selector.appendChild(el);
-    }
 
 });
