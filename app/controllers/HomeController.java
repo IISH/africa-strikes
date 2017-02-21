@@ -38,6 +38,7 @@ public class HomeController extends Controller{
      */
     public Result index() {
         strikeController.checkFirstLoad();
+        successMessage = "";
         // Fills the tables with the correct data if the tables are empty
         if(Sector.find.findRowCount() == 0) {
             strikeController.saveYamlFileToDatabase((List<Sector>) Yaml.load("sector-data.yml"));
