@@ -33,9 +33,9 @@
                 (Fields marked with an (*) are mandatory!)
             </div>
             <div class="col-lg-2">
-                <div class="form-group">
-                    <h2><button name="indexButton" id="adminButton" value="admin" class="form-control btn-primary">Admin</button></h2>
-                    <h2><button name="indexButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+                <div class="form-inline">
+                    <h2 class="h2Africa"><button name="indexButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+                    <h2 class="h2Africa"><button name="indexButton" id="adminButton" value="admin" class="form-control btn-primary">Admin</button></h2>
                 </div>
             </div>
         </div>
@@ -287,6 +287,7 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+
             $(function() {
                 (@isAdmin) ? $('#adminButton').show() : $('#adminButton').hide();
             });
