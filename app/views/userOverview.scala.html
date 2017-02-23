@@ -53,8 +53,8 @@
           @select(userForm("authority"), authorities.map(a => a.getRole -> a.getRole), '_label -> "Authority", 'class -> "form-control input-full-width", 'placeholder -> "Please choose...", 'title -> "Select a right for the user from the dropdown list")
         </div>
         <div class="form-inline">
-          <button name="userOverviewButton" id="updateUserButton" value="update" class="form-control btn-success">Save user</button>
-          <button name="userOverviewButton" id="removeUserButton" value="remove" class="form-control btn-danger">Remove user</button>
+          <button name="userOverviewButton" id="updateUserButton" value="update" class="form-control btn-success" onclick="return confirm('Are you sure you want to save the selected user?');">Save user</button>
+          <button name="userOverviewButton" id="removeUserButton" value="remove" class="form-control btn-danger" onclick="return confirm('Are you sure you want to remove the selected user?');">Remove user</button>
         </div>
       </div>
     </div>
