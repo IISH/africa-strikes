@@ -1,9 +1,9 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -12,6 +12,10 @@ import javax.naming.directory.InitialDirContext;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static play.libs.Json.toJson;
 
 @Entity
 public class User extends Model {
@@ -19,6 +23,7 @@ public class User extends Model {
     private Integer id;
     private String username;
     private String fullName;
+    private String authority;
 
     public static Model.Finder<Integer, User> find = new Model.Finder<>(User.class);
 
@@ -46,8 +51,33 @@ public class User extends Model {
         this.fullName = fullName;
     }
 
+    public String getAuthority() { return authority; }
+
+    public void setAuthority(String auth) { this.authority = auth; }
+
+    public static List<User> getAllUsers(){
+        List<User> users = Ebean.find(User.class).findList();
+        System.out.println(toJson(users));
+        return users;
+    }
+
+    public static User[] getAllUsersAsArray(){
+        List<User> users = Ebean.find(User.class).findList();
+        return users.toArray(new User[ users.size()]);
+    }
+
+    public static String[] getAllUserNames(){
+        List<String> userNames = Ebean.find(User.class).findList().stream().map(User::getUsername).collect(Collectors.toList());
+        return userNames.toArray(new String[userNames.size()]);
+    }
+
     public boolean isAdmin() {
-        return ConfigFactory.load().getStringList("admins").contains(username);
+        return authority.equals("Admin");
+    }
+
+    public boolean hasAuthority() {
+        List<String> roles = Ebean.find(Authority.class).findList().stream().map(Authority::getRole).collect(Collectors.toList());
+        return roles.contains(authority) && !authority.equals("Unauthorized");
     }
 
     public static User findByUsername(String username) {

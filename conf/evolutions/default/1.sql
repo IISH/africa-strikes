@@ -9,6 +9,12 @@ create table article (
   constraint pk_article primary key (id)
 );
 
+create table authority (
+  id                            integer auto_increment not null,
+  role                          varchar(255),
+  constraint pk_authority primary key (id)
+);
+
 create table cause_of_dispute (
   id                            bigint auto_increment not null,
   cause_of_dispute_text         varchar(255),
@@ -130,6 +136,7 @@ create table user (
   id                            integer auto_increment not null,
   username                      varchar(255),
   full_name                     varchar(255),
+  authority                     varchar(255),
   constraint pk_user primary key (id)
 );
 
@@ -219,6 +226,8 @@ alter table strike_strike_definition drop foreign key fk_strike_strike_definitio
 drop index ix_strike_strike_definition_strike_definition on strike_strike_definition;
 
 drop table if exists article;
+
+drop table if exists authority;
 
 drop table if exists cause_of_dispute;
 

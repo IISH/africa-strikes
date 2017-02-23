@@ -5,18 +5,21 @@
     <script src="@routes.Assets.versioned("javascripts/jquery-3.1.1.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/bootstrap.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/selectize.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/africa-strikes.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/africa-strikes-admin.js")" type="text/javascript"></script>
 
     @form(action = routes.AdminController.update(), 'enctype -> "multipart/form-data"){
         @CSRF.formField
         @*Select form*@
         <div class="container">
-            <div class="col-lg-10">
+            <div class="col-lg-8">
                 <h2>Administrator view of the strikes.</h2>
             </div>
-            <div class="col-lg-2">
-                <div class="form-group">
-                    <h2><button name="updateStrikeButton" id="defaultPageButton" value="index" class="form-control btn-primary">Input form</button></h2>
-                    <h2><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+            <div class="col-lg-4">
+                <div class="form-inline">
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="userOverviewButton" value="userOverview" class="form-control btn-primary">User overview</button></h2>
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="defaultPageButton" value="index" class="form-control btn-primary">Input form</button></h2>
                 </div>
             </div>
         </div>
@@ -182,62 +185,14 @@
 
         $(document).ready(function(){
 
-            $(document).on("keypress", ":input:not(textarea)", function(event) {
-                return event.keyCode != 13;
-            });
-
-            $('#refreshListButton').on('click', function () {
-                // unselect the select button
-                deselectSelection();
-                // clear search field
-                $('#searchStrikeAdmin').val("");
-                // clear the list
-                for(var i = document.getElementById("strikeSelectAdmin").options.length - 1; i >= 0; i--){
-                    document.getElementById("strikeSelectAdmin").remove(i);
-                }
-                // fill the list
-                $.getJSON('/admin/strikes', function (updatedStrikes) {
-                    for(var i = 0; i < updatedStrikes.length; i++){
-                        appendToSelect(updatedStrikes[i], updatedStrikes[i], document.getElementById("strikeSelectAdmin"));
-                    }
-                });
-            });
-
-            function appendToSelect(inner, value, selector) {
-                var el = document.createElement('option');
-                el.innerHTML = inner;
-                el.value = value;
-                selector.appendChild(el);
-            }
-
             $(function () {
                 @for(s <- strikes){
                    appendToSelect(@s, @s, document.getElementById("strikeSelectAdmin"));
                 }
             });
 
-            $('#searchStrikeAdmin').keyup(function (event) {
-                if ( event.which == 13 ) { // Needs to select the given number or the first in list
-                    if(this.value !== "")
-                        searchStrike(this.value, undefined);
-                    else
-                        event.preventDefault();
-                }
-                // To uncheck the selected checkbox
-                deselectSelection();
-                // Search the strike
-                searchStrike(this.value, undefined);
-            });
-
-            // Deselects the selections for checked, unchecked and all
-            function deselectSelection(){
-                var ele = document.getElementsByName("checkedOrUncheckedStrikes");
-                for(var i=0;i<ele.length;i++)
-                    ele[i].checked = false;
-            }
-
             // Search for the strike with a given strikenumber and the strikes given for checked/unchecked
-            function searchStrike(strikeNumber, strikesGiven){
+            window.searchStrike = function(strikeNumber, strikesGiven){
                 var oldStrikesOptions = document.getElementById("strikeSelectAdmin").options;
                 var oldStrikes = [];
                 for(var i = 0; i < oldStrikesOptions.length; i++) {
@@ -272,14 +227,7 @@
                         }
                     }
                 }
-            }
-
-            $("input[name='checkedOrUncheckedStrikes']").change(function(e){
-                $('#searchStrikeAdmin').val("");
-                $.getJSON('/admin/type/' + $(this).val(), function (strikesReturned) {
-                    searchStrike(-1, strikesReturned);
-                });
-            });
+            };
 
             $('#strikeSelectAdmin').change(function () {
                 var selectedStrike = $('#strikeSelectAdmin').val().toString();
@@ -326,5 +274,4 @@
             });
         });
     </script>
-
 }
