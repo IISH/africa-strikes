@@ -40,6 +40,10 @@ public class AdminController extends Controller{
         return ok(admin.render("", Strike.getAllStrikesIds(), formFactory.form(Strike.class)));
     }
 
+    public Result handleBadRequest(String previousUrl){
+        return redirect(previousUrl);
+    }
+
     public Result update()
     {
         String[] postAction = request().body().asMultipartFormData().asFormUrlEncoded().get("updateStrikeButton");
@@ -52,18 +56,18 @@ public class AdminController extends Controller{
                     strikeSelected.update();
                     return redirect(routes.AdminController.index());
                 }else
-                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
+                    return badRequest(noStrikeSelected.render("You first need to select a strike", request().getHeader("referer")));
             }else if("update".equals(postAction[0])){
                 if(strikeSelected != null)
                     return redirect("/admin/update/strike/" + strikeSelected.id);
                 else
-                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
+                    return badRequest(noStrikeSelected.render("You first need to select a strike",request().getHeader("referer")));
             }else if("discard".equals(postAction[0])){
                 if(strikeSelected != null) {
                     strikeSelected.delete();
                     return redirect(routes.AdminController.index());
                 }else
-                    return badRequest(noStrikeSelected.render("You first need to select a strike"));
+                    return badRequest(noStrikeSelected.render("You first need to select a strike",request().getHeader("referer")));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
             }else if("index".equals(postAction[0])){ // return to default page
@@ -91,7 +95,7 @@ public class AdminController extends Controller{
                 checkedOrUncheckedStrikes.addAll(Strike.getAllStrikes().stream().map(strike -> strike.id).collect(Collectors.toList()));
             }
         }
-
+        response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
         return ok(toJson(checkedOrUncheckedStrikes));
     }
 
@@ -168,11 +172,13 @@ public class AdminController extends Controller{
     }
 
     public Result getSelectedStrike(String selectedStrike) {
+        response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
         strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
         return ok(toJson(strikeSelected));
     }
 
     public Result getAllStrikeIds(){
+        response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
         return ok(toJson(Strike.getAllStrikesIds()));
     }
 }
