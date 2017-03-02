@@ -28,7 +28,7 @@ public class UserOverviewController extends Controller{
     private User userSelected = null;
 
     public Result index(){
-        System.out.println(toJson(Authority.find.all()));
+        resetUser();
         return ok(userOverview.render(
                 "User Overview",
                 User.getAllUsersAsArray(),
@@ -36,10 +36,14 @@ public class UserOverviewController extends Controller{
                 Authority.find.all()));
     }
 
+    public void resetUser(){
+        userSelected = null;
+    }
+
     public Result update(){
         String[] postAction = request().body().asMultipartFormData().asFormUrlEncoded().get("userOverviewButton");
         if(postAction == null || postAction.length == 0)
-            return badRequest("You first need to select a strike");
+            return badRequest(noStrikeSelected.render("You first need to select a user", request().getHeader("referer")));
         else{
             if("update".equals(postAction[0])){
                 if(userSelected != null) {
@@ -47,20 +51,19 @@ public class UserOverviewController extends Controller{
                     updateUser(body);
                     return redirect(routes.UserOverviewController.index());
                 }else
-                    return badRequest("You first need to select a user");
+                    return badRequest(noStrikeSelected.render("You first need to select a user", request().getHeader("referer")));
             }else if("remove".equals(postAction[0])){
                 if(userSelected != null){
                     userSelected.delete();
                     return redirect(routes.UserOverviewController.index());
                 }else
-                    return badRequest("You first need to select a user");
+                    return badRequest(noStrikeSelected.render("You first need to select a user", request().getHeader("referer")));
             }else if("logout".equals(postAction[0])) {
                 securityController.logout();
             }
             else if("admin".equals(postAction[0])){ // return to default page
                 return redirect(routes.AdminController.index());
             }
-            userSelected = null;
         }
         return redirect(routes.UserOverviewController.index());
     }
@@ -82,10 +85,13 @@ public class UserOverviewController extends Controller{
     }
 
     public Result getAllUsers(){
+        response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
+        resetUser();
         return ok(toJson(User.getAllUsers()));
     }
 
     public Result getSelectedUser(String userId){
+        response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
         User user = User.find.byId(Integer.parseInt(userId));
         if(user.getAuthority() == null){
             user.setAuthority("Unauthorized");
