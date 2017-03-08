@@ -66,7 +66,7 @@ mysql:
 ```
 
 ### 5. Build the web application
-Note that this file pulls a pre-compiled version of the web application.
+Note that this [Dockerfile](webapp/Dockerfile) pulls a pre-compiled version of the web application.
 So if you want to build the images with your own jar, replace this line to ADD or COPY in your jar.
   
 Build the image with a version point 1.0.0:
