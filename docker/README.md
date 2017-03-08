@@ -1,6 +1,7 @@
 # A local docker deployment
 
-We are going to setup a stack of three services in an isolated network for a simple solution:
+We are going to setup a stack of two services in an isolated network for a simple solution.
+Both services need persistent storage:
 
 1. Install the docker engine
 2. A network
@@ -8,6 +9,8 @@ We are going to setup a stack of three services in an isolated network for a sim
 4. A mysql database
 5. A web application that depends on this database
 6. Run docker-compose to create the stack
+
+Commands below you are in the _docker_ folder of this project.
 
 ![Stack](africastrikes-stack.png "Africastrikes stack")
 
@@ -28,7 +31,7 @@ networks:
 ### 3. Declare the storage
 The database and webapp both need to persist state.
  
-In the compose file declare the _volumes_ for the 'mysql' and 'webapp' database:
+In the [docker-compose.yaml](docker-compose.yaml) file declare the _volumes_ for the 'mysql' and 'webapp' database:
 
 ```yaml
 volumes:
@@ -40,7 +43,7 @@ No need to build an image. A mysql:5.7 image comes from the docker registry:
 
 https://hub.docker.com/r/mysql/mysql-server/
 
-In the compose file declare the _mysql:5.7_ image and link it to the volume and network:
+In the [docker-compose.yaml](docker-compose.yaml) file declare the _mysql:5.7_ image and link it to the volume and network:
 
 ```yaml
 mysql:
@@ -63,7 +66,6 @@ mysql:
 ```
 
 ### 5. Build the web application
-This needs a [dockerfile](webapp/Dockerfile).
 Note that this file pulls a pre-compiled version of the web application.
 So if you want to build the images with your own jar, replace this line to ADD or COPY in your jar.
   
@@ -74,10 +76,10 @@ Build the image with a version point 1.0.0:
     
 Alternatively you can also build the image with docker-compose:
 
-    $ cd docker
     $ docker-compose build
 
-In the compose file declare the _user/africastrikes-webapp:1.0.0_ and link it to the volume and network:
+Again in the [docker-compose.yaml](docker-compose.yaml) file declare the _user/africastrikes-webapp:1.0.0_ and link it to the volume and network.
+Also open up port 8000 for upd\tcp traffic forwarding into the docker environment:
 ```yaml
 webapp:
   depends_on:
@@ -103,7 +105,7 @@ webapp:
 
 ### 6. Run the stack
 
-To run the services, use the [docker-compose.yaml](docker-compose.yaml) so:
+To run the services:
 
     $ docker-compose up
     
