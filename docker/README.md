@@ -22,7 +22,7 @@ and [Docker compose](https://docs.docker.com/compose/install/)
 ### 2. Declare the network
 The network will isolate the applications from others stacks that live in their networks.
  
-In the compose file add a _africastrikes_ network:
+In the [docker-compose.yaml](docker-compose.yaml) file add a _africastrikes_ network:
 
 ```yaml
 networks:
