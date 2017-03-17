@@ -57,7 +57,6 @@ public class User extends Model {
 
     public static List<User> getAllUsers(){
         List<User> users = Ebean.find(User.class).findList();
-        System.out.println(toJson(users));
         return users;
     }
 

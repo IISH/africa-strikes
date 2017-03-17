@@ -11,6 +11,7 @@ GET     /admin/strikes                  controllers.AdminController.getAllStrike
 GET     /admin/type/:id                 controllers.AdminController.getCheckedStrikes(id: String)
 GET     /admin/strike/:id               controllers.AdminController.getSelectedStrike(id: String)
 GET     /admin/strike/article/:id       controllers.AdminController.getArticleFile(id: String)
+GET     /admin/badRequest/:url          controllers.AdminController.handleBadRequest(url: String)
 
 POST    /admin/update                   controllers.AdminController.update
 POST    /admin/update/strike            controllers.AdminController.saveUpdatedStrike
