@@ -1,5 +1,6 @@
 package controllers;
 
+import com.typesafe.config.ConfigFactory;
 import models.Authority;
 import models.User;
 import play.data.Form;
@@ -48,8 +49,7 @@ public class SecurityController extends Controller {
             user.setAuthority("Unauthorized");
             user.save();
             return badRequest(views.html.login.render(loginForm,
-                    "You don't have the authority to log in. " +
-                    "Please contact the administrator of this application."));
+                    ConfigFactory.load().getString("unauthorizedText")));
         }
     }
 
