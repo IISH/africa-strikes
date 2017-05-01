@@ -15,7 +15,9 @@
     days: List[Integer],
     duration: List[Integer],
     strikeGiven: Long,
-    strikeSelected: Strike
+    strikeSelected: Strike,
+    isChecked: Boolean,
+    isSubscriber: Boolean
 )
 
 @import helper._
@@ -269,11 +271,23 @@
             <div class="form-group">
                 <div class="form-inline">
                     <button type="submit" name="submitUpdateButton" id="submitUpdateButton" value="save" class="form-control btn-success" onclick="">Save Changes</button>
-                    <button type="submit" name="submitUpdateButton" id="submitUpdateButton" value="undo" class="form-control btn-danger" onclick="">Undo Changes</button>
+                    <button type="submit" name="submitUpdateButton" id="submitUndoButton" value="undo" class="form-control btn-danger" onclick="">Undo Changes</button>
                 </div>
             </div>
         </div>
 
 
     }
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(function () {
+                (@isChecked) ? $('#submitUpdateButton').hide() : $('#submitUpdateButton').show();
+                (@isChecked) ? $('#submitUndoButton').hide() : $('#submitUndoButton').show();
+
+                (@isSubscriber) ? $("#authorInformation").prop("readonly", true) : $('#authorInformation').prop("readonly", false);
+            });
+
+        });
+    </script>
 }

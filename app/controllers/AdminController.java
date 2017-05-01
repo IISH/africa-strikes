@@ -165,8 +165,12 @@ public class AdminController extends Controller{
             return badRequest("You must provide a valid action");
         } else {
             if ("save".equals(postAction[0])) {
-                Http.MultipartFormData body = request().body().asMultipartFormData();
-                updateStrike(body);
+                if(!strikeSelected.getChecked()) { // check if the strike has already been approved
+                    Http.MultipartFormData body = request().body().asMultipartFormData();
+                    if (body.asFormUrlEncoded().get("authorInformation").equals(ctx().session().get("username"))) { // check if author provided and user are the same
+                        updateStrike(body);
+                    }else {return badRequest(noStrikeSelected.render("You cannot update the author information of the strike!","/admin"));}
+                }else {return badRequest(noStrikeSelected.render("You cannot update the selected strike!","/admin"));}
             } else if ("undo".equals(postAction[0])) {
                 return redirect(routes.AdminController.index());
             }
@@ -214,6 +218,8 @@ public class AdminController extends Controller{
         strikeSelected = Strike.find.byId(id);
         if(!strikeSelected.getAuthorInformation().equals(ctx().session().get("username"))){
             return badRequest(noStrikeSelected.render("You don't have access to the selected strike!","/admin"));
+        }else if(strikeSelected.getChecked()){
+            return badRequest(noStrikeSelected.render("You cannot update the selected strike as it has already been approved!","/admin"));
         }
         else {
             strikeController.checkFirstLoad();
@@ -236,7 +242,10 @@ public class AdminController extends Controller{
                     days,
                     duration,
                     id,
-                    strikeSelected));
+                    strikeSelected,
+                    strikeSelected.getChecked(),
+                    securityController.isSubscriber()
+            ));
         }
     }
 
