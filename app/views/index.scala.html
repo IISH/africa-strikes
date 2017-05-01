@@ -27,14 +27,14 @@
     @form(action = routes.HomeController.addStrike(), 'enctype -> "multipart/form-data") {
         @CSRF.formField
         <div class="container">
-            <div class="col-lg-10">
+            <div class="col-lg-8">
                 <h2>Fill in the description of the strike.</h2>
                 (Fields marked with an (*) are mandatory!)
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <div class="form-inline">
-                    <h2 class="h2Africa"><button name="indexButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
-                    <h2 class="h2Africa"><button name="indexButton" id="adminButton" value="admin" class="form-control btn-primary">Admin</button></h2>
+                    <h2 class="h2Africa"><button name="indexButton" id="logoutButton" value="logout" class="form-control btn-danger" >Log Out</button></h2>
+                    <h2 class="h2Africa"><button name="indexButton" id="adminButton" value="admin" class="form-control btn-primary" >Data Overview</button></h2>
                 </div>
             </div>
         </div>
@@ -288,7 +288,7 @@
         $(document).ready(function(){
 
             $(function() {
-                (@isAdmin) ? $('#adminButton').show() : $('#adminButton').hide();
+                (@isAdmin) ? $('#adminButton').text("Admin") : $('#adminButton').text("Data Overview");
             });
 
             $('#duration').val(0);

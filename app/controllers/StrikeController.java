@@ -29,6 +29,10 @@ public class StrikeController {
     private boolean isFirstLoad = true;
     final Logger.ALogger logger = Logger.of(this.getClass());
 
+    /**
+     * Checks whether the application has been loaded for the first time.
+     * When first time, it loads data from Yaml files
+     */
     public void checkFirstLoad(){
         if(isFirstLoad){
             loadYamlFiles();
@@ -36,6 +40,9 @@ public class StrikeController {
         }
     }
 
+    /**
+     * Loads the information from the Yaml files
+     */
     public void loadYamlFiles(){
         sourceData = (List<String>) Yaml.load("source-data.yml");
         countryData = (List<String>) Yaml.load("country-data.yml");
@@ -44,6 +51,11 @@ public class StrikeController {
         numberOfParticipants = (List<String>) Yaml.load("number-of-participants.yml");
     }
 
+    /**
+     * Saves the given List of Yaml files to the database
+     * @param yamlList List of Yaml files
+     * @param <T> the Yaml file
+     */
     public <T> void saveYamlFileToDatabase(List<T> yamlList)
     {
         try {
@@ -56,6 +68,11 @@ public class StrikeController {
         }
     }
 
+    /**
+     * Handles the upload of the Article provided with the strike entered.
+     * @param article the article provided
+     * @param strike the strike belonging to the article
+     */
     public void handleStrikeArticle(Http.MultipartFormData.FilePart<File> article, Strike strike){
         if(article.getFilename().length() > 0) {
             String[] temp = article.getFilename().split("\\.");
@@ -98,6 +115,11 @@ public class StrikeController {
         }
     }
 
+    /**
+     * Handles the mapping of the data for the strike entered
+     * @param strike the strike entered
+     * @param body the information for the strike
+     */
     protected void handleStrikeMapping(Strike strike, Http.MultipartFormData body){
         // --------------------------------------------------------------------------------- \\
         // Maps the sectors given by the form and puts them in the sectors list of the Strike
@@ -125,6 +147,15 @@ public class StrikeController {
         strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
     }
 
+    /**
+     * Maps the information for the strike in the correct format
+     * @param body the information
+     * @param strike the strike entered
+     * @param name the name of the variable
+     * @param input the map to input
+     * @param <T>
+     * @return a Stream
+     */
     protected  <T> List<T> mapSelectedOptionsToTheStrike(Http.MultipartFormData body, Strike strike, String name, Map<?, T> input)
     {
         try{

@@ -62,6 +62,12 @@ public class HomeController extends Controller{
         return handleRequest(messages, new Strike());
     }
 
+    /**
+     * handles the request for the home page
+     * @param errorMessages any error messages to display
+     * @param strike the information of the strike to display
+     * @return the home page with the required information
+     */
     private Result handleRequest(Map<String, String> errorMessages, Strike strike) {
         List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
         List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
@@ -83,6 +89,10 @@ public class HomeController extends Controller{
                 securityController.isAdmin()));
     }
 
+    /**
+     * Adds a strike to the database
+     * @return a redirect to the home page
+     */
     public Result addStrike()
     {
         Ebean.beginTransaction();
@@ -125,6 +135,11 @@ public class HomeController extends Controller{
         return redirect(routes.HomeController.index());
     }
 
+    /**
+     * checks if the strike entered is valid, and adds information if a part of the strike is not valid
+     * @param strike the strike entered
+     * @return a Map<String, String>
+     */
     private Map<String, String> checkIfValid(Strike strike)
     {
         Map<String, String> result = new HashMap<>();

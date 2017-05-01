@@ -74,6 +74,10 @@ public class User extends Model {
         return authority.equals("Admin");
     }
 
+    public boolean isSubscriber() {
+        return authority.equals("Subscriber");
+    }
+
     public boolean hasAuthority() {
         List<String> roles = Ebean.find(Authority.class).findList().stream().map(Authority::getRole).collect(Collectors.toList());
         return roles.contains(authority) && !authority.equals("Unauthorized");
