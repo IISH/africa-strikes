@@ -1,4 +1,9 @@
-@(message: String)(strikes: Array[Long])(adminForm: Form[Strike])
+@(
+    message: String,
+    strikes: Array[Long],
+    adminForm: Form[Strike],
+    isAdmin: Boolean
+)
 
 @import helper._
 @main("Africa Strikes"){
@@ -17,9 +22,9 @@
             </div>
             <div class="col-lg-4">
                 <div class="form-inline">
-                    <h2 class="h2Africa"><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log out</button></h2>
-                    <h2 class="h2Africa"><button name="updateStrikeButton" id="userOverviewButton" value="userOverview" class="form-control btn-primary">User overview</button></h2>
-                    <h2 class="h2Africa"><button name="updateStrikeButton" id="defaultPageButton" value="index" class="form-control btn-primary">Input form</button></h2>
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="logoutButton" value="logout" class="form-control btn-danger">Log Out</button></h2>
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="userOverviewButton" value="userOverview" class="form-control btn-primary" style="display: none;">User Overview</button></h2>
+                    <h2 class="h2Africa"><button name="updateStrikeButton" id="defaultPageButton" value="index" class="form-control btn-primary">Input Form</button></h2>
                 </div>
             </div>
         </div>
@@ -185,6 +190,12 @@
 
         $(document).ready(function(){
 
+            $(function() {
+                (@isAdmin) ? $('#userOverviewButton').show() : $('#userOverviewButton').hide();
+                (@isAdmin) ? $('#discardStrikeButton').show() : $('#discardStrikeButton').hide();
+                (@isAdmin) ? $('#approveStrikeButton').show() : $('#approveStrikeButton').hide();
+            });
+
             $(function () {
                 @for(s <- strikes){
                    appendToSelect(@s, @s, document.getElementById("strikeSelectAdmin"));
@@ -264,10 +275,14 @@
                         $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/viewArticle.png")");
                     }
                     if(strike["checked"] === true){
-                        $('#approveStrikeButton').hide();
+                        if(@isAdmin) {
+                            $('#approveStrikeButton').hide();
+                        }
                         $('#updateStrikeButton').hide();
                     }else{
-                        $('#approveStrikeButton').show();
+                        if(@isAdmin) {
+                            $('#approveStrikeButton').show();
+                        }
                         $('#updateStrikeButton').show();
                     }
                 });

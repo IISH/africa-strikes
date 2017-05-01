@@ -1,0 +1,49 @@
+version: '3'
+
+networks:
+  africastrikes:
+
+services:
+  mysql:
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_DATABASE: africastrikes
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_PASSWORD: africastrikes
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: africastrikes
+    image: mysql
+    networks:
+      - africastrikes
+    volumes:
+      - africastrikes-mysql:/var/lib/mysql
+
+  webapp:
+    build:
+      context: ./webapp
+    depends_on:
+      - mysql
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+    environment:
+      APPLY_EVOLUTIONS_DEFAULT: "true"
+      DB_DEFAULT_URL: jdbc:mysql://mysql/africastrikes
+    image: user/africastrikes-webapp:1.0.0
+    networks:
+      - africastrikes
+    ports:
+      - 8000:8000
+    volumes:
+      - africastrikes-webapp:/data
+
+volumes:
+  africastrikes-mysql:
+  africastrikes-webapp:

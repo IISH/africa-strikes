@@ -377,14 +377,41 @@ public class Strike extends Model{
     {
     }
 
+    /**
+     * Method to find the strikes in the database
+     */
     public static Finder<Integer, Strike> find = new Finder<>(Strike.class);
 
+    /**
+     * gets all strikes from the database
+     * @return a List of strikes List<Strikes>
+     */
     public static List<Strike> getAllStrikes()
     {
         List<Strike> strikes = Ebean.find(Strike.class).findList();
         return strikes;
     }
 
+    /**
+     * gets all strikes by username from the database
+     * @param user the username to look for
+     * @return a List of strikes List<Strikes>
+     */
+    public static List<Strike> getAllStrikesByUser(String user){
+        List<Strike> strikes = Ebean.find(Strike.class).findList();
+        List<Strike> strikesToSend = new ArrayList<>();
+        for(Strike s : strikes){
+            if(s.getAuthorInformation().equals(user)){
+                strikesToSend.add(s);
+            }
+        }
+        return strikesToSend;
+    }
+
+    /**
+     * gets all the strikes from the database as an array
+     * @return an array of strikes
+     */
     public static Strike[] getAllStrikesAsArray()
     {
         List<Strike> strikes = Ebean.find(Strike.class).findList();
@@ -393,6 +420,28 @@ public class Strike extends Model{
         return strikesToSend;
     }
 
+    /**
+     * gets ids from strikes by username from the database
+     * @param user the username to look for
+     * @return an array of ids from strikes Long[]
+     */
+    public static Long[] getStrikeIdsByUser(String user){
+        List<Strike> objects = Ebean.find(Strike.class).findList();
+        List<Long> strikesIds = new ArrayList<>();
+        for(Strike obj : objects){
+            if(obj.getAuthorInformation().equals(user)){
+                strikesIds.add(obj.id);
+            }
+        }
+        Long[] strikesToSend = new Long[strikesIds.size()];
+        strikesIds.toArray(strikesToSend);
+        return strikesToSend;
+    }
+
+    /**
+     * gets ids from all the strike from the database
+     * @return an array of ids from strikes Long[]
+     */
     public static Long[] getAllStrikesIds(){
         List<Object> objects = Ebean.find(Strike.class).findIds();
         List<Long> strikesIds = new ArrayList<>();
