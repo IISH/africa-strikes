@@ -252,7 +252,14 @@ public class AdminController extends Controller{
     public Result getSelectedStrike(String selectedStrike) {
         response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
         strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
-        return ok(toJson(strikeSelected));
+        if(securityController.isSubscriber()) {
+            if (strikeSelected.getAuthorInformation().equals(ctx().session().get("username")))
+                return ok(toJson(strikeSelected));
+            else
+                return  ok(toJson("Access denied"));
+        }else{
+            return ok(toJson(strikeSelected));
+        }
     }
 
     /**

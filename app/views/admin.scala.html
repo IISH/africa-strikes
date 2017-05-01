@@ -29,8 +29,11 @@
             </div>
         </div>
         <div class="container">
+            <hr>
+            <div id="accessDeniedDiv" class="container">
+                <h4><label id="accessDeniedLabel" class="alert-danger"></label></h4>
+            </div>
             <div class="container col-lg-3">
-                <h2></h2>
                 <div class="form-group">
                     <label>Search for a specific strike</label>
                     <div class="form-group">
@@ -61,7 +64,6 @@
             </div>
             @*Display form for strike*@
             <div class="container col-lg-9">
-                <h2></h2>
                 <div class="form-group">
                     <div class="form-inline">
                         @inputText(adminForm("source"), '_label -> "Source", 'readonly -> "readonly", 'class -> "input-full-width form-control")
@@ -190,6 +192,8 @@
 
         $(document).ready(function(){
 
+            $('#accessDeniedDiv').hide();
+
             $(function() {
                 (@isAdmin) ? $('#userOverviewButton').show() : $('#userOverviewButton').hide();
                 (@isAdmin) ? $('#discardStrikeButton').show() : $('#discardStrikeButton').hide();
@@ -245,45 +249,54 @@
 
                 $.getJSON('/admin/strike/' + selectedStrike, function (strike) {
 
-                    function getEachFromArray(variable, name) {
-                        var arrayAsString = "";
-                        for(var i = 0; i < strike[variable].length; i++){
-                            arrayAsString += strike[variable][i][name] + ((i < strike[variable].length - 1) ? ", " : "");
-                        }
-                        return arrayAsString;
-                    }
-
-                    for (var key in strike) {
-                        if (strike.hasOwnProperty(key)) {
-                            $('[id=' + key + ']').val(strike[key]);
-                        }
-                    }
-
-                    // This due to the way the following parts are being stored
-                    $('#sectors').val(getEachFromArray("sectors", "sectorName"));
-                    $('#hiscoOccupations').val(getEachFromArray("hiscoOccupations", "occupationHiscoText"));
-                    $('#causeOfDisputes').val(getEachFromArray("causeOfDisputes","causeOfDisputeText"));
-                    $('#identityElements').val(getEachFromArray("identityElements","identityElementText"));
-                    $('#strikeDefinitions').val(getEachFromArray("strikeDefinitions","strikeDefinitionText"));
-                    if(strike["article"] === null){
-                        $('#articleLink').attr("href", "javascript:");
-                        $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/noArticle.png")");
+                    if(strike === "Access denied"){
+                        $('#accessDeniedLabel').text("You do not have access to the selected strike!");
+                        $('#accessDeniedDiv').show();
                     }
                     else{
-                        $('#articleLink').attr("href", '/admin/strike/article/' + selectedStrike);
-                        document.getElementById("articleLink").target = "_blank";
-                        $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/viewArticle.png")");
-                    }
-                    if(strike["checked"] === true){
-                        if(@isAdmin) {
-                            $('#approveStrikeButton').hide();
+                        $('#accessDeniedLabel').text("");
+                        $('#accessDeniedDiv').hide();
+
+                        function getEachFromArray(variable, name) {
+                            var arrayAsString = "";
+                            for(var i = 0; i < strike[variable].length; i++){
+                                arrayAsString += strike[variable][i][name] + ((i < strike[variable].length - 1) ? ", " : "");
+                            }
+                            return arrayAsString;
                         }
-                        $('#updateStrikeButton').hide();
-                    }else{
-                        if(@isAdmin) {
-                            $('#approveStrikeButton').show();
+
+                        for (var key in strike) {
+                            if (strike.hasOwnProperty(key)) {
+                                $('[id=' + key + ']').val(strike[key]);
+                            }
                         }
-                        $('#updateStrikeButton').show();
+
+                        // This due to the way the following parts are being stored
+                        $('#sectors').val(getEachFromArray("sectors", "sectorName"));
+                        $('#hiscoOccupations').val(getEachFromArray("hiscoOccupations", "occupationHiscoText"));
+                        $('#causeOfDisputes').val(getEachFromArray("causeOfDisputes","causeOfDisputeText"));
+                        $('#identityElements').val(getEachFromArray("identityElements","identityElementText"));
+                        $('#strikeDefinitions').val(getEachFromArray("strikeDefinitions","strikeDefinitionText"));
+                        if(strike["article"] === null){
+                            $('#articleLink').attr("href", "javascript:");
+                            $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/noArticle.png")");
+                        }
+                        else{
+                            $('#articleLink').attr("href", '/admin/strike/article/' + selectedStrike);
+                            document.getElementById("articleLink").target = "_blank";
+                            $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/viewArticle.png")");
+                        }
+                        if(strike["checked"] === true){
+                            if(@isAdmin) {
+                                $('#approveStrikeButton').hide();
+                            }
+                            $('#updateStrikeButton').hide();
+                        }else{
+                            if(@isAdmin) {
+                                $('#approveStrikeButton').show();
+                            }
+                            $('#updateStrikeButton').show();
+                        }
                     }
                 });
             });
