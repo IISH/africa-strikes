@@ -72,7 +72,7 @@ public class AdminController extends Controller{
         else{
             if(securityController.isSubscriber()){
                 if("update".equals(postAction[0])){
-                    if(strikeSelected != null)
+                    if(strikeSelected != null && strikeSelected.getAuthorInformation().equals(ctx().session().get("username")))
                         return redirect("/admin/update/strike/" + strikeSelected.id);
                     else
                         return badRequest(noStrikeSelected.render("You first need to select a strike",request().getHeader("referer")));
@@ -211,11 +211,16 @@ public class AdminController extends Controller{
      * @return the update page with the correct information of the strike
      */
     public Result strikeToUpdate(Long id){
-        strikeController.checkFirstLoad();
-        List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
-        List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
-        List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
-        return ok(update.render("",
+        strikeSelected = Strike.find.byId(id);
+        if(!strikeSelected.getAuthorInformation().equals(ctx().session().get("username"))){
+            return badRequest(noStrikeSelected.render("You don't have access to the selected strike!","/admin"));
+        }
+        else {
+            strikeController.checkFirstLoad();
+            List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
+            List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
+            List<Integer> duration = IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
+            return ok(update.render("",
                     formFactory.form(Strike.class).fill(strikeSelected),
                     Sector.find.all(),
                     strikeController.getSourceData(),
@@ -232,6 +237,7 @@ public class AdminController extends Controller{
                     duration,
                     id,
                     strikeSelected));
+        }
     }
 
     /**
@@ -240,8 +246,12 @@ public class AdminController extends Controller{
      * @return the article in File format
      */
     public Result getArticleFile(String selectedStrike) {
-        strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
-        return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
+        strikeSelected = Strike.find.byId(Long.parseLong(selectedStrike));
+        if(!strikeSelected.getAuthorInformation().equals(ctx().session().get("username"))){
+            return badRequest(noStrikeSelected.render("You don't have access to the selected article!","/admin"));
+        }else {
+            return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
+        }
     }
 
     /**
@@ -251,7 +261,7 @@ public class AdminController extends Controller{
      */
     public Result getSelectedStrike(String selectedStrike) {
         response().setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
-        strikeSelected = Strike.find.byId(Integer.parseInt(selectedStrike));
+        strikeSelected = Strike.find.byId(Long.parseLong(selectedStrike));
         if(securityController.isSubscriber()) {
             if (strikeSelected.getAuthorInformation().equals(ctx().session().get("username")))
                 return ok(toJson(strikeSelected));

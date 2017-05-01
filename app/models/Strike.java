@@ -380,7 +380,7 @@ public class Strike extends Model{
     /**
      * Method to find the strikes in the database
      */
-    public static Finder<Integer, Strike> find = new Finder<>(Strike.class);
+    public static Finder<Long, Strike> find = new Finder<>(Strike.class);
 
     /**
      * gets all strikes from the database
