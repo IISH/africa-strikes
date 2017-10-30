@@ -190,11 +190,11 @@ public class AdminController extends Controller{
 
         strikeController.handleStrikeArticle(article, strike);
 
-        Ebean.beginTransaction();
         try {
             strikeController.handleStrikeMapping(strike, body);
 
             // Saves the updated strike
+            Ebean.beginTransaction();
             Long id = strikeSelected.id;
             strikeSelected = strike;
             strikeSelected.id = id;
@@ -234,6 +234,7 @@ public class AdminController extends Controller{
                     CauseOfDispute.find.all(),
                     IdentityElement.find.all(),
                     StrikeDefinition.find.all(),
+                    Label.getAllLabels(),
                     strikeController.getCountryData(),
                     strikeController.getLabourRelations(),
                     strikeController.getMonths(),

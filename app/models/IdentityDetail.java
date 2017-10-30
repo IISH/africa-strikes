@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.util.List;
 
 /**
- * Created by sIgor on 11/15/2016.
+ * Created by Igor on 11/15/2016.
  */
 @Entity
 public class IdentityDetail extends Model{

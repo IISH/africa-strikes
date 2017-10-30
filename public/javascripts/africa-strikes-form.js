@@ -9,6 +9,15 @@ $(document).ready(function() {
         $('#causeOfDisputes').selectize();
         $('#identityElements').selectize();
         $('#strikeDefinitions').selectize();
+        $('#strikeLabels').selectize({
+            plugins: ['remove_button'],
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
         $('#companyNames').selectize({
             plugins: ['remove_button'],
             create: function(input) {

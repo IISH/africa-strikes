@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.typesafe.config.ConfigFactory;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
 import play.libs.Yaml;
 import play.mvc.Http;
 import play.Logger;
@@ -145,7 +146,39 @@ public class StrikeController {
         // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
         Map<?, StrikeDefinition> strikeDefinitionMap = StrikeDefinition.find.findMap();
         strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
+
+        // --------------------------------------------------------------------------------- \\
+        // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
+        Map<?, Label> labelMap = Label.find.findMap();
+        String[] ids = (String[]) body.asFormUrlEncoded().get("strikeLabels[]");
+        Long idCounter = (long)labelMap.size();
+        for(int i = 0; i < ids.length; i++){
+            if(!StringUtils.isNumeric(ids[i])){
+                idCounter += 1;
+                Label.addLabelToDatabase(idCounter, ids[i]);
+                ids[i] = Long.toString(idCounter);
+            }
+        }
+        Map<?, Label> labelMapNew = Label.find.findMap();
+        strike.setLabels(mapSelectedLabelsToTheStrike(body, strike, "strikeLabels[]", labelMapNew, ids));
     }
+
+    protected  <T> List<T> mapSelectedLabelsToTheStrike(Http.MultipartFormData body, Strike strike, String name, Map<?, T> input, String[] ids)
+    {
+        try{
+            return Stream.of(ids)
+                    .map(id -> input.getOrDefault(new Long(id), null))
+                    .collect(Collectors.toList());
+        }
+        catch (Exception e){
+            // Create default sector to be given when no sector selected
+            String[] idsAlt = {"1"};
+            return Stream.of(idsAlt)
+                    .map(id -> input.getOrDefault(new Long(id), null))
+                    .collect(Collectors.toList());
+        }
+    }
+
 
     /**
      * Maps the information for the strike in the correct format

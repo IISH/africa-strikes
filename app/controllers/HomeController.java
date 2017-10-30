@@ -79,6 +79,7 @@ public class HomeController extends Controller{
                 CauseOfDispute.find.all(),
                 IdentityElement.find.all(),
                 StrikeDefinition.find.all(),
+                Label.getAllLabels(),
                 strikeController.getCountryData(),
                 strikeController.getLabourRelations(),
                 strikeController.getMonths(),
@@ -95,7 +96,6 @@ public class HomeController extends Controller{
      */
     public Result addStrike()
     {
-        Ebean.beginTransaction();
         try {
             Http.MultipartFormData body = request().body().asMultipartFormData();
             String[] postAction = request().body().asMultipartFormData().asFormUrlEncoded().get("indexButton");
@@ -120,6 +120,7 @@ public class HomeController extends Controller{
                 }
 
                 // Saves the strike
+                Ebean.beginTransaction();
                 strike.save();
                 Ebean.commitTransaction();
                 flash("success", "The labour conflict has been added!");
