@@ -158,6 +158,9 @@
                     <div class="form-inline">
                         @textarea(adminForm("description"), '_label -> "Description", 'rows -> "5", 'readonly -> "readonly", 'class -> "input-full-width form-control")
                     </div>
+                    <div class="form-inline">
+                    @inputText(adminForm("strikeLabels"), '_label -> "Label belonging tot the strike", 'readonly -> "readonly", 'class -> "input-full-width form-control")
+                    </div>
                     <label>Article uploaded</label> (click to view)
                     <div class="form-inline" id="articleAdminDiv">
                         <a href="#" id="articleLink">
@@ -277,6 +280,7 @@
                         $('#causeOfDisputes').val(getEachFromArray("causeOfDisputes","causeOfDisputeText"));
                         $('#identityElements').val(getEachFromArray("identityElements","identityElementText"));
                         $('#strikeDefinitions').val(getEachFromArray("strikeDefinitions","strikeDefinitionText"));
+                        $('#strikeLabels').val(getEachFromArray("labels","label"));
                         if(strike["article"] === null){
                             $('#articleLink').attr("href", "javascript:");
                             $('#articleUploaded').attr("src", "@routes.Assets.versioned("articles/noArticle.png")");

@@ -7,6 +7,7 @@
     causeOfDisputes: List[CauseOfDispute],
     identityElements: List[IdentityElement],
     strikeDefinitions: List[StrikeDefinition],
+    strikeLabels: List[Label],
     countries: List[String],
     labourRelations: List[String],
     months: List[String],
@@ -234,6 +235,15 @@
             <div class="form-group">
                 <div class="form-inline">
                 @textarea(strikeForm("description"), '_label -> "Description", 'rows -> "5", 'class -> "input-full-width form-control", 'placeholder -> "Enter the description of the strike...", 'title -> "Open field. Here you can insert any information provided by the source that you consider relevant and is not registered in any of the fields included in the online form.")
+                </div>
+            </div>
+            @*Strike Labels*@
+            <div class="form-group">
+                <label>Strike labels</label>
+                <div class="selectize-control form-inline">
+                    <select multiple="multiple" id="strikeLabels" name="strikeLabels[]" title="Select from the list box. In case this information is not provide, or you are not sure which option to select leave the field blank.">
+                    @for(i <- 0 until strikeLabels.length) {<option value="@strikeLabels(i).id" @(if(strikeSelected.getLabels().contains(strikeLabels(i))) "selected" else "")>@strikeLabels(i).label </option>}
+                    </select>
                 </div>
             </div>
             @*Arctile of the Strike*@

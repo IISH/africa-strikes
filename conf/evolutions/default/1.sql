@@ -41,6 +41,12 @@ create table identity_element (
   constraint pk_identity_element primary key (id)
 );
 
+create table label (
+  id                            bigint auto_increment not null,
+  label                         varchar(255),
+  constraint pk_label primary key (id)
+);
+
 create table occupation (
   id                            bigint auto_increment not null,
   strike_id                     bigint not null,
@@ -126,6 +132,12 @@ create table strike_strike_definition (
   constraint pk_strike_strike_definition primary key (strike_id,strike_definition_id)
 );
 
+create table strike_label (
+  strike_id                     bigint not null,
+  label_id                      bigint not null,
+  constraint pk_strike_label primary key (strike_id,label_id)
+);
+
 create table strike_definition (
   id                            bigint auto_increment not null,
   strike_definition_text        varchar(255),
@@ -181,6 +193,12 @@ create index ix_strike_strike_definition_strike on strike_strike_definition (str
 alter table strike_strike_definition add constraint fk_strike_strike_definition_strike_definition foreign key (strike_definition_id) references strike_definition (id) on delete restrict on update restrict;
 create index ix_strike_strike_definition_strike_definition on strike_strike_definition (strike_definition_id);
 
+alter table strike_label add constraint fk_strike_label_strike foreign key (strike_id) references strike (id) on delete restrict on update restrict;
+create index ix_strike_label_strike on strike_label (strike_id);
+
+alter table strike_label add constraint fk_strike_label_label foreign key (label_id) references label (id) on delete restrict on update restrict;
+create index ix_strike_label_label on strike_label (label_id);
+
 
 # --- !Downs
 
@@ -225,6 +243,12 @@ drop index ix_strike_strike_definition_strike on strike_strike_definition;
 alter table strike_strike_definition drop foreign key fk_strike_strike_definition_strike_definition;
 drop index ix_strike_strike_definition_strike_definition on strike_strike_definition;
 
+alter table strike_label drop foreign key fk_strike_label_strike;
+drop index ix_strike_label_strike on strike_label;
+
+alter table strike_label drop foreign key fk_strike_label_label;
+drop index ix_strike_label_label on strike_label;
+
 drop table if exists article;
 
 drop table if exists authority;
@@ -236,6 +260,8 @@ drop table if exists company_name;
 drop table if exists identity_detail;
 
 drop table if exists identity_element;
+
+drop table if exists label;
 
 drop table if exists occupation;
 
@@ -254,6 +280,8 @@ drop table if exists strike_occupation_hisco;
 drop table if exists strike_identity_element;
 
 drop table if exists strike_strike_definition;
+
+drop table if exists strike_label;
 
 drop table if exists strike_definition;
 

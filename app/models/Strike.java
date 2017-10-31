@@ -284,6 +284,15 @@ public class Strike extends Model{
         this.causeOfDisputes = causeOfDisputes;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<Label> getLabels(){
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels){
+        this.labels=labels;
+    }
+
     public String getCompanyNames() {
         return String.join(",", companyNames.stream().map(c -> c.companyNameText).collect(Collectors.toList()));
     }
@@ -371,6 +380,7 @@ public class Strike extends Model{
     private List<OccupationHisco> hiscoOccupations = new ArrayList<>();
     private List<IdentityElement> identityElements = new ArrayList<>();
     private List<StrikeDefinition> strikeDefinitions = new ArrayList<>();
+    private List<Label> labels = new ArrayList<>();
     private Boolean checked;
 
     public Strike()
