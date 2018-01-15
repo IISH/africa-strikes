@@ -148,7 +148,7 @@ public class StrikeController {
         strike.setStrikeDefinitions(mapSelectedOptionsToTheStrike(body, strike, "strikeDefinitions[]", strikeDefinitionMap));
 
         // --------------------------------------------------------------------------------- \\
-        // Maps the strikeDefinitions given by the form and puts them in the strikeDefinitions list of the Strike
+        // Maps the labels given by the form and puts them in the labels list of the Strike
         Map<?, Label> labelMap = Label.find.findMap();
         String[] ids = (String[]) body.asFormUrlEncoded().get("strikeLabels[]");
         Long idCounter = (long)labelMap.size();
