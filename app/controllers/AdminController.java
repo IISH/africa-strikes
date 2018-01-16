@@ -216,12 +216,7 @@ public class AdminController extends Controller{
      */
     public Result strikeToUpdate(Long id){
         strikeSelected = Strike.find.byId(id);
-        if(!strikeSelected.getAuthorInformation().equals(ctx().session().get("username"))){
-            return badRequest(noStrikeSelected.render("You don't have access to the selected strike!","/admin"));
-        }else if(strikeSelected.getChecked()){
-            return badRequest(noStrikeSelected.render("You cannot update the selected strike as it has already been approved!","/admin"));
-        }
-        else {
+        if((strikeSelected.getAuthorInformation().equals(ctx().session().get("username")) ||  User.findByUsername(ctx().session().get("username")).isAdmin()) && !strikeSelected.getChecked()){
             strikeController.checkFirstLoad();
             List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
             List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
@@ -247,6 +242,11 @@ public class AdminController extends Controller{
                     strikeSelected.getChecked(),
                     securityController.isSubscriber()
             ));
+        }else if(strikeSelected.getChecked()){
+            return badRequest(noStrikeSelected.render("You cannot update the selected strike as it has already been approved!","/admin"));
+        }
+        else {
+            return badRequest(noStrikeSelected.render("You don't have access to the selected strike!","/admin"));
         }
     }
 
@@ -257,10 +257,10 @@ public class AdminController extends Controller{
      */
     public Result getArticleFile(String selectedStrike) {
         strikeSelected = Strike.find.byId(Long.parseLong(selectedStrike));
-        if(!strikeSelected.getAuthorInformation().equals(ctx().session().get("username"))){
-            return badRequest(noStrikeSelected.render("You don't have access to the selected article!","/admin"));
-        }else {
+        if(strikeSelected.getAuthorInformation().equals(ctx().session().get("username")) || User.findByUsername(ctx().session().get("username")).isAdmin()){
             return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
+        }else {
+            return badRequest(noStrikeSelected.render("You don't have access to the selected article!","/admin"));
         }
     }
 
