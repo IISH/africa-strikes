@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +29,7 @@ public class StrikeController {
     private static List<String> months;
     private static List<String> numberOfParticipants;
     private boolean isFirstLoad = true;
-    final Logger.ALogger logger = Logger.of(this.getClass());
+    private final Logger.ALogger logger = Logger.of(this.getClass());
 
     /**
      * Checks whether the application has been loaded for the first time.
@@ -77,7 +78,7 @@ public class StrikeController {
     public void handleStrikeArticle(Http.MultipartFormData.FilePart<File> article, Strike strike){
         if(article.getFilename().length() > 0) {
             String[] temp = article.getFilename().split("\\.");
-            String extension = temp[temp.length - 1].toString();
+            String extension = temp[temp.length - 1];
 
             // creating the file with the correct path
             File articleFile = null;
@@ -92,7 +93,7 @@ public class StrikeController {
                 BufferedImage image = null;
                 try {
                     image = ImageIO.read(article.getFile());
-                    ImageIO.write(image, extension, articleFile);
+                    ImageIO.write(image, extension, Objects.requireNonNull(articleFile));
                 } catch (Exception e) {
                     logger.error("Exception checking image extension " + e);
                 }
@@ -102,7 +103,7 @@ public class StrikeController {
                 try {
                     FileInputStream fs = new FileInputStream(article.getFile());
                     int b;
-                    FileOutputStream os = new FileOutputStream(articleFile);
+                    FileOutputStream os = new FileOutputStream(Objects.requireNonNull(articleFile));
                     while ((b = fs.read()) != -1) {
                         os.write(b);
                     }
@@ -112,7 +113,7 @@ public class StrikeController {
                     logger.error("Exception checking pdf or tiff extension " + e);
                 }
             }
-            strike.setArticle(new Article(articleFile.getName()));
+            strike.setArticle(new Article(Objects.requireNonNull(articleFile).getName()));
         }
     }
 
@@ -150,17 +151,21 @@ public class StrikeController {
         // --------------------------------------------------------------------------------- \\
         // Maps the labels given by the form and puts them in the labels list of the Strike
         Map<?, Label> labelMap = Label.find.findMap();
-        String[] ids = (String[]) body.asFormUrlEncoded().get("strikeLabels[]");
-        Long idCounter = (long)labelMap.size();
-        for(int i = 0; i < ids.length; i++){
-            if(!StringUtils.isNumeric(ids[i])){
-                idCounter += 1;
-                Label.addLabelToDatabase(idCounter, ids[i]);
-                ids[i] = Long.toString(idCounter);
+        try {
+            String[] ids = (String[]) body.asFormUrlEncoded().get("strikeLabels[]");
+            Long idCounter = (long) labelMap.size();
+            for (int i = 0; i < ids.length; i++) {
+                if (!StringUtils.isNumeric(ids[i])) {
+                    idCounter += 1;
+                    Label.addLabelToDatabase(idCounter, ids[i]);
+                    ids[i] = Long.toString(idCounter);
+                }
             }
+            Map<?, Label> labelMapNew = Label.find.findMap();
+            strike.setLabels(mapSelectedLabelsToTheStrike(body, strike, "strikeLabels[]", labelMapNew, ids));
+        }catch (NullPointerException e){
+//            logger.error("Error message for adding labels on line 167 of StrikeController.java. No labels added: " + e.getMessage());
         }
-        Map<?, Label> labelMapNew = Label.find.findMap();
-        strike.setLabels(mapSelectedLabelsToTheStrike(body, strike, "strikeLabels[]", labelMapNew, ids));
     }
 
     protected  <T> List<T> mapSelectedLabelsToTheStrike(Http.MultipartFormData body, Strike strike, String name, Map<?, T> input, String[] ids)
