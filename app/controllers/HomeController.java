@@ -24,10 +24,10 @@ import java.util.stream.IntStream;
 @Authorized.With(Authorized.With.Authority.SUBSCRIBER)
 public class HomeController extends Controller{
 
-    @Inject FormFactory formFactory;
-    @Inject SecurityController securityController;
-    @Inject StrikeController strikeController;
-    final Logger.ALogger logger = Logger.of(this.getClass());
+    @Inject private FormFactory formFactory;
+    @Inject private SecurityController securityController;
+    @Inject private StrikeController strikeController;
+    private final Logger.ALogger logger = Logger.of(this.getClass());
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -74,16 +74,16 @@ public class HomeController extends Controller{
         return ok(index.render(errorMessages,
                 formFactory.form(Strike.class).fill(strike),
                 Sector.find.all(),
-                strikeController.getSourceData(),
+                StrikeController.getSourceData(),
                 OccupationHisco.find.all(),
                 CauseOfDispute.find.all(),
                 IdentityElement.find.all(),
                 StrikeDefinition.find.all(),
                 Label.getAllLabels(),
-                strikeController.getCountryData(),
-                strikeController.getLabourRelations(),
-                strikeController.getMonths(),
-                strikeController.getNumberOfParticipants(),
+                StrikeController.getCountryData(),
+                StrikeController.getLabourRelations(),
+                StrikeController.getMonths(),
+                StrikeController.getNumberOfParticipants(),
                 years,
                 days,
                 strike,

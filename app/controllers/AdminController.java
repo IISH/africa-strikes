@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -28,9 +29,9 @@ import static play.libs.Json.toJson;
 //@Authorized.With(Authorized.With.Authority.ADMIN)
 public class AdminController extends Controller{
 
-    @Inject FormFactory formFactory;
-    @Inject SecurityController securityController;
-    @Inject StrikeController strikeController;
+    @Inject private FormFactory formFactory;
+    @Inject private SecurityController securityController;
+    @Inject private StrikeController strikeController;
     private Strike strikeSelected = null;
     private final Logger.ALogger logger = Logger.of(this.getClass());
 
@@ -216,7 +217,7 @@ public class AdminController extends Controller{
      */
     public Result strikeToUpdate(Long id){
         strikeSelected = Strike.find.byId(id);
-        if((strikeSelected.getAuthorInformation().equals(ctx().session().get("username")) ||  User.findByUsername(ctx().session().get("username")).isAdmin()) && !strikeSelected.getChecked()){
+        if((Objects.requireNonNull(strikeSelected).getAuthorInformation().equals(ctx().session().get("username")) ||  User.findByUsername(ctx().session().get("username")).isAdmin()) && !strikeSelected.getChecked()){
             strikeController.checkFirstLoad();
             List<Integer> years = IntStream.rangeClosed(1700, 1950).boxed().collect(Collectors.toList());
             List<Integer> days = IntStream.rangeClosed(0, 31).boxed().collect(Collectors.toList());
@@ -224,16 +225,16 @@ public class AdminController extends Controller{
             return ok(update.render("",
                     formFactory.form(Strike.class).fill(strikeSelected),
                     Sector.find.all(),
-                    strikeController.getSourceData(),
+                    StrikeController.getSourceData(),
                     OccupationHisco.find.all(),
                     CauseOfDispute.find.all(),
                     IdentityElement.find.all(),
                     StrikeDefinition.find.all(),
                     Label.getAllLabels(),
-                    strikeController.getCountryData(),
-                    strikeController.getLabourRelations(),
-                    strikeController.getMonths(),
-                    strikeController.getNumberOfParticipants(),
+                    StrikeController.getCountryData(),
+                    StrikeController.getLabourRelations(),
+                    StrikeController.getMonths(),
+                    StrikeController.getNumberOfParticipants(),
                     years,
                     days,
                     duration,
@@ -257,8 +258,8 @@ public class AdminController extends Controller{
      */
     public Result getArticleFile(String selectedStrike) {
         strikeSelected = Strike.find.byId(Long.parseLong(selectedStrike));
-        if(strikeSelected.getAuthorInformation().equals(ctx().session().get("username")) || User.findByUsername(ctx().session().get("username")).isAdmin()){
-            return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().articleName));
+        if(Objects.requireNonNull(strikeSelected).getAuthorInformation().equals(ctx().session().get("username")) || User.findByUsername(ctx().session().get("username")).isAdmin()){
+            return ok(new File(ConfigFactory.load().getString("articleFilePath") + strikeSelected.getArticle().getArticleName()));
         }else {
             return badRequest(noStrikeSelected.render("You don't have access to the selected article!","/admin"));
         }

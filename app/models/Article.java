@@ -22,6 +22,10 @@ public class Article extends Model{
         this.articleName = articleName;
     }
 
+    public String getArticleName(){
+        return this.articleName;
+    }
+
     public static Model.Finder<Integer, Article> find = new Model.Finder<>(Article.class);
 
     public static List<Article> getAllArticles()
