@@ -167,7 +167,7 @@ public class AdminController extends Controller{
         } else {
             if ("save".equals(postAction[0])) {
                 if(!strikeSelected.getChecked()) { // check if the strike has already been approved
-                    if (formFactory.form(Strike.class).bindFromRequest().get().getAuthorInformation().equals(ctx().session().get("username"))) { // check if author provided and user are the same
+                    if (formFactory.form(Strike.class).bindFromRequest().get().getAuthorInformation().equals(ctx().session().get("username")) || securityController.isAdmin()) { // check if author provided and user are the same or if the user is admin
                         Http.MultipartFormData body = request().body().asMultipartFormData();
                         updateStrike(body);
                     }else {return badRequest(noStrikeSelected.render("You cannot update the author information of the strike!","/admin"));}
